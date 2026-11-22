@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Login — Supermarket POS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F1B2E; --navy-2:#16243B; --navy-3:#1D2E4A;
+  --bg:#F3F5F8; --card:#FFFFFF; --border:#E3E8EF;
+  --text:#1B2537; --muted:#6B7688;
+  --blue:#2E5CE6; --blue-dark:#1E44BE; --blue-tint:#EAF0FF;
+  --green:#1E9E5A; --green-tint:#E8F8EF;
+  --red:#DC3545; --red-tint:#FCEAEC;
+  --radius:10px;
+  padding-top: env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+button{font-family:inherit;}
+
+.screen{display:flex;min-height:100vh;}
+
+/* Left brand panel - echoes the sidebar's navy theme */
+.brand-panel{width:42%;min-width:320px;background:var(--navy);color:#C7D0E0;display:flex;flex-direction:column;justify-content:space-between;padding:40px;}
+.brand-top{display:flex;align-items:center;gap:12px;}
+.brand-top .mark{width:40px;height:40px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;color:#fff;flex-shrink:0;}
+.brand-top .store-name{font-weight:800;font-size:17px;color:#fff;line-height:1.2;}
+.brand-top .store-sub{font-size:12px;color:#8E9AB4;font-weight:500;}
+
+.brand-mid{max-width:380px;}
+.brand-mid h2{color:#fff;font-size:26px;font-weight:800;margin:0 0 10px;line-height:1.3;}
+.brand-mid p{color:#AEB9CE;font-size:13.5px;line-height:1.6;margin:0;}
+.brand-features{margin-top:26px;display:flex;flex-direction:column;gap:14px;}
+.brand-feature{display:flex;align-items:center;gap:11px;font-size:13px;color:#C7D0E0;font-weight:500;}
+.brand-feature .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+.brand-foot{font-size:11.5px;color:#7C879C;}
+
+/* Right form panel */
+.form-panel{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;background:var(--bg);}
+.login-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:34px 32px;box-shadow:0 1px 3px rgba(15,27,46,.04);}
+.login-head{margin-bottom:26px;}
+.login-head .mobile-brand{display:none;align-items:center;gap:10px;margin-bottom:22px;}
+.login-head .mobile-brand .mark{width:32px;height:32px;border-radius:8px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;}
+.login-head .mobile-brand .nm{font-weight:800;font-size:15px;}
+.login-head h1{margin:0 0 4px;font-size:21px;font-weight:800;}
+.login-head p{margin:0;font-size:13px;color:var(--muted);}
+
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+.field input,.field select{width:100%;border:1px solid var(--border);border-radius:8px;padding:11px 12px;font-size:13.5px;color:var(--text);outline:none;background:var(--card);font-family:inherit;}
+.field input::placeholder{color:#A6AFC0;}
+.field input:focus,.field select:focus{border-color:var(--blue);}
+.field.has-error input,.field.has-error select{border-color:var(--red);}
+.field-error{font-size:11.5px;color:var(--red);font-weight:600;margin-top:5px;display:none;}
+.field.has-error .field-error{display:block;}
+.field select:disabled{color:var(--muted);background:var(--bg);}
+.select-hint{font-size:11.5px;color:var(--muted);margin-top:5px;}
+
+.pw-wrap{position:relative;}
+.pw-wrap input{padding-right:40px;}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;display:flex;}
+.pw-toggle svg{width:17px;height:17px;}
+
+.banner{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:9px;font-size:12.5px;font-weight:600;margin-bottom:16px;}
+.banner.error{background:var(--red-tint);color:var(--red);}
+.banner svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;}
+
+.btn-login{width:100%;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:13px;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;}
+.btn-login:hover{background:var(--blue-dark);}
+.btn-login:disabled{background:#9DB2E8;cursor:not-allowed;}
+.spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.btn-login.loading .spinner{display:inline-block;}
+.btn-login.loading .btn-text{display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.login-foot{margin-top:18px;text-align:center;font-size:11.5px;color:var(--muted);}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1220; --card:#131C2E; --border:#233150; --text:#E7ECF5; --muted:#8B96AC;
+    --blue-tint:#182849; --green-tint:#12291D; --red-tint:#301419;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1220; --card:#131C2E; --border:#233150; --text:#E7ECF5; --muted:#8B96AC;
+  --blue-tint:#182849; --green-tint:#12291D; --red-tint:#301419;
+}
+
+@media (max-width:860px){
+  .brand-panel{display:none;}
+  .login-head .mobile-brand{display:flex;}
+  .form-panel{padding:24px 18px;}
+}
+</style>
+    <script src="js/api-config.js"></script>
+</head>
+<body>
+<div class="screen">
+
+  <aside class="brand-panel">
+    <div class="brand-top">
+      <div class="mark">G</div>
+      <div>
+        <div class="store-name">GreenMart Supermarket</div>
+        <div class="store-sub">Supermarket POS</div>
+      </div>
+    </div>
+
+    <div class="brand-mid">
+      <h2>Run your store from one connected system.</h2>
+      <p>Sales, stock, and reports stay in sync across every terminal in your supermarket.</p>
+      <div class="brand-features">
+        <div class="brand-feature"><span class="dot"></span>Fast barcode checkout</div>
+        <div class="brand-feature"><span class="dot"></span>Live stock tracking</div>
+        <div class="brand-feature"><span class="dot"></span>Cash &amp; M-PESA payments</div>
+        <div class="brand-feature"><span class="dot"></span>Sales reports in real time</div>
+      </div>
+    </div>
+
+    <div class="brand-foot">v1.0 &middot; Multi-terminal ready</div>
+  </aside>
+
+  <div class="form-panel">
+    <div class="login-card">
+      <div class="login-head">
+        <div class="mobile-brand">
+          <div class="mark">G</div>
+          <div class="nm">GreenMart Supermarket</div>
+        </div>
+        <h1>Sign in</h1>
+        <p>Enter your details to access the POS terminal</p>
+      </div>
+
+      <div class="banner error" id="formBanner" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        <span id="formBannerText"></span>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field" id="emailField">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="Enter your email" autocomplete="username">
+          <div class="field-error" id="emailError">Please enter your email address.</div>
+        </div>
+
+        <div class="field" id="passwordField">
+          <label for="password">Password</label>
+          <div class="pw-wrap">
+            <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password">
+            <button type="button" class="pw-toggle" id="pwToggle" tabindex="-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="field-error" id="passwordError">Please enter your password.</div>
+        </div>
+
+        <div class="field" id="terminalField">
+          <label for="terminal">Terminal</label>
+          <select id="terminal" disabled>
+            <option value="">Loading terminals...</option>
+          </select>
+          <div class="field-error" id="terminalError">Please select a terminal.</div>
+          <div class="select-hint" id="terminalHint" style="display:none;"></div>
+        </div>
+
+        <button type="submit" class="btn-login" id="loginBtn">
+          <span class="spinner"></span>
+          <span class="btn-text">Login</span>
+        </button>
+      </form>
+
+      <div class="login-foot">Having trouble signing in? Contact your store administrator.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================
+   Config
+   ========================================================= */
+const API_BASE = window.POS_API_BASE;
+
+/* =========================================================
+   DOM refs
+   ========================================================= */
+const form = document.getElementById('loginForm');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const terminalSelect = document.getElementById('terminal');
+const loginBtn = document.getElementById('loginBtn');
+const formBanner = document.getElementById('formBanner');
+const formBannerText = document.getElementById('formBannerText');
+const terminalHint = document.getElementById('terminalHint');
+
+/* =========================================================
+   Helpers
+   ========================================================= */
+function setFieldError(fieldId, show){
+  document.getElementById(fieldId).classList.toggle('has-error', show);
+}
+
+function showBanner(message){
+  formBannerText.textContent = message;
+  formBanner.style.display = 'flex';
+}
+function hideBanner(){
+  formBanner.style.display = 'none';
+}
+
+function setLoading(isLoading){
+  loginBtn.disabled = isLoading;
+  loginBtn.classList.toggle('loading', isLoading);
+}
+
+/* =========================================================
+   Load active terminals from the backend
+   GET /terminals -> [{ id, terminal_name, location }]
+   ========================================================= */
+async function loadTerminals(){
+  try{
+    const res = await fetch(`${API_BASE}/terminals`);
+    if(!res.ok) throw new Error('Failed to load terminals');
+    const terminals = await res.json();
+
+    if(!Array.isArray(terminals) || terminals.length === 0){
+      terminalSelect.innerHTML = '<option value="">No terminals available</option>';
+      terminalHint.textContent = 'No active terminals were found. Contact your administrator.';
+      terminalHint.style.display = 'block';
+      return;
+    }
+
+    terminalSelect.innerHTML = '<option value="">Select a terminal</option>' +
+      terminals.map(t => `<option value="${t.id}">${t.terminal_name}${t.location ? ' — ' + t.location : ''}</option>`).join('');
+    terminalSelect.disabled = false;
+    terminalHint.style.display = 'none';
+  }catch(err){
+    terminalSelect.innerHTML = '<option value="">Unable to load terminals</option>';
+    terminalHint.textContent = 'Could not reach the server to load terminals. Check your connection and refresh.';
+    terminalHint.style.display = 'block';
+  }
+}
+
+/* =========================================================
+   Client-side validation
+   ========================================================= */
+function validateForm(){
+  let valid = true;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+  const terminalId = terminalSelect.value;
+
+  if(!email){
+    setFieldError('emailField', true);
+    valid = false;
+  } else {
+    setFieldError('emailField', false);
+  }
+
+  if(!password){
+    setFieldError('passwordField', true);
+    valid = false;
+  } else {
+    setFieldError('passwordField', false);
+  }
+
+  if(!terminalId){
+    setFieldError('terminalField', true);
+    valid = false;
+  } else {
+    setFieldError('terminalField', false);
+  }
+
+  return valid;
+}
+
+/* =========================================================
+   Submit login
+   POST /login { email, password, terminal_id }
+   ========================================================= */
+async function submitLogin(e){
+  e.preventDefault();
+  hideBanner();
+
+  if(!validateForm()) return;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+  const terminalId = terminalSelect.value;
+
+  setLoading(true);
+
+  try{
+    const res = await fetch(`${API_BASE}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+       credentials: 'include',
+      body: JSON.stringify({ email, password, terminal_id: terminalId })
+    });
+
+    if(res.status === 401){
+      showBanner('Incorrect email or password. Please try again.');
+      return;
+    }
+    if(res.status === 403){
+      showBanner('This account is inactive. Please contact your administrator.');
+      return;
+    }
+    if(res.status === 400){
+    showBanner('This terminal is inactive. Please select another terminal.');
+    return;
+}
+    
+
+    const user = await res.json();
+    // user: { id, name, email, role, terminal }
+    // Never store the password — only the non-sensitive session info.
+    localStorage.setItem("pos_user", JSON.stringify({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    terminal: user.terminal,
+    terminal_id: user.terminal_id,
+    terminal_location: user.terminal_location
+}));
+    window.location.href = 'dashboard.html';
+
+  }catch(err){
+    showBanner('Unable to connect to the server. Please check your connection and try again.');
+  }finally{
+    setLoading(false);
+  }
+}
+
+/* =========================================================
+   Password visibility toggle
+   ========================================================= */
+document.getElementById('pwToggle').addEventListener('click', () => {
+  passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+});
+
+form.addEventListener('submit', submitLogin);
+loadTerminals();
+</script>
+
+</body>
+</html>

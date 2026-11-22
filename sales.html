@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Supermarket POS — Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F1B2E; --navy-2:#16243B; --navy-3:#1D2E4A;
+  --bg:#F3F5F8; --card:#FFFFFF; --border:#E3E8EF;
+  --text:#1B2537; --muted:#6B7688;
+  --blue:#2E5CE6; --blue-dark:#1E44BE; --blue-tint:#EAF0FF;
+  --green:#1E9E5A; --green-tint:#E8F8EF;
+  --red:#DC3545; --red-tint:#FCEAEC;
+  --radius:10px;
+  padding-top: env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+button{font-family:inherit;}
+.app{display:flex;height:100vh;overflow:hidden;}
+
+/* Sidebar */
+.sidebar{width:216px;flex-shrink:0;background:var(--navy);color:#C7D0E0;display:flex;flex-direction:column;padding:18px 12px;}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 10px 22px;color:#fff;}
+.brand .mark{width:30px;height:30px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;}
+.brand .name{font-weight:700;font-size:15px;letter-spacing:.2px;}
+.nav{display:flex;flex-direction:column;gap:2px;}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;color:#AEB9CE;text-decoration:none;font-size:13.5px;font-weight:500;}
+.nav a svg{width:17px;height:17px;flex-shrink:0;opacity:.85;}
+.nav a:hover{background:var(--navy-3);color:#fff;}
+.nav a.active{background:var(--blue);color:#fff;}
+.nav a.active svg{opacity:1;}
+.sidebar-footer{margin-top:auto;padding:12px 10px 4px;font-size:11.5px;color:#7C879C;border-top:1px solid #24314C;}
+
+/* Header */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;}
+.header{height:60px;flex-shrink:0;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;padding-top:env(safe-area-inset-top,0px);}
+.header h1{font-size:15.5px;font-weight:700;margin:0;}
+.header .sub{font-size:12px;color:var(--muted);font-weight:500;}
+.cashier{display:flex;align-items:center;gap:10px;}
+.cashier .avatar{width:32px;height:32px;border-radius:50%;background:var(--blue-tint);color:var(--blue-dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
+.cashier .who{line-height:1.25;}
+.cashier .who b{display:block;font-size:13px;}
+.cashier .who span{font-size:11.5px;color:var(--muted);}
+
+/* Page body */
+.page{flex:1;overflow-y:auto;padding:22px;}
+.page-head{margin-bottom:18px;}
+.page-head h2{margin:0 0 4px;font-size:22px;font-weight:800;}
+.page-head p{margin:0;color:var(--muted);font-size:13.5px;}
+
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+.summary-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;}
+.summary-card .ic{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.summary-card .ic svg{width:20px;height:20px;}
+.summary-card .ic.green{background:var(--green-tint);color:var(--green);}
+.summary-card .ic.blue{background:var(--blue-tint);color:var(--blue-dark);}
+.summary-card .num{font-size:22px;font-weight:800;line-height:1.1;}
+.summary-card .lbl{font-size:12.5px;color:var(--muted);font-weight:600;}
+
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.search-box{flex:1;min-width:220px;max-width:340px;display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:10px 14px;}
+.search-box svg{width:17px;height:17px;color:var(--muted);flex-shrink:0;}
+.search-box input{border:none;outline:none;font-size:13.5px;flex:1;background:transparent;color:var(--text);}
+.search-box input::placeholder{color:#A6AFC0;}
+.filter-select{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:13px;font-weight:500;color:var(--text);outline:none;}
+.result-count{font-size:12.5px;color:var(--muted);font-weight:500;margin-left:auto;}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);}
+.table-card{overflow:hidden;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:900px;}
+thead th{text-align:left;font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
+thead th.num{text-align:right;}
+tbody td{padding:13px 16px;border-bottom:1px solid #EEF1F5;font-size:13.5px;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#FAFBFD;}
+.txn-id{font-weight:700;color:var(--blue-dark);}
+.dt-main{font-weight:500;}
+.dt-sub{font-size:11.5px;color:var(--muted);}
+.pay-pill{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:20px;display:inline-block;}
+.pay-pill.cash{background:var(--blue-tint);color:var(--blue-dark);}
+.pay-pill.mpesa{background:var(--green-tint);color:var(--green);}
+.amount{font-weight:700;text-align:right;}
+.badge{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;}
+.badge.completed{background:var(--green-tint);color:var(--green);}
+.badge.completed::before{background:var(--green);}
+.badge.cancelled{background:var(--red-tint);color:var(--red);}
+.badge.cancelled::before{background:var(--red);}
+.act-btn{border:1px solid var(--border);background:var(--card);border-radius:7px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text);}
+.act-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-tint);}
+.empty-row td{text-align:center;padding:40px;color:var(--muted);}
+
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(15,27,46,.5);display:none;align-items:center;justify-content:center;z-index:40;padding:20px;}
+.overlay.show{display:flex;}
+.modal{background:var(--card);border-radius:14px;width:440px;max-width:100%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.25);}
+.modal-head{padding:20px 22px 14px;border-bottom:1px solid var(--border);}
+.modal-head h3{margin:0 0 3px;font-size:17px;font-weight:800;}
+.modal-head p{margin:0;font-size:12.5px;color:var(--muted);}
+.modal-body{padding:16px 22px;overflow-y:auto;}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.meta-item{background:var(--bg);border-radius:8px;padding:9px 12px;}
+.meta-item span{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:2px;}
+.meta-item b{font-size:13px;}
+.line-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #EEF1F5;}
+.line-item:last-of-type{border-bottom:none;}
+.line-item .nm{font-weight:600;font-size:13.5px;}
+.line-item .calc{font-size:12px;color:var(--muted);margin-top:2px;}
+.line-item .amt{font-weight:700;font-size:13.5px;}
+.totals{margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);}
+.trow{display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;color:var(--muted);}
+.trow.grand{border-top:1px solid var(--border);margin-top:6px;padding-top:10px;color:var(--text);}
+.trow.grand span:last-child{font-size:19px;font-weight:800;color:var(--navy);}
+.modal-foot{padding:16px 22px 22px;display:flex;justify-content:flex-end;}
+.btn-secondary{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 18px;font-weight:600;font-size:13.5px;cursor:pointer;}
+.btn-secondary:hover{background:#EAEDF2;}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1220; --card:#131C2E; --border:#233150; --text:#E7ECF5; --muted:#8B96AC;
+    --blue-tint:#182849; --green-tint:#12291D; --red-tint:#301419;
+  }
+  :root:not([data-theme="light"]) thead th{background:var(--bg);}
+  :root:not([data-theme="light"]) tbody tr:hover{background:#0F1830;}
+  :root:not([data-theme="light"]) .btn-secondary:hover{background:#1B2740;}
+  :root:not([data-theme="light"]) .meta-item{background:var(--bg);}
+}
+:root[data-theme="dark"]{
+  --bg:#0B1220; --card:#131C2E; --border:#233150; --text:#E7ECF5; --muted:#8B96AC;
+  --blue-tint:#182849; --green-tint:#12291D; --red-tint:#301419;
+}
+
+@media (max-width:900px){
+  .sidebar{width:66px;}
+  .sidebar .name, .nav a span{display:none;}
+  .nav a{justify-content:center;}
+  .summary-grid{grid-template-columns:1fr;}
+  .meta-grid{grid-template-columns:1fr;}
+}
+#salesError {
+    display: none;
+    color: red;
+    background-color: #182849;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-weight: 600;
+    text-align: center;
+}
+</style>
+    <script src="js/api-config.js"></script>
+</head>
+
+<body>
+    
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">S</div>
+      <div class="name">Supermarket POS</div>
+    </div>
+    
+    <nav class="nav">
+      <a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard</span></a>
+      <a href="pos (1).html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="20" r="1.4" fill="currentColor" stroke="none"/><path d="M3 4h2l2.3 11.4a2 2 0 0 0 2 1.6h7.4a2 2 0 0 0 2-1.6L21 8H6"/></svg><span>New Sale</span></a>
+      <a href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg><span>Products</span></a>
+      <a href="sales.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M6 15l3-4 3 2 4-6 3 4"/></svg><span>Sales</span></a>
+      <a href="stock.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-5 9 5-9 5-9-5z"/>
+          <path d="M3 9v7l9 5 9-5V9"/>
+        </svg>
+        <span>Stock</span>
+      </a>
+       
+      <a href="suppliers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7M9 12h6"/></svg><span>Suppliers</span></a>
+      <a href="purchases.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 12h6M9 16h4"/></svg><span>Purchases</span></a>
+
+      <a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 16v-4M12 16V8m4 8v-6"/></svg><span>Reports</span></a>
+      <a href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.1 1.58V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.58 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.4 15a1.7 1.7 0 0 0-1.58-1.1H2.75a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.4 8.8a1.7 1.7 0 0 0-.34-1.87L4 6.87a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34A1.7 1.7 0 0 0 9.86 3V2.9a2 2 0 1 1 4 0V3a1.7 1.7 0 0 0 1.1 1.58 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87A1.7 1.7 0 0 0 20.9 9h.09a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.5 2z"/></svg><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-footer">v1.0 &middot; Offline-ready</div>
+  </aside>
+
+  <div class="main">
+    <header class="header">
+  <div>
+    <h1>Supermarket POS</h1>
+
+    <div class="sub">
+      <span id="terminalName">Loading terminal...</span>
+      &middot; Till open
+    </div>
+  </div>
+
+  <div class="cashier">
+    <div class="avatar" id="userAvatar">--</div>
+
+    <div class="who">
+      <b id="userName">Loading...</b>
+      <span id="userRole">Loading...</span>
+    </div>
+  </div>
+</header>
+
+    <div class="page">
+        
+      <div class="page-head">
+        <h2>Sales</h2>
+        <p>View and manage completed sales</p>
+      </div>
+<p id="salesError"></p>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div><div class="num" id="statToday">KSh 0</div><div class="lbl">Today's Sales</div></div>
+        </div>
+        <div class="summary-card">
+          <div class="ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M6 15l3-4 3 2 4-6 3 4"/></svg></div>
+          <div><div class="num" id="statCount">0</div><div class="lbl">Total Transactions</div></div>
+        </div>
+        <div class="summary-card">
+          <div class="ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+          <div><div class="num" id="statAvg">KSh 0</div><div class="lbl">Average Sale</div></div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input id="searchInput" type="text" placeholder="Search transaction or cashier...">
+        </div>
+        <input type="date" id="dateFilter" class="filter-select">
+        <select id="payFilter" class="filter-select">
+          <option value="all">All Payments</option>
+          <option value="Cash">Cash</option>
+          <option value="M-PESA">M-PESA</option>
+        </select>
+        <select id="statusFilter" class="filter-select">
+          <option value="all">All Statuses</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+        <span class="result-count" id="resultCount"></span>
+      </div>
+
+      <div class="card table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Transaction ID</th>
+                <th>Date &amp; Time</th>
+                <th>Cashier</th>
+                <th>Items</th>
+                <th class="num">Total Amount</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  
+</div>
+
+<!-- View Modal -->
+<div class="overlay" id="viewOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="mTitle">Transaction</h3>
+      <p>Complete transaction details</p>
+    </div>
+    <div class="modal-body">
+      <div class="meta-grid">
+        <div class="meta-item"><span>Date &amp; Time</span><b id="mDate">—</b></div>
+        <div class="meta-item"><span>Cashier</span><b id="mCashier">—</b></div>
+        <div class="meta-item"><span>Payment Method</span><b id="mPayment">—</b></div>
+        <div class="meta-item"><span>Status</span><b id="mStatus">—</b></div>
+      </div>
+      <div id="mItems"></div>
+      <div class="totals">
+        <div class="trow"><span>Subtotal</span><span id="mSubtotal">KSh 0</span></div>
+        <div class="trow"><span>Discount</span><span id="mDiscount">KSh 0</span></div>
+        <div class="trow grand"><span>Total Paid</span><span id="mTotal">KSh 0</span></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="closeBtn">Close</button>
+    </div>
+  </div>
+  
+</div>
+
+
+<script>
+let sales = [];
+let filteredSales = [];
+
+
+
+
+async function loadSales() {
+    salesError.style.display = "none";
+    salesError.textContent = "";
+
+    console.log("Loading sales...");
+    try {
+        console.log("Loading sales...");
+        
+        const response = await fetch(window.POS_API_BASE + "/sales",{
+credentials: "include"
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            salesError.style.display = "block";
+            document.getElementById("salesError").textContent=data.error || "Fieled to view sales";
+            return;
+        }
+
+        console.log("Sales received:", data);
+
+        sales = data;
+
+        // Set date filter to TODAY when page opens
+        setTodayFilter();
+
+        // Apply today's date filter immediately
+        filterSales();
+
+    } catch (error) {
+        console.error(error.message ||"Error loading sales");
+    }
+}
+
+
+
+
+function fmt(n) {
+    return "KSh " + Number(n || 0).toLocaleString("en-KE", {
+        maximumFractionDigits: 0
+    });
+}
+
+
+
+
+function setTodayFilter() {
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+
+    const month = String(
+        today.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        today.getDate()
+    ).padStart(2, "0");
+
+    document.getElementById("dateFilter").value =
+        `${year}-${month}-${day}`;
+}
+
+
+
+
+function formatDateTime(iso) {
+
+    const d = new Date(iso);
+
+    const date = d.toLocaleDateString("en-KE", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    });
+
+    const time = d.toLocaleTimeString("en-KE", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+    return {
+        date,
+        time
+    };
+}
+
+
+
+
+function renderSummary() {
+
+
+    const completedSales = filteredSales.filter(
+        sale => sale.status === "Completed"
+    );
+
+    const totalSales = completedSales.reduce(
+        (sum, sale) => sum + Number(sale.total || 0),
+        0
+    );
+
+    const totalTransactions = completedSales.length;
+
+    const averageSale =
+        totalTransactions > 0
+            ? totalSales / totalTransactions
+            : 0;
+
+
+    document.getElementById("statToday").textContent =
+        fmt(totalSales);
+
+    document.getElementById("statCount").textContent =
+        totalTransactions;
+
+    document.getElementById("statAvg").textContent =
+        fmt(averageSale);
+}
+
+
+
+
+function renderTable() {
+
+    const tbody =
+        document.getElementById("tableBody");
+
+    tbody.innerHTML = "";
+
+
+    if (filteredSales.length === 0) {
+
+        tbody.innerHTML = `
+            <tr class="empty-row">
+                <td colspan="8">
+                    No sales found
+                </td>
+            </tr>
+        `;
+
+        document.getElementById("resultCount").textContent =
+            "0 results";
+
+        return;
+    }
+
+
+    filteredSales.forEach(sale => {
+
+        const {
+            date,
+            time
+        } = formatDateTime(sale.date);
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+            <td>
+                <span class="txn-id">
+                    ${sale.id}
+                </span>
+            </td>
+
+            <td>
+                <div class="dt-main">
+                    ${date}
+                </div>
+
+                <div class="dt-sub">
+                    ${time}
+                </div>
+            </td>
+
+            <td>
+                ${sale.cashier}
+            </td>
+
+            <td>
+                ${sale.items.length} item(s)
+            </td>
+
+            <td class="amount">
+                ${fmt(sale.total)}
+            </td>
+
+            <td>
+                <span class="pay-pill ${
+                    sale.payment === "M-PESA"
+                        ? "mpesa"
+                        : "cash"
+                }">
+                    ${sale.payment}
+                </span>
+            </td>
+
+            <td>
+                <span class="badge ${
+                    sale.status === "Completed"
+                        ? "completed"
+                        : "cancelled"
+                }">
+                    ${sale.status}
+                </span>
+            </td>
+
+            <td>
+                <button
+                    class="act-btn"
+                    onclick="openView('${sale.id}')">
+                    View
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+
+
+    document.getElementById("resultCount").textContent =
+        `${filteredSales.length} result(s)`;
+}
+
+
+
+
+function filterSales() {
+
+    const search =
+        document.getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const date =
+        document.getElementById("dateFilter").value;
+
+
+    const payment =
+        document.getElementById("payFilter").value;
+
+
+    const status =
+        document.getElementById("statusFilter").value;
+
+
+    filteredSales = sales.filter(sale => {
+
+        /*
+           SEARCH
+        */
+
+        const saleId =
+            String(sale.id || "").toLowerCase();
+
+        const cashier =
+            String(sale.cashier || "").toLowerCase();
+
+        const matchesSearch =
+            saleId.includes(search) ||
+            cashier.includes(search);
+
+
+        /*
+           DATE
+        */
+
+        let matchesDate = true;
+
+        if (date) {
+
+            const saleDate =
+                new Date(sale.date);
+
+            const year =
+                saleDate.getFullYear();
+
+            const month =
+                String(
+                    saleDate.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    saleDate.getDate()
+                ).padStart(2, "0");
+
+
+            const localDate =
+                `${year}-${month}-${day}`;
+
+
+            matchesDate =
+                localDate === date;
+        }
+
+
+        /*
+           PAYMENT
+        */
+
+        const matchesPayment =
+            payment === "all" ||
+            sale.payment === payment;
+
+
+        /*
+           STATUS
+        */
+
+        const matchesStatus =
+            status === "all" ||
+            sale.status === status;
+
+
+        return (
+            matchesSearch &&
+            matchesDate &&
+            matchesPayment &&
+            matchesStatus
+        );
+
+    });
+
+
+    // Update both cards and table
+    renderSummary();
+    renderTable();
+}
+
+
+
+
+function openView(id) {
+
+    const sale =
+        sales.find(
+            x => String(x.id) === String(id)
+        );
+
+    if (!sale) return;
+
+
+    const {
+        date,
+        time
+    } = formatDateTime(sale.date);
+
+
+    document.getElementById("mTitle").textContent =
+        `Transaction #${sale.id}`;
+
+
+    document.getElementById("mDate").textContent =
+        `${date}, ${time}`;
+
+
+    document.getElementById("mCashier").textContent =
+        sale.cashier;
+
+
+    document.getElementById("mPayment").textContent =
+        sale.payment;
+
+
+    document.getElementById("mStatus").textContent =
+        sale.status;
+
+
+    document.getElementById("mItems").innerHTML =
+        sale.items.map(item => {
+
+            return `
+                <div class="line-item">
+
+                    <div>
+
+                        <div class="nm">
+                            ${item.name}
+                        </div>
+
+                        <div class="calc">
+                            ${item.qty} × ${fmt(item.price)}
+                        </div>
+
+                    </div>
+
+                    <div class="amt">
+                        ${fmt(item.subtotal)}
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    document.getElementById("mSubtotal").textContent =
+        fmt(sale.subtotal);
+
+
+    document.getElementById("mDiscount").textContent =
+        fmt(sale.discount);
+
+
+    document.getElementById("mTotal").textContent =
+        fmt(sale.total);
+
+
+    document.getElementById("viewOverlay")
+        .classList.add("show");
+}
+
+
+
+
+function closeView() {
+
+    document.getElementById("viewOverlay")
+        .classList.remove("show");
+}
+
+
+
+
+document.getElementById("closeBtn")
+    .addEventListener(
+        "click",
+        closeView
+    );
+
+
+document.getElementById("viewOverlay")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target.id ===
+                "viewOverlay"
+            ) {
+                closeView();
+            }
+
+        }
+    );
+
+
+document.getElementById("searchInput")
+    .addEventListener(
+        "input",
+        filterSales
+    );
+
+
+document.getElementById("dateFilter")
+    .addEventListener(
+        "input",
+        filterSales
+    );
+
+
+document.getElementById("payFilter")
+    .addEventListener(
+        "change",
+        filterSales
+    );
+
+
+document.getElementById("statusFilter")
+    .addEventListener(
+        "change",
+        filterSales
+    );
+
+
+
+function loadLoggedInUser() {
+
+    const savedUser = localStorage.getItem("pos_user");
+
+    if (!savedUser) {
+        console.warn("No logged-in user found");
+
+        document.getElementById("userName").textContent =
+            "Unknown User";
+
+        document.getElementById("userRole").textContent =
+            "User";
+
+        document.getElementById("terminalName").textContent =
+            "Unknown Terminal";
+
+        return;
+    }
+
+    const user = JSON.parse(savedUser);
+
+    // Display logged-in user
+    document.getElementById("userName").textContent =
+        user.name || "Unknown User";
+
+    document.getElementById("userRole").textContent =
+        user.role || "User";
+
+    // Display selected terminal
+    document.getElementById("terminalName").textContent =
+        user.terminal || "Unknown Terminal";
+
+    // Create user initials
+    const initials = (user.name || "User")
+        .split(" ")
+        .map(word => word.charAt(0))
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+    document.getElementById("userAvatar").textContent =
+        initials;
+}
+
+loadLoggedInUser();
+loadSales();
+
+</script>
+</body>
+</html>

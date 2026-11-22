@@ -1,0 +1,1152 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>    <script src="js/api-config.js"></script>
+</head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Supermarket POS — Suppliers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F1B2E; --navy-2:#16243B; --navy-3:#1D2E4A;
+  --bg:#F3F5F8; --card:#FFFFFF; --border:#E3E8EF;
+  --text:#1B2537; --muted:#6B7688;
+  --blue:#2E5CE6; --blue-dark:#1E44BE; --blue-tint:#EAF0FF;
+  --green:#1E9E5A; --green-tint:#E8F8EF;
+  --red:#DC3545; --red-tint:#FCEAEC;
+  --radius:10px;
+  padding-top: env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+button{font-family:inherit;}
+.app{display:flex;height:100vh;overflow:hidden;}
+
+/* Sidebar */
+.sidebar{width:216px;flex-shrink:0;background:var(--navy);color:#C7D0E0;display:flex;flex-direction:column;padding:18px 12px;}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 10px 22px;color:#fff;}
+.brand .mark{width:30px;height:30px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;}
+.brand .name{font-weight:700;font-size:15px;letter-spacing:.2px;}
+.nav{display:flex;flex-direction:column;gap:2px;}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;color:#AEB9CE;text-decoration:none;font-size:13.5px;font-weight:500;}
+.nav a svg{width:17px;height:17px;flex-shrink:0;opacity:.85;}
+.nav a:hover{background:var(--navy-3);color:#fff;}
+.nav a.active{background:var(--blue);color:#fff;}
+.nav a.active svg{opacity:1;}
+.sidebar-footer{margin-top:auto;padding:12px 10px 4px;font-size:11.5px;color:#7C879C;border-top:1px solid #24314C;}
+
+/* Header */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;}
+.header{height:60px;flex-shrink:0;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;padding-top:env(safe-area-inset-top,0px);}
+.header h1{font-size:15.5px;font-weight:700;margin:0;}
+.header .sub{font-size:12px;color:var(--muted);font-weight:500;}
+.cashier{display:flex;align-items:center;gap:10px;}
+.cashier .avatar{width:32px;height:32px;border-radius:50%;background:var(--blue-tint);color:var(--blue-dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
+.cashier .who{line-height:1.25;}
+.cashier .who b{display:block;font-size:13px;}
+.cashier .who span{font-size:11.5px;color:var(--muted);}
+
+/* Page body */
+.page{flex:1;overflow-y:auto;padding:22px;}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
+.page-head h2{margin:0 0 4px;font-size:22px;font-weight:800;}
+.page-head p{margin:0;color:var(--muted);font-size:13.5px;}
+.btn-primary{background:var(--blue);color:#fff;border:none;border-radius:9px;padding:11px 18px;font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.btn-primary:hover{background:var(--blue-dark);}
+.btn-primary svg{width:16px;height:16px;}
+.btn-secondary{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 18px;font-weight:600;font-size:13.5px;cursor:pointer;}
+.btn-secondary:hover{background:#EAEDF2;}
+.btn-outline{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:9px 15px;font-weight:600;font-size:12.5px;cursor:pointer;color:var(--text);display:flex;align-items:center;gap:7px;}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-tint);}
+
+/* Summary cards */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);}
+.summary-card{padding:16px 18px;display:flex;align-items:center;gap:14px;}
+.summary-card .ic{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.summary-card .ic svg{width:20px;height:20px;}
+.summary-card .ic.blue{background:var(--blue-tint);color:var(--blue-dark);}
+.summary-card .ic.green{background:var(--green-tint);color:var(--green);}
+.summary-card .ic.red{background:var(--red-tint);color:var(--red);}
+.summary-card .num{font-size:22px;font-weight:800;line-height:1.1;}
+.summary-card .lbl{font-size:12.5px;color:var(--muted);font-weight:600;}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:14px;flex-wrap:wrap;}
+.search-box{flex:1;min-width:220px;max-width:380px;display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:10px 14px;}
+.search-box svg{width:17px;height:17px;color:var(--muted);flex-shrink:0;}
+.search-box input{border:none;outline:none;font-size:13.5px;flex:1;background:transparent;color:var(--text);}
+.search-box input::placeholder{color:#A6AFC0;}
+.filter-group{display:flex;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:4px;}
+.filter-btn{border:none;background:transparent;padding:8px 14px;border-radius:6px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;}
+.filter-btn.active{background:var(--blue);color:#fff;}
+.result-count{font-size:12.5px;color:var(--muted);font-weight:500;margin-left:auto;}
+
+.table-card{overflow:hidden;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:920px;}
+thead th{text-align:left;font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
+tbody td{padding:13px 16px;border-bottom:1px solid #EEF1F5;font-size:13.5px;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#FAFBFD;}
+.sup-id{font-family:'SFMono-Regular',Consolas,monospace;font-size:12.5px;color:var(--muted);}
+.sup-name{font-weight:600;}
+.sup-sub{font-size:11.5px;color:var(--muted);}
+.badge{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;}
+.badge.active{background:var(--green-tint);color:var(--green);}
+.badge.active::before{background:var(--green);}
+.badge.inactive{background:var(--red-tint);color:var(--red);}
+.badge.inactive::before{background:var(--red);}
+.row-actions{display:flex;gap:8px;}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.icon-btn svg{width:14px;height:14px;}
+.icon-btn.view:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-tint);}
+.icon-btn.edit:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-tint);}
+.icon-btn.toggle.deactivate:hover{border-color:var(--red);color:var(--red);background:var(--red-tint);}
+.icon-btn.toggle.activate:hover{border-color:var(--green);color:var(--green);background:var(--green-tint);}
+
+.state-row td{text-align:center;padding:48px 20px;color:var(--muted);}
+.state-row .state-icon{width:40px;height:40px;margin:0 auto 10px;color:#C3CCDC;}
+.state-row .state-icon svg{width:100%;height:100%;}
+.state-row .state-title{font-weight:700;color:var(--text);font-size:13.5px;margin-bottom:3px;}
+.state-row .state-desc{font-size:12.5px;}
+.spinner{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(15,27,46,.5);display:none;align-items:center;justify-content:center;z-index:40;padding:20px;}
+.overlay.show{display:flex;}
+.modal{background:var(--card);border-radius:14px;width:480px;max-width:100%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.25);}
+.modal.wide{width:620px;}
+.modal-head{padding:20px 22px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;}
+.modal-head h3{margin:0 0 3px;font-size:17px;font-weight:800;}
+.modal-head p{margin:0;font-size:12.5px;color:var(--muted);}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;}
+.modal-close svg{width:18px;height:18px;}
+.modal-body{padding:18px 22px;overflow-y:auto;}
+.modal-foot{padding:16px 22px 22px;display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;}
+
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+.field label .req{color:var(--red);}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--text);outline:none;background:var(--card);font-family:inherit;}
+.field textarea{resize:vertical;min-height:70px;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);}
+.field.has-error input,.field.has-error select{border-color:var(--red);}
+.field-error{font-size:11.5px;color:var(--red);font-weight:600;margin-top:5px;display:none;}
+.field.has-error .field-error{display:block;}
+.field-row{display:flex;gap:12px;}
+.field-row .field{flex:1;}
+.banner{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:9px;font-size:12.5px;font-weight:600;margin-bottom:14px;}
+.banner.error{background:var(--red-tint);color:var(--red);}
+.banner svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;}
+
+/* View details */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.detail-item{background:var(--bg);border-radius:9px;padding:11px 13px;}
+.detail-item span{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:2px;}
+.detail-item b{font-size:13.5px;}
+.detail-section-title{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin:18px 0 10px;}
+.mini-table{width:100%;border-collapse:collapse;}
+.mini-table th{text-align:left;font-size:11px;color:var(--muted);font-weight:700;padding:7px 4px;border-bottom:1px solid var(--border);}
+.mini-table td{padding:9px 4px;border-bottom:1px solid #EEF1F5;font-size:13px;}
+.mini-table tr:last-child td{border-bottom:none;}
+.empty-mini{text-align:center;color:var(--muted);font-size:12.5px;padding:18px;}
+
+.toast{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(10px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:9px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .18s, transform .18s;z-index:50;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1220; --card:#131C2E; --border:#233150; --text:#E7ECF5; --muted:#8B96AC;
+    --blue-tint:#182849; --green-tint:#12291D; --red-tint:#301419;
+  }
+  :root:not([data-theme="light"]) thead th{background:var(--bg);}
+  :root:not([data-theme="light"]) tbody tr:hover{background:#0F1830;}
+  :root:not([data-theme="light"]) .btn-secondary:hover{background:#1B2740;}
+  :root:not([data-theme="light"]) .detail-item{background:var(--bg);}
+}
+:root[data-theme="dark"]{
+  --bg:#0B1220; --card:#131C2E; --border:#233150; --text:#E7ECF5; --muted:#8B96AC;
+  --blue-tint:#182849; --green-tint:#12291D; --red-tint:#301419;
+}
+
+@media (max-width:1050px){
+  .summary-grid{grid-template-columns:1fr 1fr;}
+  .detail-grid{grid-template-columns:1fr;}
+}
+@media (max-width:900px){
+  .sidebar{width:66px;}
+  .sidebar .name, .nav a span{display:none;}
+  .nav a{justify-content:center;}
+  .page-head{flex-direction:column;gap:12px;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">S</div>
+      <div class="name">Supermarket POS</div>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard</span></a>
+      <a href="pos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="20" r="1.4" fill="currentColor" stroke="none"/><path d="M3 4h2l2.3 11.4a2 2 0 0 0 2 1.6h7.4a2 2 0 0 0 2-1.6L21 8H6"/></svg><span>New Sale</span></a>
+      <a href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg><span>Products</span></a>
+      <a href="sales.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M6 15l3-4 3 2 4-6 3 4" /></svg><span>Sales</span></a>
+      <a href="stock.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M3 9v7l9 5 9-5V9"/></svg><span>Stock</span></a>
+      <a href="suppliers.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7M9 12h6"/></svg><span>Suppliers</span></a>
+           <a href="purchases.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 12h6M9 16h4"/></svg><span>Purchases</span></a>
+
+      <a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 16v-4M12 16V8m4 8v-6"/></svg><span>Reports</span></a>
+      <a href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">v1.0 &middot; Offline-ready</div>
+  </aside>
+
+  <div class="main">
+    <header class="header">
+      <div>
+        <h1>Supermarket POS</h1>
+        <div class="sub">Terminal 01 &middot; Till open</div>
+      </div>
+      <div class="cashier">
+        <div class="avatar" id="userAvatar">JM</div>
+        <div class="who"><b id="userName">Jane Mwangi</b><span id="userRole">Cashier</span></div>
+      </div>
+    </header>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h2>Suppliers</h2>
+          <p>Manage suppliers and their supplied products</p>
+        </div>
+        <button class="btn-primary" id="addBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+          Add Supplier
+        </button>
+      </div>
+
+      <div class="summary-grid">
+        <div class="card summary-card">
+          <div class="ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7"/></svg></div>
+          <div><div class="num" id="statTotal">—</div><div class="lbl">Total Suppliers</div></div>
+        </div>
+        <div class="card summary-card">
+          <div class="ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div><div class="num" id="statActive">—</div><div class="lbl">Active Suppliers</div></div>
+        </div>
+        <div class="card summary-card">
+          <div class="ic red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div>
+          <div><div class="num" id="statInactive">—</div><div class="lbl">Inactive Suppliers</div></div>
+        </div>
+        <div class="card summary-card">
+          <div class="ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div>
+          <div><div class="num" id="statProducts">—</div><div class="lbl">Total Products Supplied</div></div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input id="searchInput" type="text" placeholder="Search suppliers by name, contact, or location...">
+        </div>
+        <div class="filter-group" id="filterGroup">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Active">Active</button>
+          <button class="filter-btn" data-filter="Inactive">Inactive</button>
+        </div>
+        <span class="result-count" id="resultCount"></span>
+      </div>
+
+      <div class="card table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Supplier ID</th>
+                <th>Supplier Name</th>
+                <th>Contact Person</th>
+                <th>Phone Number</th>
+                <th>Email Address</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Supplier Modal -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h3 id="formTitle">Add Supplier</h3><p>Enter the supplier's details below</p></div>
+      <button class="modal-close" id="formCloseBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="banner error" id="formBanner" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        <span id="formBannerText"></span>
+      </div>
+      <div class="field" id="f_name_field">
+        <label>Supplier Name <span class="req">*</span></label>
+        <input id="f_name" type="text" placeholder="e.g. Nairobi Dairy Distributors">
+        <div class="field-error">Supplier name is required.</div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Contact Person</label><input id="f_contact" type="text" placeholder="e.g. Peter Otieno"></div>
+        <div class="field" id="f_phone_field">
+          <label>Phone Number <span class="req">*</span></label>
+          <input id="f_phone" type="text" placeholder="e.g. +254 711 222 333">
+          <div class="field-error">Phone number is required.</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Email Address</label><input id="f_email" type="email" placeholder="e.g. sales@supplier.com"></div>
+        <div class="field"><label>Location</label><input id="f_location" type="text" placeholder="e.g. Industrial Area, Nairobi"></div>
+      </div>
+      <div class="field"><label>Physical Address</label><input id="f_address" type="text" placeholder="Street / building, town"></div>
+      <div class="field"><label>Business Description</label><textarea id="f_description" placeholder="What this supplier provides..."></textarea></div>
+      <div class="field"><label>Supplier Status</label>
+        <select id="f_status"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="formCancelBtn">Cancel</button>
+      <button class="btn-primary" id="formSaveBtn">Save Supplier</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Details Modal -->
+<div class="overlay" id="viewOverlay">
+  <div class="modal wide">
+    <div class="modal-head">
+      <div><h3 id="viewTitle">Supplier Details</h3><p>Full supplier profile and history</p></div>
+      <button class="modal-close" id="viewCloseBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="viewBody">
+      <div class="state-row"><div class="spinner"></div></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="viewCloseBtn2">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = window.POS_API_BASE;
+
+let suppliers = [];
+let activeFilter = "all";
+let searchTerm = "";
+let editingId = null;
+let loadError = null;
+let isLoading = true;
+
+const fmt = n =>
+  "KSh " + Number(n || 0).toLocaleString("en-KE", {
+    maximumFractionDigits: 0
+  });
+
+/* =========================================================
+   SESSION DISPLAY
+   localStorage is only used to display user information.
+   Actual authentication is handled by express-session.
+   ========================================================= */
+
+function getSession() {
+  try {
+    return JSON.parse(localStorage.getItem("pos_user")) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+(function applySession() {
+  const s = getSession();
+
+  if (s && s.name) {
+    document.getElementById("userName").textContent = s.name;
+    document.getElementById("userRole").textContent = s.role || "Cashier";
+
+    document.getElementById("userAvatar").textContent =
+      s.name
+        .split(" ")
+        .map(p => p[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+  }
+})();
+
+
+
+function showToast(msg, type) {
+  const t = document.getElementById("toast");
+
+  t.textContent = msg;
+  t.className = "toast show" + (type ? " " + type : "");
+
+  clearTimeout(window._toastTimer);
+
+  window._toastTimer = setTimeout(() => {
+    t.classList.remove("show");
+  }, 2200);
+}
+
+
+
+function checkAuthorization(res) {
+  if (res.status === 401) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+
+  if (res.status === 403) {
+    throw new Error("Your account does not have permission to perform this action.");
+  }
+}
+
+/* =========================================================
+   LOAD SUPPLIERS
+   GET /suppliers
+   ========================================================= */
+
+async function loadSuppliers() {
+  isLoading = true;
+  loadError = null;
+
+  renderTable();
+
+  try {
+    const res = await fetch(`${API_BASE}/suppliers`, {
+      method: "GET",
+      credentials: "include"
+    });
+
+    checkAuthorization(res);
+
+    if (!res.ok) {
+      throw new Error("The server could not load suppliers.");
+    }
+
+    suppliers = await res.json();
+
+    if (!Array.isArray(suppliers)) {
+      throw new Error("The server returned an invalid suppliers response.");
+    }
+
+  } catch (err) {
+    suppliers = [];
+
+    loadError =
+      err.message && err.message !== "Failed to fetch"
+        ? err.message
+        : "Could not connect to the server. Make sure the backend is running at " + API_BASE + ".";
+
+  } finally {
+    isLoading = false;
+
+    renderSummary();
+    renderTable();
+  }
+}
+
+
+
+function renderSummary() {
+  const total = suppliers.length;
+
+  const active = suppliers.filter(
+    s => s.status === "Active"
+  ).length;
+
+  const inactive = suppliers.filter(
+    s => s.status === "Inactive"
+  ).length;
+
+  const productCount = suppliers.reduce(
+    (sum, s) => sum + (Number(s.products_supplied) || 0),
+    0
+  );
+
+  document.getElementById("statTotal").textContent =
+    loadError ? "—" : total;
+
+  document.getElementById("statActive").textContent =
+    loadError ? "—" : active;
+
+  document.getElementById("statInactive").textContent =
+    loadError ? "—" : inactive;
+
+  document.getElementById("statProducts").textContent =
+    loadError ? "—" : productCount;
+}
+
+
+
+function filteredSuppliers() {
+  const q = searchTerm.trim().toLowerCase();
+
+  return suppliers.filter(s => {
+
+    const matchesQ =
+      !q ||
+      (s.name || "").toLowerCase().includes(q) ||
+      (s.contact_person || "").toLowerCase().includes(q) ||
+      (s.location || "").toLowerCase().includes(q);
+
+    const matchesStatus =
+      activeFilter === "all" ||
+      s.status === activeFilter;
+
+    return matchesQ && matchesStatus;
+  });
+}
+
+
+
+function renderTable() {
+  const body = document.getElementById("tableBody");
+  const resultCount = document.getElementById("resultCount");
+
+  if (isLoading) {
+    body.innerHTML = `
+      <tr class="state-row">
+        <td colspan="8">
+          <div class="spinner"></div>
+          <div class="state-title">Loading suppliers...</div>
+        </td>
+      </tr>
+    `;
+
+    resultCount.textContent = "";
+    return;
+  }
+
+  if (loadError) {
+    body.innerHTML = `
+      <tr class="state-row">
+        <td colspan="8">
+          <div class="state-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 8v5M12 16h.01"/>
+            </svg>
+          </div>
+
+          <div class="state-title">Couldn't load suppliers</div>
+
+          <div class="state-desc">${loadError}</div>
+
+          <div style="margin-top:12px;">
+            <button class="btn-outline"
+              onclick="loadSuppliers()"
+              style="margin:0 auto;">
+              Retry
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+
+    resultCount.textContent = "";
+    return;
+  }
+
+  const list = filteredSuppliers();
+
+  resultCount.textContent =
+    `${list.length} of ${suppliers.length} suppliers`;
+
+  if (suppliers.length === 0) {
+    body.innerHTML = `
+      <tr class="state-row">
+        <td colspan="8">
+          <div class="state-title">No suppliers yet</div>
+          <div class="state-desc">
+            Add your first supplier to get started.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  if (list.length === 0) {
+    body.innerHTML = `
+      <tr class="state-row">
+        <td colspan="8">
+          <div class="state-title">No matching suppliers</div>
+          <div class="state-desc">
+            Try a different search term or filter.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML = list.map(s => `
+    <tr>
+      <td class="sup-id">#${s.id}</td>
+
+      <td>
+        <div class="sup-name">${s.name}</div>
+        ${s.location
+          ? `<div class="sup-sub">${s.location}</div>`
+          : ""}
+      </td>
+
+      <td>${s.contact_person || "—"}</td>
+      <td>${s.phone || "—"}</td>
+      <td>${s.email || "—"}</td>
+      <td>${s.location || "—"}</td>
+
+      <td>
+        <span class="badge ${s.status === "Active" ? "active" : "inactive"}">
+          ${s.status}
+        </span>
+      </td>
+
+      <td>
+        <div class="row-actions">
+
+          <button class="icon-btn view"
+            title="View details"
+            onclick="openView(${s.id})">
+
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+
+          </button>
+
+          <button class="icon-btn edit"
+            title="Edit supplier"
+            onclick="openEdit(${s.id})">
+
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+            </svg>
+
+          </button>
+
+          <button class="icon-btn toggle ${s.status === "Active" ? "deactivate" : "activate"}"
+            title="${s.status === "Active" ? "Deactivate" : "Activate"} supplier"
+            onclick="toggleStatus(${s.id}, '${s.status}')">
+
+            ${s.status === "Active"
+              ? `
+                <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M15 9l-6 6M9 9l6 6"/>
+                </svg>
+              `
+              : `
+                <svg viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              `
+            }
+
+          </button>
+
+        </div>
+      </td>
+    </tr>
+  `).join("");
+}
+
+
+
+document.getElementById("filterGroup").addEventListener("click", e => {
+  const btn = e.target.closest(".filter-btn");
+
+  if (!btn) return;
+
+  document.querySelectorAll(".filter-btn").forEach(b => {
+    b.classList.remove("active");
+  });
+
+  btn.classList.add("active");
+
+  activeFilter = btn.dataset.filter;
+
+  renderTable();
+});
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  searchTerm = e.target.value;
+  renderTable();
+});
+
+
+
+const formFields = [
+  "f_name",
+  "f_contact",
+  "f_phone",
+  "f_email",
+  "f_location",
+  "f_address",
+  "f_description",
+  "f_status"
+];
+
+function resetForm() {
+  document.getElementById("f_name").value = "";
+  document.getElementById("f_contact").value = "";
+  document.getElementById("f_phone").value = "";
+  document.getElementById("f_email").value = "";
+  document.getElementById("f_location").value = "";
+  document.getElementById("f_address").value = "";
+  document.getElementById("f_description").value = "";
+  document.getElementById("f_status").value = "Active";
+
+  document.getElementById("f_name_field").classList.remove("has-error");
+  document.getElementById("f_phone_field").classList.remove("has-error");
+
+  document.getElementById("formBanner").style.display = "none";
+}
+
+function openAdd() {
+  editingId = null;
+
+  resetForm();
+
+  document.getElementById("formTitle").textContent = "Add Supplier";
+  document.getElementById("formSaveBtn").textContent = "Save Supplier";
+
+  document.getElementById("formOverlay").classList.add("show");
+
+  document.getElementById("f_name").focus();
+}
+
+function openEdit(id) {
+  const s = suppliers.find(x => Number(x.id) === Number(id));
+
+  if (!s) return;
+
+  editingId = id;
+
+  resetForm();
+
+  document.getElementById("formTitle").textContent = "Edit Supplier";
+  document.getElementById("formSaveBtn").textContent = "Save Changes";
+
+  document.getElementById("f_name").value = s.name || "";
+  document.getElementById("f_contact").value = s.contact_person || "";
+  document.getElementById("f_phone").value = s.phone || "";
+  document.getElementById("f_email").value = s.email || "";
+  document.getElementById("f_location").value = s.location || "";
+  document.getElementById("f_address").value = s.address || "";
+  document.getElementById("f_description").value = s.business_description || "";
+  document.getElementById("f_status").value = s.status || "Active";
+
+  document.getElementById("formOverlay").classList.add("show");
+}
+
+function closeForm() {
+  document.getElementById("formOverlay").classList.remove("show");
+}
+
+/* =========================================================
+   SAVE SUPPLIER
+   POST /suppliers
+   PUT /suppliers/:id
+   ========================================================= */
+
+async function saveSupplier() {
+  const name = document.getElementById("f_name").value.trim();
+  const phone = document.getElementById("f_phone").value.trim();
+
+  let valid = true;
+
+  document.getElementById("f_name_field").classList.toggle("has-error", !name);
+  document.getElementById("f_phone_field").classList.toggle("has-error", !phone);
+
+  if (!name || !phone) valid = false;
+
+  if (!valid) return;
+
+  const payload = {
+    name,
+
+    contact_person: document.getElementById("f_contact").value.trim(),
+
+    phone,
+
+    email: document.getElementById("f_email").value.trim(),
+
+    location: document.getElementById("f_location").value.trim(),
+
+    address: document.getElementById("f_address").value.trim(),
+
+    business_description: document.getElementById("f_description").value.trim(),
+
+    status: document.getElementById("f_status").value
+  };
+
+  const saveBtn = document.getElementById("formSaveBtn");
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+
+  const currentEditingId = editingId;
+
+  try {
+    const url = currentEditingId
+      ? `${API_BASE}/suppliers/${currentEditingId}`
+      : `${API_BASE}/suppliers`;
+
+    const method = currentEditingId ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+      method,
+
+      credentials: "include",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(payload)
+    });
+
+    checkAuthorization(res);
+
+    if (res.status === 409) {
+      throw new Error("A supplier with this name or phone number already exists.");
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => null);
+
+      throw new Error(
+        (err && (err.error || err.message)) ||
+        "Could not save the supplier. Please check the details and try again."
+      );
+    }
+
+    closeForm();
+
+    showToast(
+      currentEditingId ? "Supplier updated" : "Supplier added",
+      "success"
+    );
+
+    await loadSuppliers();
+
+  } catch (err) {
+    const banner = document.getElementById("formBanner");
+
+    document.getElementById("formBannerText").textContent =
+      err.message && err.message !== "Failed to fetch"
+        ? err.message
+        : "Could not connect to the server. Check that your backend is running and try again.";
+
+    banner.style.display = "flex";
+
+  } finally {
+    saveBtn.disabled = false;
+
+    saveBtn.textContent =
+      editingId ? "Save Changes" : "Save Supplier";
+  }
+}
+
+
+
+document.getElementById("addBtn").addEventListener("click", openAdd);
+
+document.getElementById("formCancelBtn").addEventListener("click", closeForm);
+
+document.getElementById("formCloseBtn").addEventListener("click", closeForm);
+
+document.getElementById("formSaveBtn").addEventListener("click", saveSupplier);
+
+document.getElementById("formOverlay").addEventListener("click", e => {
+  if (e.target.id === "formOverlay") {
+    closeForm();
+  }
+});
+
+/* =========================================================
+   ACTIVATE / DEACTIVATE SUPPLIER
+   PATCH /suppliers/:id/status
+   ========================================================= */
+
+async function toggleStatus(id, currentStatus) {
+  const newStatus =
+    currentStatus === "Active" ? "Inactive" : "Active";
+
+  const action =
+    newStatus === "Active" ? "activate" : "deactivate";
+
+  if (!confirm(`Are you sure you want to ${action} this supplier?`)) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/suppliers/${id}/status`, {
+      method: "PATCH",
+
+      credentials: "include",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        status: newStatus
+      })
+    });
+
+    checkAuthorization(res);
+
+    if (!res.ok) {
+      throw new Error("Could not update supplier status.");
+    }
+
+    showToast(`Supplier ${action}d`, "success");
+
+    await loadSuppliers();
+
+  } catch (err) {
+    showToast(err.message, "error");
+  }
+}
+
+/* =========================================================
+   VIEW SUPPLIER DETAILS
+   GET /suppliers/:id
+   ========================================================= */
+
+async function openView(id) {
+  document.getElementById("viewOverlay").classList.add("show");
+
+  document.getElementById("viewBody").innerHTML = `
+    <div class="state-row">
+      <div class="spinner"></div>
+    </div>
+  `;
+
+  try {
+    const res = await fetch(`${API_BASE}/suppliers/${id}`, {
+      method: "GET",
+      credentials: "include"
+    });
+
+    checkAuthorization(res);
+
+    if (!res.ok) {
+      throw new Error("Could not load supplier details.");
+    }
+
+    const s = await res.json();
+
+    document.getElementById("viewTitle").textContent = s.name;
+
+    const products = Array.isArray(s.products) ? s.products : [];
+
+    const orders = Array.isArray(s.purchase_orders)
+      ? s.purchase_orders
+      : [];
+
+    document.getElementById("viewBody").innerHTML = `
+
+      <div class="detail-grid">
+
+        <div class="detail-item">
+          <span>Supplier ID</span>
+          <b>#${s.id}</b>
+        </div>
+
+        <div class="detail-item">
+          <span>Status</span>
+          <b>
+            <span class="badge ${s.status === "Active" ? "active" : "inactive"}">
+              ${s.status}
+            </span>
+          </b>
+        </div>
+
+        <div class="detail-item">
+          <span>Contact Person</span>
+          <b>${s.contact_person || "—"}</b>
+        </div>
+
+        <div class="detail-item">
+          <span>Phone Number</span>
+          <b>${s.phone || "—"}</b>
+        </div>
+
+        <div class="detail-item">
+          <span>Email Address</span>
+          <b>${s.email || "—"}</b>
+        </div>
+
+        <div class="detail-item">
+          <span>Location</span>
+          <b>${s.location || "—"}</b>
+        </div>
+
+        <div class="detail-item">
+          <span>Physical Address</span>
+          <b>${s.address || "—"}</b>
+        </div>
+
+        <div class="detail-item">
+          <span>Total Purchase Orders</span>
+          <b>${orders.length}</b>
+        </div>
+
+      </div>
+
+      ${s.business_description ? `
+        <div class="detail-item" style="margin-bottom:4px;">
+          <span>Business Description</span>
+          <b style="font-weight:500;">
+            ${s.business_description}
+          </b>
+        </div>
+      ` : ""}
+
+      <div class="detail-section-title">
+        Products Supplied
+      </div>
+
+      ${products.length ? `
+
+        <table class="mini-table">
+
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Cost Price</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${products.map(p => `
+              <tr>
+                <td>${p.name}</td>
+                <td>${p.category || "—"}</td>
+                <td>${fmt(p.cost_price)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+
+        </table>
+
+      ` : `
+        <div class="empty-mini">
+          No products linked to this supplier yet.
+        </div>
+      `}
+
+      <div class="detail-section-title">
+        Purchase History
+      </div>
+
+      ${orders.length ? `
+
+        <table class="mini-table">
+
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${orders.map(o => `
+              <tr>
+                <td>${o.order_number}</td>
+                <td>${o.date}</td>
+                <td>${o.status}</td>
+                <td>${fmt(o.total_amount)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+
+        </table>
+
+      ` : `
+        <div class="empty-mini">
+          No purchase orders recorded yet.
+          This will populate once the Purchase Orders module is connected.
+        </div>
+      `}
+
+    `;
+
+  } catch (err) {
+    document.getElementById("viewBody").innerHTML = `
+      <div class="state-row" style="padding:30px 10px;">
+        <div class="state-title">
+          Couldn't load supplier details
+        </div>
+
+        <div class="state-desc">
+          ${err.message}
+        </div>
+      </div>
+    `;
+  }
+}
+
+
+
+function closeView() {
+  document.getElementById("viewOverlay").classList.remove("show");
+}
+
+document.getElementById("viewCloseBtn").addEventListener("click", closeView);
+
+document.getElementById("viewCloseBtn2").addEventListener("click", closeView);
+
+document.getElementById("viewOverlay").addEventListener("click", e => {
+  if (e.target.id === "viewOverlay") {
+    closeView();
+  }
+});
+
+
+
+loadSuppliers();
+</script>
+</body>
+</html>

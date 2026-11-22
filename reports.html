@@ -1,0 +1,2684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Supermarket POS — Reports</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --navy:#0F1B2E;
+  --navy-2:#16243B;
+  --navy-3:#1D2E4A;
+
+  --bg:#F3F5F8;
+  --card:#FFFFFF;
+  --border:#E3E8EF;
+
+  --text:#1B2537;
+  --muted:#6B7688;
+
+  --blue:#2E5CE6;
+  --blue-dark:#1E44BE;
+  --blue-tint:#EAF0FF;
+
+  --green:#1E9E5A;
+  --green-tint:#E8F8EF;
+
+  --amber:#C77700;
+  --amber-tint:#FFF3E0;
+
+  --red:#DC3545;
+  --red-tint:#FCEAEC;
+
+  --radius:10px;
+
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+
+  box-sizing:border-box;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  height:100%;
+  margin:0;
+}
+
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+}
+
+button{
+  font-family:inherit;
+}
+
+.app{
+  display:flex;
+  height:100vh;
+  overflow:hidden;
+}
+
+@media print{
+
+  .sidebar,
+  .header,
+  .toolbar,
+  .page-head .date-controls{
+    display:none !important;
+  }
+
+  .app,
+  .page{
+    height:auto;
+    overflow:visible;
+  }
+
+  .main{
+    overflow:visible;
+  }
+
+}
+
+
+/* Sidebar */
+
+.sidebar{
+  width:216px;
+  flex-shrink:0;
+  background:var(--navy);
+  color:#C7D0E0;
+  display:flex;
+  flex-direction:column;
+  padding:18px 12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px 10px 22px;
+  color:#fff;
+}
+
+.brand .mark{
+  width:30px;
+  height:30px;
+  border-radius:8px;
+  background:var(--blue);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:15px;
+}
+
+.brand .name{
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:.2px;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:10px 12px;
+  border-radius:8px;
+  color:#AEB9CE;
+  text-decoration:none;
+  font-size:13.5px;
+  font-weight:500;
+}
+
+.nav a svg{
+  width:17px;
+  height:17px;
+  flex-shrink:0;
+  opacity:.85;
+}
+
+.nav a:hover{
+  background:var(--navy-3);
+  color:#fff;
+}
+
+.nav a.active{
+  background:var(--blue);
+  color:#fff;
+}
+
+.nav a.active svg{
+  opacity:1;
+}
+
+.sidebar-footer{
+  margin-top:auto;
+  padding:12px 10px 4px;
+  font-size:11.5px;
+  color:#7C879C;
+  border-top:1px solid #24314C;
+}
+
+
+/* Header */
+
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+.header{
+  height:60px;
+  flex-shrink:0;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  padding-top:env(safe-area-inset-top,0px);
+}
+
+.header h1{
+  font-size:15.5px;
+  font-weight:700;
+  margin:0;
+}
+
+.header .sub{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.cashier{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.cashier .avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:var(--blue-tint);
+  color:var(--blue-dark);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+}
+
+.cashier .who{
+  line-height:1.25;
+}
+
+.cashier .who b{
+  display:block;
+  font-size:13px;
+}
+
+.cashier .who span{
+  font-size:11.5px;
+  color:var(--muted);
+}
+
+
+/* Page */
+
+.page{
+  flex:1;
+  overflow-y:auto;
+  padding:22px;
+}
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:16px;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.page-head h2{
+  margin:0 0 4px;
+  font-size:22px;
+  font-weight:800;
+}
+
+.page-head p{
+  margin:0;
+  color:var(--muted);
+  font-size:13.5px;
+}
+
+.date-controls{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.select-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:10px 14px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+  outline:none;
+}
+
+.btn-primary{
+  background:var(--blue);
+  color:#fff;
+  border:none;
+  border-radius:9px;
+  padding:10px 16px;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.btn-primary:hover{
+  background:var(--blue-dark);
+}
+
+.btn-primary svg{
+  width:15px;
+  height:15px;
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.btn-outline{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:9px 15px;
+  font-weight:600;
+  font-size:12.5px;
+  cursor:pointer;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.btn-outline:hover{
+  border-color:var(--blue);
+  color:var(--blue);
+  background:var(--blue-tint);
+}
+
+.btn-outline svg{
+  width:14px;
+  height:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+
+
+/* Summary */
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:16px;
+}
+
+.summary-card{
+  padding:16px 18px;
+}
+
+.summary-card .top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:10px;
+}
+
+.summary-card .ic{
+  width:38px;
+  height:38px;
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.summary-card .ic svg{
+  width:18px;
+  height:18px;
+}
+
+.summary-card .ic.green{
+  background:var(--green-tint);
+  color:var(--green);
+}
+
+.summary-card .ic.blue{
+  background:var(--blue-tint);
+  color:var(--blue-dark);
+}
+
+.summary-card .ic.amber{
+  background:var(--amber-tint);
+  color:var(--amber);
+}
+
+.summary-card .title{
+  font-size:12.5px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+.summary-card .value{
+  font-size:23px;
+  font-weight:800;
+  margin:2px 0 2px;
+}
+
+.summary-card .desc{
+  font-size:11.5px;
+  color:var(--muted);
+}
+
+
+/* Panels */
+
+.section{
+  margin-bottom:16px;
+}
+
+.panel{
+  padding:18px 20px;
+}
+
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.panel-head h3{
+  margin:0;
+  font-size:14.5px;
+  font-weight:700;
+}
+
+.panel-head span.tag{
+  font-size:11.5px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+
+/* Chart */
+
+.chart-wrap{
+  display:flex;
+  align-items:flex-end;
+  gap:14px;
+  height:190px;
+  padding-top:6px;
+  overflow-x:auto;
+}
+
+.chart-bar-col{
+  flex:1;
+  min-width:40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  height:100%;
+  gap:8px;
+}
+
+.chart-bar-col .val{
+  font-size:11px;
+  font-weight:700;
+  color:var(--text);
+}
+
+.bar{
+  width:100%;
+  max-width:42px;
+  background:var(--blue-tint);
+  border-radius:6px 6px 0 0;
+}
+
+.bar.peak{
+  background:var(--blue);
+}
+
+.chart-bar-col .lbl{
+  font-size:11.5px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+.two-col{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:16px;
+}
+
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  min-width:0;
+}
+
+
+/* Tables */
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+thead th{
+  text-align:left;
+  font-size:11px;
+  color:var(--muted);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  padding:10px 8px;
+  border-bottom:1px solid var(--border);
+}
+
+thead th.num{
+  text-align:right;
+}
+
+tbody td{
+  padding:11px 8px;
+  border-bottom:1px solid #EEF1F5;
+  font-size:13px;
+}
+
+tbody tr:last-child td{
+  border-bottom:none;
+}
+
+.num{
+  text-align:right;
+}
+
+.cat-pill{
+  font-size:11px;
+  font-weight:600;
+  background:var(--blue-tint);
+  color:var(--blue-dark);
+  padding:3px 9px;
+  border-radius:20px;
+  display:inline-block;
+}
+
+.prod-name{
+  font-weight:600;
+}
+
+
+/* Payment methods */
+
+.pay-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  border-radius:9px;
+  background:var(--bg);
+  margin-bottom:10px;
+}
+
+.pay-row:last-child{
+  margin-bottom:0;
+}
+
+.pay-row .ic{
+  width:38px;
+  height:38px;
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.pay-row.cash .ic{
+  background:var(--blue-tint);
+  color:var(--blue-dark);
+}
+
+.pay-row.mpesa .ic{
+  background:var(--green-tint);
+  color:var(--green);
+}
+
+.pay-row .ic svg{
+  width:18px;
+  height:18px;
+}
+
+.pay-row .info{
+  flex:1;
+}
+
+.pay-row .nm{
+  font-weight:700;
+  font-size:13.5px;
+}
+
+.pay-row .sub{
+  font-size:11.5px;
+  color:var(--muted);
+}
+
+.pay-row .amt{
+  font-weight:800;
+  font-size:15px;
+  text-align:right;
+}
+
+
+/* Inventory */
+
+.inv-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.inv-item{
+  background:var(--bg);
+  border-radius:9px;
+  padding:12px;
+}
+
+.inv-item .n{
+  font-size:19px;
+  font-weight:800;
+}
+
+.inv-item .l{
+  font-size:11.5px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+.inv-item.warn .n{
+  color:var(--amber);
+}
+
+.inv-item.danger .n{
+  color:var(--red);
+}
+
+
+/* Sales breakdown */
+
+.breakdown-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:13px 4px;
+  border-bottom:1px solid #EEF1F5;
+}
+
+.breakdown-row:last-child{
+  border-bottom:none;
+}
+
+.breakdown-row .lbl{
+  font-size:13.5px;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.breakdown-row .val{
+  font-size:15px;
+  font-weight:700;
+}
+
+.breakdown-row.net .val{
+  color:var(--green);
+  font-size:19px;
+}
+
+
+/* Dark mode */
+
+@media (prefers-color-scheme: dark){
+
+  :root:not([data-theme="light"]){
+
+    --bg:#0B1220;
+    --card:#131C2E;
+    --border:#233150;
+    --text:#E7ECF5;
+    --muted:#8B96AC;
+
+    --blue-tint:#182849;
+    --green-tint:#12291D;
+    --red-tint:#301419;
+    --amber-tint:#2A1E08;
+
+  }
+
+}
+
+:root[data-theme="dark"]{
+
+  --bg:#0B1220;
+  --card:#131C2E;
+  --border:#233150;
+  --text:#E7ECF5;
+  --muted:#8B96AC;
+
+  --blue-tint:#182849;
+  --green-tint:#12291D;
+  --red-tint:#301419;
+  --amber-tint:#2A1E08;
+
+}
+
+
+/* Responsive */
+
+@media (max-width:1050px){
+
+  .two-col{
+    grid-template-columns:1fr;
+  }
+
+  .summary-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media (max-width:900px){
+
+  .sidebar{
+    width:66px;
+  }
+
+  .sidebar .name,
+  .nav a span{
+    display:none;
+  }
+
+  .nav a{
+    justify-content:center;
+  }
+
+}
+#reportError {
+    display: none;
+    color: red;
+    background-color: #182849;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+</style>
+    <script src="js/api-config.js"></script>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="mark">S</div>
+      <div class="name">Supermarket POS</div>
+    </div>
+
+    <nav class="nav">
+
+      <a href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+          <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+          <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pos (1).html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none"/>
+          <circle cx="17" cy="20" r="1.4" fill="currentColor" stroke="none"/>
+          <path d="M3 4h2l2.3 11.4a2 2 0 0 0 2 1.6h7.4a2 2 0 0 0 2-1.6L21 8H6"/>
+        </svg>
+        <span>New Sale</span>
+      </a>
+
+      <a href="products.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 8l-9-5-9 5 9 5 9-5z"/>
+          <path d="M3 8v8l9 5 9-5V8"/>
+        </svg>
+        <span>Products</span>
+      </a>
+
+      <a href="sales.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19h16M6 15l3-4 3 2 4-6 3 4"/>
+        </svg>
+        <span>Sales</span>
+      </a>
+
+      <a href="stock.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-5 9 5-9 5-9-5z"/>
+          <path d="M3 9v7l9 5 9-5V9"/>
+        </svg>
+        <span>Stock</span>
+      </a>
+      <a href="suppliers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7M9 12h6"/></svg><span>Suppliers</span></a>
+      <a href="purchases.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 12h6M9 16h4"/></svg><span>Purchases</span></a>
+
+      <a href="reports.html" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16v16H4z"/>
+          <path d="M8 16v-4M12 16V8m4 8v-6"/>
+        </svg>
+        <span>Reports</span>
+      </a>
+
+      <a href="settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      v1.0 &middot; Offline-ready
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <!-- HEADER -->
+
+     <header class="header">
+  <div>
+    <h1>Supermarket POS</h1>
+
+    <div class="sub">
+      <span id="terminalName">Loading terminal...</span>
+      &middot; Till open
+    </div>
+  </div>
+
+  <div class="cashier">
+    <div class="avatar" id="userAvatar">--</div>
+
+    <div class="who">
+      <b id="userName">Loading...</b>
+      <span id="userRole">Loading...</span>
+    </div>
+  </div>
+</header>
+
+    <!-- PAGE -->
+
+    <div class="page">
+
+      <!-- PAGE HEADER -->
+
+      <div class="page-head">
+
+        <div>
+
+          <h2>Reports</h2>
+
+          <p>
+            Analyze sales, products, payments, and inventory performance
+          </p>
+          
+
+        </div>
+        
+<p id="reportError"> </p>
+        <div class="date-controls">
+
+          <select class="select-box" id="rangeSelect">
+
+            <option value="today">
+              Today
+            </option>
+
+            <option value="yesterday">
+              Yesterday
+            </option>
+
+            <option value="week" selected>
+              This Week
+            </option>
+
+            <option value="month">
+              This Month
+            </option>
+
+            <option value="custom">
+              Custom Range
+            </option>
+
+          </select>
+
+
+          <button class="btn-primary" id="exportReportBtn">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+            >
+              <path d="M12 3v13m0 0l-4-4m4 4l4-4M4 19h16"/>
+            </svg>
+
+            Export Report
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- TOOLBAR -->
+
+      <div class="toolbar">
+
+        <button class="btn-outline" id="exportCsvBtn">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+            <path d="M14 3v6h6"/>
+          </svg>
+
+          Export CSV
+
+        </button>
+
+
+        <button class="btn-outline" id="printBtn">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2"/>
+            <path d="M6 14h12v7H6z"/>
+          </svg>
+
+          Print Report
+
+        </button>
+
+
+        <button class="btn-outline" id="refreshBtn">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5"/>
+            <path d="M21 12a9 9 0 0 1-15 6.7L3 16m0 5v-5h5"/>
+          </svg>
+
+          Refresh Report
+
+        </button>
+
+      </div>
+
+
+      <!-- SUMMARY CARDS -->
+
+      <div class="summary-grid">
+
+        <div class="card summary-card">
+
+          <div class="top">
+
+            <div class="title">
+              Total Sales
+            </div>
+
+            <div class="ic green">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="value" id="statTotal">
+            KSh 0
+          </div>
+
+          <div class="desc" id="statTotalDesc">
+            Selected period
+          </div>
+
+        </div>
+
+
+        <div class="card summary-card">
+
+          <div class="top">
+
+            <div class="title">
+              Transactions
+            </div>
+
+            <div class="ic blue">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M4 19h16M6 15l3-4 3 2 4-6 3 4"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="value" id="statTxns">
+            0
+          </div>
+
+          <div class="desc">
+            Completed sales
+          </div>
+
+        </div>
+
+
+        <div class="card summary-card">
+
+          <div class="top">
+
+            <div class="title">
+              Average Sale
+            </div>
+
+            <div class="ic blue">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <path d="M8 12h8M12 8v8"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="value" id="statAvg">
+            KSh 0
+          </div>
+
+          <div class="desc">
+            Per transaction
+          </div>
+
+        </div>
+
+
+        <div class="card summary-card">
+
+          <div class="top">
+
+            <div class="title">
+              Total Discounts
+            </div>
+
+            <div class="ic amber">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 12a8 8 0 1 1-3-6.2"/>
+                <path d="M20 4v5h-5"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="value" id="statDiscounts">
+            KSh 0
+          </div>
+
+          <div class="desc">
+            Applied to sales
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SALES OVERVIEW -->
+
+      <div class="section card panel">
+
+        <div class="panel-head">
+
+          <h3>
+            Sales Overview
+          </h3>
+
+          <span class="tag" id="chartTag">
+            This Week
+          </span>
+
+        </div>
+
+        <div
+          class="chart-wrap"
+          id="chartWrap"
+        ></div>
+
+      </div>
+
+
+      <!-- PRODUCTS / PAYMENTS / INVENTORY -->
+
+      <div class="section two-col">
+
+
+        <!-- TOP PRODUCTS -->
+
+        <div class="card panel">
+
+          <div class="panel-head">
+
+            <h3>
+              Top Selling Products
+            </h3>
+
+          </div>
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Product Name
+                </th>
+
+                <th>
+                  Category
+                </th>
+
+                <th class="num">
+                  Qty Sold
+                </th>
+
+                <th class="num">
+                  Revenue
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody id="topProductsBody"></tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="stack">
+
+
+          <!-- PAYMENT METHODS -->
+
+          <div class="card panel">
+
+            <div class="panel-head">
+
+              <h3>
+                Payment Methods
+              </h3>
+
+            </div>
+
+            <div id="paymentBody"></div>
+
+          </div>
+
+
+          <!-- INVENTORY SUMMARY -->
+
+          <div class="card panel">
+
+            <div class="panel-head">
+
+              <h3>
+                Inventory Summary
+              </h3>
+
+            </div>
+
+            <div class="inv-grid">
+
+              <div class="inv-item">
+
+                <div
+                  class="n"
+                  id="invTotal"
+                >
+                  0
+                </div>
+
+                <div class="l">
+                  Total Products
+                </div>
+
+              </div>
+
+
+              <div class="inv-item">
+
+                <div
+                  class="n"
+                  id="invInStock"
+                >
+                  0
+                </div>
+
+                <div class="l">
+                  In Stock
+                </div>
+
+              </div>
+
+
+              <div class="inv-item warn">
+
+                <div
+                  class="n"
+                  id="invLowStock"
+                >
+                  0
+                </div>
+
+                <div class="l">
+                  Low Stock
+                </div>
+
+              </div>
+
+
+              <div class="inv-item danger">
+
+                <div
+                  class="n"
+                  id="invOutOfStock"
+                >
+                  0
+                </div>
+
+                <div class="l">
+                  Out of Stock
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SALES BREAKDOWN -->
+
+      <div class="section card panel">
+
+        <div class="panel-head">
+
+          <h3>
+            Sales Breakdown
+          </h3>
+
+        </div>
+
+
+        <div class="breakdown-row">
+
+          <span class="lbl">
+            Gross Sales
+          </span>
+
+          <span
+            class="val"
+            id="bkGross"
+          >
+            KSh 0
+          </span>
+
+        </div>
+
+
+        <div class="breakdown-row">
+
+          <span class="lbl">
+            Discounts
+          </span>
+
+          <span
+            class="val"
+            id="bkDiscounts"
+          >
+            KSh 0
+          </span>
+
+        </div>
+
+
+        <div class="breakdown-row net">
+
+          <span class="lbl">
+            Net Sales
+          </span>
+
+          <span
+            class="val"
+            id="bkNet"
+          >
+            KSh 0
+          </span>
+
+        </div>
+
+
+        <div class="breakdown-row">
+
+          <span class="lbl">
+            Number of Transactions
+          </span>
+
+          <span
+            class="val"
+            id="bkTxns"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="breakdown-row">
+
+          <span class="lbl">
+            Average Transaction Value
+          </span>
+
+          <span
+            class="val"
+            id="bkAvg"
+          >
+            KSh 0
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- SALES PERFORMANCE -->
+
+      <div class="section card panel">
+
+        <div class="panel-head">
+
+          <h3>
+            Sales Performance
+          </h3>
+
+        </div>
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Date
+              </th>
+
+              <th class="num">
+                Transactions
+              </th>
+
+              <th class="num">
+                Gross Sales
+              </th>
+
+              <th class="num">
+                Discounts
+              </th>
+
+              <th class="num">
+                Net Sales
+              </th>
+
+              <th class="num">
+                Average Sale
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="perfBody"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+  class="toast"
+  id="toast"
+  style="
+    position:fixed;
+    bottom:22px;
+    left:50%;
+    transform:translateX(-50%) translateY(10px);
+    background:var(--navy);
+    color:#fff;
+    padding:12px 20px;
+    border-radius:9px;
+    font-size:13.5px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s,transform .18s;
+    z-index:50;
+  "
+></div>
+
+
+<script>
+
+
+
+const fmt = n => {
+
+  const value = Number(n);
+
+  return 'KSh ' +
+    (Number.isFinite(value) ? value : 0)
+      .toLocaleString('en-KE', {
+        maximumFractionDigits: 0
+      });
+
+};
+
+
+
+
+let currentKey = 'week';
+let currentReport = null;
+
+
+
+
+async function loadReport(){
+  const reportError=document.getElementById("reportError");
+  reportError.style.display="none";
+  reportError.textContent="";
+
+
+  try{
+
+    console.log(`Loading report: ${currentKey}`);
+
+    const response = await fetch(
+      `${window.POS_API_BASE}/reports?range=${encodeURIComponent(currentKey)}`,{
+        method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+      }
+      
+    );
+    const data = await response.json();
+
+    if(!response.ok){
+      reportError.style.display="block"
+      reportError.textContent=data.error|| "Field to view report";
+      return;
+    }
+    
+    console.log('Report data received:', data);
+
+    currentReport = data;
+
+    render();
+
+  }catch(error){
+
+    console.error(
+      'Error loading report:',
+      error
+    );
+
+    showToast('Failed to load report');
+
+  }
+
+}
+
+
+
+
+function render(){
+
+  if(!currentReport){
+    return;
+  }
+
+  const r = currentReport;
+
+  const summary =
+    r.summary || {};
+
+  const performance =
+    Array.isArray(r.performance)
+      ? r.performance
+      : [];
+
+  const topProducts =
+    Array.isArray(r.topProducts)
+      ? r.topProducts
+      : [];
+
+  const paymentMethods =
+    Array.isArray(r.paymentMethods)
+      ? r.paymentMethods
+      : [];
+
+  const inventory =
+    r.inventory || {};
+
+
+  
+
+  const totalSales =
+    Number(summary.totalSales) || 0;
+
+  const txns =
+    Number(summary.transactions) || 0;
+
+  const avg =
+    Number(summary.averageSale) || 0;
+
+  const discounts =
+    Number(summary.discounts) || 0;
+
+  const gross =
+    Number(summary.grossSales) || 0;
+
+
+  
+
+  document.getElementById(
+    'statTotal'
+  ).textContent =
+    fmt(totalSales);
+
+  document.getElementById(
+    'statTotalDesc'
+  ).textContent =
+    getRangeLabel();
+
+  document.getElementById(
+    'statTxns'
+  ).textContent =
+    txns.toLocaleString();
+
+  document.getElementById(
+    'statAvg'
+  ).textContent =
+    fmt(avg);
+
+  document.getElementById(
+    'statDiscounts'
+  ).textContent =
+    fmt(discounts);
+
+
+  
+
+  const totalProducts =
+    Number(inventory.totalProducts) || 0;
+
+  const inStock =
+    Number(inventory.inStock) || 0;
+
+  const lowStock =
+    Number(inventory.lowStock) || 0;
+
+  const outOfStock =
+    Number(inventory.outOfStock) || 0;
+
+  document.getElementById(
+    'invTotal'
+  ).textContent =
+    totalProducts.toLocaleString();
+
+  document.getElementById(
+    'invInStock'
+  ).textContent =
+    inStock.toLocaleString();
+
+  document.getElementById(
+    'invLowStock'
+  ).textContent =
+    lowStock.toLocaleString();
+
+  document.getElementById(
+    'invOutOfStock'
+  ).textContent =
+    outOfStock.toLocaleString();
+
+
+  
+
+  document.getElementById(
+    'chartTag'
+  ).textContent =
+    getChartTag();
+
+
+  const chartData =
+    performance.map(item => ({
+
+      lbl:
+        formatChartLabel(item.date),
+
+      v:
+        Number(item.netSales) || 0
+
+    }));
+
+
+  const chartWrap =
+    document.getElementById('chartWrap');
+
+
+  if(chartData.length === 0){
+
+    chartWrap.innerHTML = `
+
+      <div style="
+        padding:20px;
+        text-align:center;
+        width:100%;
+        color:var(--muted);
+      ">
+        No sales data
+      </div>
+
+    `;
+
+  }else{
+
+    const max =
+      Math.max(
+        ...chartData.map(
+          d => d.v
+        )
+      );
+
+
+    chartWrap.innerHTML =
+      chartData.map(d => {
+
+        const h =
+          max > 0
+            ? Math.round(
+                (d.v / max) * 140
+              ) + 6
+            : 6;
+
+
+        const isPeak =
+          max > 0 &&
+          d.v === max;
+
+
+        return `
+
+          <div class="chart-bar-col">
+
+            <div class="val">
+              ${(d.v / 1000).toFixed(1)}k
+            </div>
+
+            <div
+              class="bar${isPeak ? ' peak' : ''}"
+              style="height:${h}px"
+            ></div>
+
+            <div class="lbl">
+              ${d.lbl}
+            </div>
+
+          </div>
+
+        `;
+
+      }).join('');
+
+  }
+
+
+  
+
+  const topProductsBody =
+    document.getElementById(
+      'topProductsBody'
+    );
+
+
+  if(topProducts.length === 0){
+
+    topProductsBody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="4"
+          style="
+            text-align:center;
+            color:var(--muted);
+          "
+        >
+          No products sold
+        </td>
+
+      </tr>
+
+    `;
+
+  }else{
+
+    topProductsBody.innerHTML =
+      topProducts.map(p => `
+
+        <tr>
+
+          <td class="prod-name">
+            ${escapeHTML(
+              p.name || 'Unknown Product'
+            )}
+          </td>
+
+          <td>
+
+            <span class="cat-pill">
+              ${escapeHTML(
+                p.category || 'Unknown'
+              )}
+            </span>
+
+          </td>
+
+          <td class="num">
+            ${Number(p.qty) || 0}
+          </td>
+
+          <td class="num">
+            ${fmt(
+              Number(p.revenue) || 0
+            )}
+          </td>
+
+        </tr>
+
+      `).join('');
+
+  }
+
+
+  
+
+  const cash =
+    paymentMethods.find(
+      p =>
+        String(p.method)
+          .toUpperCase() === 'CASH'
+    ) || {
+      transactions: 0,
+      amount: 0
+    };
+
+
+  const mpesa =
+    paymentMethods.find(
+      p =>
+        String(p.method)
+          .toUpperCase() === 'M-PESA'
+    ) || {
+      transactions: 0,
+      amount: 0
+    };
+
+
+  const cashTransactions =
+    Number(cash.transactions) || 0;
+
+  const cashAmount =
+    Number(cash.amount) || 0;
+
+  const mpesaTransactions =
+    Number(mpesa.transactions) || 0;
+
+  const mpesaAmount =
+    Number(mpesa.amount) || 0;
+
+
+  document.getElementById(
+    'paymentBody'
+  ).innerHTML = `
+
+    <div class="pay-row cash">
+
+      <div class="ic">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+
+          <rect
+            x="2"
+            y="6"
+            width="20"
+            height="12"
+            rx="2"
+          />
+
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+
+        </svg>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="nm">
+          Cash
+        </div>
+
+        <div class="sub">
+
+          ${cashTransactions}
+          ${
+            cashTransactions === 1
+              ? 'transaction'
+              : 'transactions'
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="amt">
+        ${fmt(cashAmount)}
+      </div>
+
+    </div>
+
+
+    <div class="pay-row mpesa">
+
+      <div class="ic">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+
+          <path
+            d="M5 12h14M13 6l6 6-6 6"
+          />
+
+        </svg>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="nm">
+          M-PESA
+        </div>
+
+        <div class="sub">
+
+          ${mpesaTransactions}
+          ${
+            mpesaTransactions === 1
+              ? 'transaction'
+              : 'transactions'
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="amt">
+        ${fmt(mpesaAmount)}
+      </div>
+
+    </div>
+
+  `;
+
+
+  
+
+  document.getElementById(
+    'bkGross'
+  ).textContent =
+    fmt(gross);
+
+  document.getElementById(
+    'bkDiscounts'
+  ).textContent =
+    fmt(discounts);
+
+  document.getElementById(
+    'bkNet'
+  ).textContent =
+    fmt(totalSales);
+
+  document.getElementById(
+    'bkTxns'
+  ).textContent =
+    txns.toLocaleString();
+
+  document.getElementById(
+    'bkAvg'
+  ).textContent =
+    fmt(avg);
+
+
+  
+
+  const perfBody =
+    document.getElementById(
+      'perfBody'
+    );
+
+
+  if(performance.length === 0){
+
+    perfBody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          style="
+            text-align:center;
+            color:var(--muted);
+          "
+        >
+          No sales data
+        </td>
+
+      </tr>
+
+    `;
+
+  }else{
+
+    perfBody.innerHTML =
+      performance.map(p => `
+
+        <tr>
+
+          <td>
+            ${formatPerformanceDate(p.date)}
+          </td>
+
+          <td class="num">
+            ${Number(p.transactions) || 0}
+          </td>
+
+          <td class="num">
+            ${fmt(
+              Number(p.grossSales) || 0
+            )}
+          </td>
+
+          <td class="num">
+            ${fmt(
+              Number(p.discounts) || 0
+            )}
+          </td>
+
+          <td class="num">
+            ${fmt(
+              Number(p.netSales) || 0
+            )}
+          </td>
+
+          <td class="num">
+            ${fmt(
+              Number(p.averageSale) || 0
+            )}
+          </td>
+
+        </tr>
+
+      `).join('');
+
+  }
+
+}
+
+
+
+
+function getRangeLabel(){
+
+  if(currentKey === 'today'){
+    return 'Today';
+  }
+
+  if(currentKey === 'yesterday'){
+    return 'Yesterday';
+  }
+
+  if(currentKey === 'week'){
+    return 'This Week';
+  }
+
+  if(currentKey === 'month'){
+    return 'This Month';
+  }
+
+  return 'Custom Range';
+
+}
+
+
+
+
+function getChartTag(){
+
+  if(currentKey === 'today'){
+    return 'Today';
+  }
+
+  if(currentKey === 'yesterday'){
+    return 'Yesterday';
+  }
+
+  if(currentKey === 'week'){
+    return 'This Week';
+  }
+
+  if(currentKey === 'month'){
+    return 'This Month';
+  }
+
+  return 'Custom Range';
+
+}
+
+
+/*
+==========================================
+DATE PARSER
+Keeps MySQL YYYY-MM-DD dates stable
+==========================================
+*/
+
+function getDateParts(date){
+
+  const value = String(date ?? '');
+
+  const match =
+    value.match(
+      /^(\d{4})-(\d{2})-(\d{2})/
+    );
+
+
+  if(match){
+
+    return {
+      year: Number(match[1]),
+      month: Number(match[2]),
+      day: Number(match[3])
+    };
+
+  }
+
+
+  const d = new Date(date);
+
+
+  if(Number.isNaN(d.getTime())){
+    return null;
+  }
+
+
+  return {
+    year: d.getFullYear(),
+    month: d.getMonth() + 1,
+    day: d.getDate()
+  };
+
+}
+
+
+
+
+function formatChartLabel(date){
+
+  const parts =
+    getDateParts(date);
+
+
+  if(!parts){
+    return '';
+  }
+
+
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+
+  if(currentKey === 'week'){
+
+    const d =
+      new Date(
+        parts.year,
+        parts.month - 1,
+        parts.day
+      );
+
+
+    return d.toLocaleDateString(
+      'en-US',
+      {
+        weekday: 'short'
+      }
+    );
+
+  }
+
+
+  return `${parts.day} ${months[parts.month - 1]}`;
+
+}
+
+
+
+
+function formatPerformanceDate(date){
+
+  const parts =
+    getDateParts(date);
+
+
+  if(!parts){
+    return '';
+  }
+
+
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+
+  return `${String(parts.day).padStart(2,'0')}-${months[parts.month - 1]}-${parts.year}`;
+
+}
+
+
+
+
+function formatCSVDate(date){
+
+  const parts =
+    getDateParts(date);
+
+
+  if(!parts){
+    return '';
+  }
+
+
+  return `${parts.year}-${String(parts.month).padStart(2,'0')}-${String(parts.day).padStart(2,'0')}`;
+
+}
+
+
+
+
+function escapeHTML(value){
+
+  const div =
+    document.createElement('div');
+
+  div.textContent =
+    value == null
+      ? ''
+      : String(value);
+
+  return div.innerHTML;
+
+}
+
+
+
+
+function csvCell(value){
+
+  return `"${String(value ?? '')
+    .replace(/"/g, '""')}"`;
+
+}
+
+
+
+
+function exportCSV(){
+
+  if(!currentReport){
+
+    showToast(
+      'No report data'
+    );
+
+    return;
+
+  }
+
+
+  const performance =
+    Array.isArray(
+      currentReport.performance
+    )
+      ? currentReport.performance
+      : [];
+
+
+  const rows = [];
+
+
+  /*
+  CSV HEADER
+  */
+
+  rows.push(
+    [
+      'Date',
+      'Transactions',
+      'Gross Sales',
+      'Discounts',
+      'Net Sales',
+      'Average Sale'
+    ]
+      .map(csvCell)
+      .join(',')
+  );
+
+
+  /*
+  CSV DATA
+  */
+
+  performance.forEach(p => {
+
+    const date =
+      formatCSVDate(p.date);
+
+    const transactions =
+      Number(p.transactions) || 0;
+
+    const grossSales =
+      Number(p.grossSales) || 0;
+
+    const discounts =
+      Number(p.discounts) || 0;
+
+    const netSales =
+      Number(p.netSales) || 0;
+
+    const averageSale =
+      Number(p.averageSale) || 0;
+
+
+    rows.push(
+
+      [
+        date,
+        transactions,
+        grossSales,
+        discounts,
+        netSales,
+        averageSale
+      ]
+        .map(csvCell)
+        .join(',')
+
+    );
+
+  });
+
+
+  /*
+  ADD UTF-8 BOM
+  This helps Excel read the file correctly.
+  */
+
+  const csv =
+    '\uFEFF' + rows.join('\r\n');
+
+
+  /*
+  CREATE FILE
+  */
+
+  const blob =
+    new Blob(
+      [csv],
+      {
+        type: 'text/csv;charset=utf-8;'
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  /*
+  CREATE DOWNLOAD
+  */
+
+  const a =
+    document.createElement('a');
+
+
+  a.href = url;
+
+  a.download =
+    `sales-report-${currentKey}.csv`;
+
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+
+  /*
+  CLEAN UP
+  */
+
+  setTimeout(() => {
+
+    URL.revokeObjectURL(url);
+
+  }, 100);
+
+
+  showToast(
+    'CSV exported successfully'
+  );
+
+}
+
+
+
+
+let toastTimer = null;
+
+
+function showToast(message){
+
+  const toast =
+    document.getElementById('toast');
+
+
+  if(!toast){
+    return;
+  }
+
+
+  toast.textContent =
+    message;
+
+
+  toast.style.opacity =
+    '1';
+
+
+  toast.style.transform =
+    'translateX(-50%) translateY(0)';
+
+
+  clearTimeout(toastTimer);
+
+
+  toastTimer =
+    setTimeout(() => {
+
+      toast.style.opacity =
+        '0';
+
+      toast.style.transform =
+        'translateX(-50%) translateY(10px)';
+
+    }, 2500);
+
+}
+
+
+
+
+function printReport(){
+
+  window.print();
+
+}
+
+
+
+
+function refreshReport(){
+
+  showToast(
+    'Refreshing report...'
+  );
+
+  loadReport();
+
+}
+
+
+
+
+function changeRange(){
+
+  const select =
+    document.getElementById(
+      'rangeSelect'
+    );
+
+
+  if(!select){
+    return;
+  }
+
+
+  currentKey =
+    select.value;
+
+
+  /*
+  Custom range is not connected
+  to the backend yet.
+  */
+
+  if(currentKey === 'custom'){
+
+    showToast(
+      'Custom range will be added next'
+    );
+
+    return;
+
+  }
+
+
+  loadReport();
+
+}
+
+
+
+
+document
+  .getElementById('exportCsvBtn')
+  .addEventListener(
+    'click',
+    exportCSV
+  );
+
+
+document
+  .getElementById('exportReportBtn')
+  .addEventListener(
+    'click',
+    exportCSV
+  );
+
+
+document
+  .getElementById('printBtn')
+  .addEventListener(
+    'click',
+    printReport
+  );
+
+
+document
+  .getElementById('refreshBtn')
+  .addEventListener(
+    'click',
+    refreshReport
+  );
+
+
+document
+  .getElementById('rangeSelect')
+  .addEventListener(
+    'change',
+    changeRange
+  );
+
+
+
+function loadLoggedInUser() {
+
+    const savedUser = localStorage.getItem("pos_user");
+
+    if (!savedUser) {
+        console.warn("No logged-in user found");
+
+        document.getElementById("userName").textContent =
+            "Unknown User";
+
+        document.getElementById("userRole").textContent =
+            "User";
+
+        document.getElementById("terminalName").textContent =
+            "Unknown Terminal";
+
+        return;
+    }
+
+    const user = JSON.parse(savedUser);
+
+    document.getElementById("userName").textContent =
+        user.name || "Unknown User";
+
+    document.getElementById("userRole").textContent =
+        user.role || "User";
+
+    document.getElementById("terminalName").textContent =
+        user.terminal || "Unknown Terminal";
+
+    const initials = (user.name || "User")
+        .split(" ")
+        .map(word => word.charAt(0))
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+    document.getElementById("userAvatar").textContent =
+        initials;
+}
+
+loadLoggedInUser();
+
+loadReport();
+
+</script>
+
+</body>
+</html>

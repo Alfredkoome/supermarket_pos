@@ -1,0 +1,3104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Supermarket POS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pos.css">
+    <script src="js/api-config.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+  <svg class="sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden;">
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0-2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 12h6M9 16h4"/></symbol>
+</svg>
+
+<aside class="sidebar">
+
+    <div class="brand">
+      <div class="mark">S</div>
+      <div class="name">Supermarket POS</div>
+    </div>
+
+    <nav class="nav">
+
+      <a href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+          <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+          <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pos (1).html" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none"/>
+          <circle cx="17" cy="20" r="1.4" fill="currentColor" stroke="none"/>
+          <path d="M3 4h2l2.3 11.4a2 2 0 0 0 2 1.6h7.4a2 2 0 0 0 2-1.6L21 8H6"/>
+        </svg>
+        <span>New Sale</span>
+      </a>
+
+      <a href="products.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 8l-9-5-9 5 9 5 9-5z"/>
+          <path d="M3 8v8l9 5 9-5V8"/>
+        </svg>
+        <span>Products</span>
+      </a>
+
+      <a href="sales.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19h16M6 15l3-4 3 2 4-6 3 4"/>
+        </svg>
+        <span>Sales</span>
+      </a>
+
+      <a href="stock.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-5 9 5-9 5-9-5z"/>
+          <path d="M3 9v7l9 5 9-5V9"/>
+        </svg>
+        <span>Stock</span>
+      </a>
+             <a href="suppliers.html" class=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7M9 12h6"/></svg><span>Suppliers</span></a>
+      <a href="purchases.html" aria-current="page"><svg class="icon"><use href="#i-clipboard"/></svg><span>Purchases</span></a>
+
+      <a href="reports.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16v16H4z"/>
+          <path d="M8 16v-4M12 16V8m4 8v-6"/>
+        </svg>
+
+        <span>Reports</span>
+      </a>
+
+      <a href="settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      v1.0 &middot; Offline-ready
+    </div>
+
+  </aside>
+
+  <div class="main">
+
+    <header class="header">
+
+      <div>
+        <h1>New Sale</h1>
+        <div class="sub" id="terminalDisplay">Terminal 01 &middot; Till open</div>
+      </div>
+
+      <div class="cashier">
+
+        <span class="shift-pill">
+          Shift active
+        </span>
+
+        <div class="avatar" id="cashierAvatar">
+          JM
+        </div>
+
+        <div class="who">
+          <b id="cashierName">Jane Mwangi</b>
+          <span id="cashierRole">Cashier</span>
+        </div>
+
+      </div>
+
+    </header>
+
+    <div class="workspace">
+
+      <div class="col-left">
+
+        <div class="card scan-bar">
+
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 5v14M8 5v14M12 5v14M12 5h2v14h-2M17 5h1v14h-1M21 5v14"/>
+          </svg>
+
+          <input
+            id="scanInput"
+            type="text"
+            placeholder="Scan barcode or type product name..."
+            autofocus
+          >
+
+          <span class="scan-hint">
+            Enter to add
+          </span>
+
+        </div>
+
+        <div class="card quick-add">
+
+          <h3>Quick add</h3>
+
+          <div class="quick-grid" id="quickGrid"></div>
+
+        </div>
+
+        <div class="card cart-card">
+
+          <div class="cart-head">
+            <h3>Current sale</h3>
+
+            <span class="cart-count" id="cartCount">
+              0 items
+            </span>
+
+          </div>
+
+          <div class="cart-table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th class="num">Qty</th>
+                  <th class="num">Unit price</th>
+                  <th class="num">Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody id="cartBody"></tbody>
+
+            </table>
+
+            <div class="empty-cart" id="emptyCart">
+              Cart is empty &mdash; scan a product or use quick add.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-right">
+
+        <div class="card summary-card">
+
+          <h3>Order summary</h3>
+
+          <div class="sum-row">
+            <span>Subtotal</span>
+            <span id="sumSubtotal">KSh 0</span>
+          </div>
+
+          <div class="sum-row discount">
+
+            <span>Discount</span>
+
+            <input
+              id="discountInput"
+              type="number"
+              min="0"
+              value="0"
+              placeholder="Enter discount"
+            >
+
+          </div>
+
+          <div class="sum-total">
+
+            <span class="lbl">
+              Total due
+            </span>
+
+            <span class="val" id="sumTotal">
+              KSh 0
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="card pay-card">
+
+          <h3>Complete payment</h3>
+
+          <div class="pay-grid">
+
+            <button class="pay-btn pay-cash" id="cashBtn">
+
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="6" width="20" height="12" rx="2"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+
+              CASH
+
+            </button>
+
+            <button class="pay-btn pay-mpesa" id="mpesaBtn">
+
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+
+              M-PESA
+
+            </button>
+            <div id="mpesaModal" class="mpesa-modal">
+
+  <div class="mpesa-box">
+
+    <h2>M-PESA Payment</h2>
+
+    <p>Enter customer's M-PESA number</p>
+
+    <input
+      type="tel"
+      id="mpesaPhone"
+      placeholder="07XXXXXXXX"
+      maxlength="10"
+    >
+
+    <div class="mpesa-actions">
+      <button type="button" id="cancelMpesa">
+        Cancel
+      </button>
+
+      <button type="button" id="sendMpesa">
+        Send M-PESA Request
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+          </div>
+
+          <button class="hold-btn" id="holdBtn">
+    Hold sale
+</button>
+
+<button class="hold-btn" id="heldSalesBtn">
+    Held Sales
+</button>
+
+
+<div id="heldSalesPanel" style="display:none;">
+    <h3>Held Sales</h3>
+    <div id="heldSalesList"></div>
+</div>
+<button
+    id="checkMpesaStatusBtn"
+    type="button"
+    style="display: none;"
+>
+    Check Payment Status
+</button>
+<button id="viewReceiptBtn">View receipt</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<div id="receiptModal" class="receipt-modal">
+
+    <div class="receipt-container">
+
+        <div id="receiptContent"></div>
+
+        <div class="receipt-actions">
+            <button id="printReceiptBtn">
+                Print Receipt
+            </button>
+
+            <button id="closeReceiptBtn">
+                Close
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="cashModal" class="cash-modal">
+
+    <div class="cash-modal-content">
+
+        <h2>Cash Payment</h2>
+
+        <div class="cash-payment-row">
+            <span>Amount Due</span>
+            <strong id="cashAmountDue">KSh 0.00</strong>
+        </div>
+
+        <label for="cashReceived">
+            Cash Received
+        </label>
+
+        <input
+            type="number"
+            id="cashReceived"
+            placeholder="Enter amount received"
+            min="0"
+            step="0.01"
+        >
+
+        <div
+            id="cashWarning"
+            class="cash-warning"
+        ></div>
+
+        <div class="cash-change-box">
+
+            <span>Change</span>
+
+            <strong id="cashChange">
+                KSh 0.00
+            </strong>
+
+        </div>
+
+        <div class="cash-modal-actions">
+
+            <button
+                type="button"
+                id="cancelCashBtn"
+                class="cash-cancel-btn"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="completeCashBtn"
+                class="cash-complete-btn"
+                disabled
+            >
+                Complete Sale
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+
+const API_BASE = window.POS_API_BASE;
+let lastReceiptData = null;
+let currentUser = null;
+
+try {
+
+    const savedUser =
+        localStorage.getItem("pos_user");
+
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+    }
+
+} catch (error) {
+
+    console.error(
+        "Could not read logged-in user:",
+        error
+    );
+
+}
+
+
+
+
+function loadLoggedInUser() {
+
+    if (!currentUser) {
+
+        console.error(
+            "No logged-in user found in localStorage"
+        );
+
+        showToast(
+            "Login information not found",
+            false
+        );
+
+        return false;
+    }
+
+
+    console.log(
+        "Logged-in user:",
+        currentUser
+    );
+
+
+    const userId =
+        currentUser.id;
+
+    const userName =
+        currentUser.name || "User";
+
+    const userRole =
+        currentUser.role || "Cashier";
+
+    const terminalId =
+        currentUser.terminal_id;
+
+    const terminalName =
+        currentUser.terminal || "Terminal";
+
+
+    console.log(
+        "User ID:",
+        userId
+    );
+
+    console.log(
+        "Terminal ID:",
+        terminalId
+    );
+
+    console.log(
+        "Terminal:",
+        terminalName
+    );
+
+
+    /* Cashier name */
+
+    document.getElementById(
+        "cashierName"
+    ).textContent = userName;
+
+
+    /* Role */
+
+    document.getElementById(
+        "cashierRole"
+    ).textContent = userRole;
+
+
+    /* Avatar */
+
+    const initials =
+        userName
+            .split(" ")
+            .map(word => word.charAt(0))
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+    document.getElementById(
+        "cashierAvatar"
+    ).textContent = initials;
+
+
+    /* Terminal */
+
+    document.getElementById(
+        "terminalDisplay"
+    ).textContent =
+        `${terminalName} · Till open`;
+
+
+    return true;
+}
+
+
+
+
+let PRODUCTS = [];
+
+
+async function loadProducts() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/products`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load products"
+            );
+
+        }
+
+
+        PRODUCTS =
+            await response.json();
+
+
+        console.log(
+            "Products loaded from database:",
+            PRODUCTS
+        );
+
+
+        renderQuickGrid();
+        renderCart();
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading products:",
+            error
+        );
+
+        showToast(
+            "Failed to load products",
+            false
+        );
+
+    }
+
+}
+
+
+
+
+let cart = [];
+
+
+
+
+const fmt = n =>
+    'KSh ' +
+    Number(n).toLocaleString(
+        'en-KE',
+        {
+            maximumFractionDigits: 0
+        }
+    );
+
+
+
+
+function addToCart(id) {
+        console.trace("ADD TO CART CALLED:", id);
+    const prod =
+        PRODUCTS.find(
+            p => p.id == id
+        );
+
+
+    if (!prod) {
+
+        console.error(
+            "Product not found:",
+            id
+        );
+
+        return;
+    }
+    if (!prod.is_active) {
+    showToast(
+        `${prod.name} is inactive and cannot be sold`,
+        false
+    );
+
+    return;
+}
+
+
+
+    const existing =
+        cart.find(
+            c => c.id == id
+        );
+
+
+    if (existing) {
+
+        existing.qty += 1;
+
+    } else {
+
+        cart.push({
+
+            id: prod.id,
+
+            barcode: prod.barcode,
+
+            name: prod.name,
+
+            price: Number(prod.price),
+
+            qty: 1
+
+        });
+
+    }
+
+
+    renderCart();
+}
+
+
+
+
+function renderQuickGrid() {
+
+    const grid =
+        document.getElementById(
+            'quickGrid'
+        );
+
+
+    grid.innerHTML =
+        PRODUCTS
+            .slice(0, 5)
+            .map(p => `
+
+        <button
+            class="quick-item"
+            onclick="addToCart('${p.id}')"
+        >
+
+            <div class="icon">
+                🛒
+            </div>
+
+            <div class="nm">
+                ${p.name}
+            </div>
+
+            <div class="pr">
+                ${fmt(p.price)}
+            </div>
+
+        </button>
+
+    `).join('');
+
+}
+
+
+
+
+function changeQty(id, delta) {
+
+    const item =
+        cart.find(
+            c => c.id == id
+        );
+
+
+    if (!item) return;
+
+
+    item.qty += delta;
+
+
+    if (item.qty <= 0) {
+
+        cart =
+            cart.filter(
+                c => c.id != id
+            );
+
+    }
+
+
+    renderCart();
+}
+
+
+
+
+function removeItem(id) {
+
+    cart =
+        cart.filter(
+            c => c.id != id
+        );
+
+
+    renderCart();
+}
+
+
+
+
+function renderCart() {
+
+    const body =
+        document.getElementById(
+            'cartBody'
+        );
+
+
+    const empty =
+        document.getElementById(
+            'emptyCart'
+        );
+
+
+    const countEl =
+        document.getElementById(
+            'cartCount'
+        );
+
+
+    const totalItems =
+        cart.reduce(
+            (s, c) => s + c.qty,
+            0
+        );
+
+
+    countEl.textContent =
+        totalItems +
+        (
+            totalItems === 1
+                ? ' item'
+                : ' items'
+        );
+
+
+    if (cart.length === 0) {
+
+        body.innerHTML = '';
+
+        empty.style.display =
+            'block';
+
+    } else {
+
+        empty.style.display =
+            'none';
+
+
+        body.innerHTML =
+            cart.map(c => `
+
+        <tr>
+
+            <td>
+
+                <div class="prod-name">
+                    ${c.name}
+                </div>
+
+                <div class="prod-unit">
+                    #${c.id}
+                </div>
+
+            </td>
+
+
+            <td class="num">
+
+                <div
+                    class="qty-ctrl"
+                    style="justify-content:flex-end;"
+                >
+
+                    <button
+                        onclick="changeQty('${c.id}',-1)"
+                    >
+                        &minus;
+                    </button>
+
+                    <span>
+                        ${c.qty}
+                    </span>
+
+                    <button
+                        onclick="changeQty('${c.id}',1)"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </td>
+
+
+            <td class="num">
+                ${fmt(c.price)}
+            </td>
+
+
+            <td class="num">
+                ${fmt(c.price * c.qty)}
+            </td>
+
+
+            <td style="text-align:center;">
+
+                <button
+                    class="remove-btn"
+                    onclick="removeItem('${c.id}')"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                    >
+
+                        <path
+                            d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"
+                        />
+
+                    </svg>
+
+                </button>
+
+            </td>
+
+        </tr>
+
+    `).join('');
+
+    }
+
+
+    renderSummary();
+}
+
+function getSaleTotals() {
+
+    const subtotal =
+        cart.reduce(
+            (s, c) =>
+                s + c.price * c.qty,
+            0
+        );
+
+    const discount =
+        Number(
+            document.getElementById(
+                'discountInput'
+            ).value
+        ) || 0;
+
+    const total =
+        Math.max(
+            subtotal - discount,
+            0
+        );
+
+    return {
+        subtotal,
+        discount,
+        total
+    };
+}
+
+
+function renderSummary() {
+
+    const subtotal =
+        cart.reduce(
+            (s, c) =>
+                s + c.price * c.qty,
+            0
+        );
+
+
+    const discount =
+        Number(
+            document.getElementById(
+                'discountInput'
+            ).value
+        ) || 0;
+
+
+    const total =
+        Math.max(
+            subtotal - discount,
+            0
+        );
+    document.getElementById(
+        'sumSubtotal'
+    ).textContent =
+        fmt(subtotal);
+
+
+    document.getElementById(
+        'sumTotal'
+    ).textContent =
+        fmt(total);
+}
+
+
+
+
+document.getElementById(
+    'discountInput'
+).addEventListener(
+    'input',
+    renderSummary
+);
+
+
+
+
+document.getElementById(
+    'scanInput'
+).addEventListener(
+    'keydown',
+    async e => {
+
+        if (e.key !== 'Enter')
+            return;
+
+
+        const q =
+            e.target.value.trim();
+
+
+        if (!q)
+            return;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/products/search?q=${encodeURIComponent(q)}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Search failed"
+                );
+
+            }
+
+
+            const results =
+                await response.json();
+
+
+            console.log(
+                "Search results:",
+                results
+            );
+
+
+            if (results.length === 0) {
+
+                showToast(
+                    'Product not found',
+                    false
+                );
+
+                return;
+            }
+
+
+            const product =
+                results[0];
+
+
+            const existingProduct =
+                PRODUCTS.find(
+                    p => p.id == product.id
+                );
+
+
+            if (!existingProduct) {
+
+                PRODUCTS.push(product);
+
+            }
+            console.log("SEARCHED PRODUCT:", product);
+console.log("is_active:", product.is_active);
+
+            if (product.is_active) {
+
+    addToCart(product.id);
+
+    showToast(
+        `${product.name} added`,
+        true
+    );
+
+} else {
+
+    showToast(
+        `${product.name} is inactive and cannot be sold`,
+        false
+    );
+
+}
+
+        } catch (error) {
+
+            console.error(
+                "Search error:",
+                error
+            );
+
+
+            showToast(
+                'Failed to search products',
+                false
+            );
+
+
+        } finally {
+
+            e.target.value = '';
+
+        }
+
+    }
+);
+function openCashModal(total) {
+
+    cashSaleTotal = Number(total);
+
+    cashAmountDue.textContent =
+        `KSh ${cashSaleTotal.toFixed(2)}`;
+
+    cashReceivedInput.value = "";
+
+    cashChange.textContent =
+        "KSh 0.00";
+
+    cashWarning.textContent = "";
+
+    completeCashBtn.disabled = false;
+
+    cashModal.style.display = "flex";
+
+    cashReceivedInput.focus();
+}
+
+
+
+function showToast(msg, success) {
+
+    const t =
+        document.getElementById(
+            'toast'
+        );
+
+
+    t.textContent =
+        msg;
+
+
+    t.className =
+        'toast show' +
+        (
+            success
+                ? ' success'
+                : ''
+        );
+
+
+    clearTimeout(
+        window._toastTimer
+    );
+
+
+    window._toastTimer =
+        setTimeout(
+            () =>
+                t.classList.remove(
+                    'show'
+                ),
+            1800
+        );
+}
+async function checkPaymentMethods() {
+// check if payment method is enabled
+const response = await fetch(`${API_BASE}/payment-methods`);
+const paymentMethods = await response.json();
+ cashMethod=paymentMethods.find(method=> method.name==='Cash');
+ mpesaMethod=paymentMethods.find(method=> method.name==='M-PESA');
+
+}
+
+checkPaymentMethods();
+const cashBtn = document.getElementById("cashBtn");
+
+cashBtn.addEventListener("click", async () => {
+
+    
+
+    if (!cashMethod || cashMethod.is_enabled !== 1) {
+
+        cashBtn.classList.add("disabled-payment");
+
+        showToast(
+            "Cash payment method is currently disabled.",
+            false
+        );
+
+        return;
+    }
+
+
+    console.log("CASH BUTTON CLICKED");
+
+
+    
+
+    const totals = getSaleTotals();
+
+    console.log(
+        "Cash sale total:",
+        totals
+    );
+
+
+    
+
+    if (!cart || cart.length === 0) {
+
+        showToast(
+            "Cart is empty",
+            false
+        );
+
+        return;
+    }
+
+
+    
+
+    const user = JSON.parse(
+        localStorage.getItem("pos_user")
+    );
+
+
+    if (!user) {
+
+        showToast(
+            "Please log in first",
+            false
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "LOGGED-IN USER:",
+        user
+    );
+
+
+    
+
+    const items = cart.map(item => ({
+
+        product_id: item.id,
+
+        product_name: item.name,
+
+        quantity: item.qty,
+
+        unit_price: item.price
+
+    }));
+
+
+    
+
+    const saleData = {
+
+        user_id: user.id,
+
+        payment_method: "Cash",
+
+        subtotal: totals.subtotal,
+
+        discount: totals.discount,
+
+        total: totals.total,
+
+        terminal_id: user.terminal_id,
+
+        items: items
+
+    };
+
+
+    console.log(
+        "CASH SALE DATA:",
+        saleData
+    );
+
+
+    
+
+    window.pendingCashSale = saleData;
+
+
+    
+
+    openCashModal(totals.total);
+
+});
+const cashModal =
+    document.getElementById("cashModal");
+
+const cashReceivedInput =
+    document.getElementById("cashReceived");
+
+const cashAmountDue =
+    document.getElementById("cashAmountDue");
+
+const cashChange =
+    document.getElementById("cashChange");
+
+const cashWarning =
+    document.getElementById("cashWarning");
+
+const completeCashBtn =
+    document.getElementById("completeCashBtn");
+
+const cancelCashBtn =
+    document.getElementById("cancelCashBtn");
+
+let cashSaleTotal = 0;
+cashReceivedInput.addEventListener("input", function () {
+
+    const received =
+        Number(cashReceivedInput.value);
+
+    if (!cashReceivedInput.value) {
+
+        cashChange.textContent = "KSh 0.00";
+        cashWarning.textContent = "";
+        completeCashBtn.disabled = true;
+
+        return;
+    }
+
+    const balance =
+        received - cashSaleTotal;
+
+    if (balance < 0) {
+
+        cashChange.textContent =
+            "KSh 0.00";
+
+        cashWarning.textContent =
+            `Insufficient cash. KSh ${Math.abs(balance).toFixed(2)} remaining.`;
+
+        completeCashBtn.disabled = true;
+
+        return;
+    }
+
+    // RETURN BALANCE/CHANGE TO HTML
+    cashChange.textContent =
+        `KSh ${balance.toFixed(2)}`;
+
+    cashWarning.textContent = "";
+
+    completeCashBtn.disabled = false;
+});
+completeCashBtn.addEventListener(
+    "click",
+    async function () {
+
+        const cashReceived =
+            Number(cashReceivedInput.value);
+
+
+        const change =
+            cashReceived - cashSaleTotal;
+
+
+        
+
+        if (
+            !cashReceivedInput.value ||
+            cashReceived < cashSaleTotal
+        ) {
+
+            showToast(
+                "Insufficient cash.",
+                false
+            );
+
+            return;
+        }
+
+
+        
+
+        const saleData =
+            window.pendingCashSale;
+
+
+        if (!saleData) {
+
+            showToast(
+                "No pending cash sale found.",
+                false
+            );
+
+            return;
+        }
+
+
+        console.log(
+            "CASH RECEIVED:",
+            cashReceived
+        );
+
+        console.log(
+            "CHANGE:",
+            change
+        );
+
+
+        completeCashBtn.disabled = true;
+
+
+        try {
+
+            
+
+            const response = await fetch(
+                `${API_BASE}/sales`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body: JSON.stringify(
+                        saleData
+                    )
+                }
+            );
+
+
+            const result =
+                await response.json();
+
+
+            console.log(
+                "SALE RESPONSE:",
+                result
+            );
+
+
+            
+
+            if (!response.ok) {
+
+                showToast(
+                    result.message ||
+                    result.error ||
+                    "Failed to complete cash sale",
+                    false
+                );
+
+                return;
+            }
+
+
+            
+
+            console.log(
+                "SALE COMPLETED:",
+                result
+            );
+
+
+            
+
+            const receiptResponse =
+                await fetch(
+                    `${API_BASE}/sales/${result.sale_id}/receipt`,
+                    {
+                        credentials:
+                            "include"
+                    }
+                );
+
+
+            const receiptData =
+                await receiptResponse.json();
+
+
+            
+
+            if (!receiptResponse.ok) {
+
+                console.error(
+                    "RECEIPT ERROR:",
+                    receiptData
+                );
+
+
+                showToast(
+                    receiptData.error ||
+                    "Sale completed but receipt could not be loaded",
+                    false
+                );
+
+            } else {
+
+                
+
+                receiptData.cash_received =
+                    cashReceived;
+
+                receiptData.change =
+                    change;
+
+
+                console.log(
+                    "RECEIPT DATA:",
+                    receiptData
+                );
+
+
+                
+
+                lastReceiptData =
+                    receiptData;
+
+            }
+
+
+            
+
+            cashModal.style.display =
+                "none";
+
+
+            
+
+            cart.length = 0;
+
+            renderCart();
+
+
+            
+
+            window.pendingCashSale = null;
+
+            cashReceivedInput.value = "";
+            cashChange.textContent = "KSh 0.00";
+            cashWarning.textContent = "";
+
+
+            
+
+            showToast(
+                `Cash sale completed successfully. Change: KSh ${change.toFixed(2)}`,
+                true
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "CASH SALE ERROR:",
+                error
+            );
+
+
+            showToast(
+                "Could not connect to server",
+                false
+            );
+
+
+        } finally {
+
+            completeCashBtn.disabled =
+                false;
+
+        }
+
+    }
+);
+cancelCashBtn.addEventListener("click", function () {
+
+    cashModal.style.display =
+        "none";
+
+    cashReceivedInput.value =
+        "";
+
+    cashChange.textContent =
+        "KSh 0.00";
+
+    cashWarning.textContent =
+        "";
+
+    completeCashBtn.disabled =
+        true;
+});
+function renderReceipt(receiptData) {
+
+    const receiptContent =
+        document.getElementById("receiptContent");
+
+    const receiptModal =
+        document.getElementById("receiptModal");
+
+    const store = receiptData.store;
+    const transaction = receiptData.transaction;
+    const items = receiptData.items;
+    const totals = receiptData.totals;
+    const payment = receiptData.payment;
+
+    // DEFAULT CURRENCY
+    const currency = store?.currency || "KSh";
+
+    // COUNT ITEMS
+    const itemCount = items.reduce(
+        (sum, item) =>
+            sum + Number(item.quantity),
+        0
+    );
+
+    // FORMAT DATE ONLY IF AVAILABLE
+    let formattedDate = "";
+    let formattedTime = "";
+
+    if (transaction.date) {
+
+        const date = new Date(transaction.date);
+
+        formattedDate =
+            date.toLocaleDateString("en-KE");
+
+        formattedTime =
+            date.toLocaleTimeString(
+                "en-KE",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+    }
+
+
+    receiptContent.innerHTML = `
+
+        <div class="receipt">
+
+            ${store ? `
+
+                <div class="receipt-header">
+
+                    <div class="receipt-store-name">
+                        ${store.name || ""}
+                    </div>
+
+                    <div class="receipt-branch">
+                        ${store.branch || ""}
+                    </div>
+
+                    <div>
+                        ${store.address || ""}
+                    </div>
+
+                    <div>
+                        Tel: ${store.phone || ""}
+                    </div>
+
+                    <div>
+                        ${store.email || ""}
+                    </div>
+
+                    <div>
+                        PIN: ${store.kra_pin || ""}
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+            <div class="receipt-line"></div>
+
+            <div class="receipt-title">
+                SALES RECEIPT
+            </div>
+
+            <div class="receipt-line"></div>
+
+            <div class="receipt-info">
+
+                ${transaction.receipt_number ? `
+                    <div>
+                        Receipt No:
+                        ${transaction.receipt_number}
+                    </div>
+                ` : ""}
+
+                ${transaction.date ? `
+
+                    <div>
+                        Date:
+                        ${formattedDate}
+                    </div>
+
+                    <div>
+                        Time:
+                        ${formattedTime}
+                    </div>
+
+                ` : ""}
+
+                <div>
+                    Terminal:
+                    ${transaction.terminal || "N/A"}
+                </div>
+
+                ${transaction.cashier ? `
+                    <div>
+                        Cashier:
+                        ${transaction.cashier}
+                    </div>
+                ` : ""}
+
+            </div>
+
+            <div class="receipt-line"></div>
+
+            <table class="receipt-items">
+
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th class="qty">QTY</th>
+                        <th class="price">PRICE</th>
+                        <th class="total">TOTAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    ${items.map(item => `
+
+                        <tr>
+
+                            <td>
+                                ${item.product_name}
+                            </td>
+
+                            <td class="qty">
+                                ${item.quantity}
+                            </td>
+
+                            <td class="price">
+                                ${Number(
+                                    item.unit_price
+                                ).toFixed(2)}
+                            </td>
+
+                            <td class="total">
+                                ${Number(
+                                    item.subtotal
+                                ).toFixed(2)}
+                            </td>
+
+                        </tr>
+
+                    `).join("")}
+
+                </tbody>
+
+            </table>
+
+            <div class="receipt-line"></div>
+
+            <div class="receipt-total-row">
+
+                <span>Items:</span>
+
+                <span>
+                    ${itemCount}
+                </span>
+
+            </div>
+
+            <div class="receipt-total-row">
+
+                <span>Subtotal:</span>
+
+                <span>
+                    ${currency}
+                    ${Number(
+                        totals.subtotal
+                    ).toFixed(2)}
+                </span>
+
+            </div>
+
+            <div class="receipt-total-row">
+
+                <span>Discount:</span>
+
+                <span>
+                    ${currency}
+                    ${Number(
+                        totals.discount
+                    ).toFixed(2)}
+                </span>
+
+            </div>
+
+            <div class="receipt-line"></div>
+
+            <div class="receipt-total-row receipt-grand-total">
+
+                <span>TOTAL:</span>
+
+                <span>
+                    ${currency}
+                    ${Number(
+                        totals.total
+                    ).toFixed(2)}
+                </span>
+
+            </div>
+
+            ${payment ? `
+
+                <div class="receipt-line"></div>
+
+                <div class="receipt-payment">
+
+                    <div>
+                        Payment:
+                        ${payment.method}
+                    </div>
+
+                    ${
+                        payment.method === "M-PESA"
+                        && payment.mpesa_reference
+                        ? `
+                            <div>
+                                M-PESA Ref:
+                                ${payment.mpesa_reference}
+                            </div>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+            ` : ""}
+
+            <div class="receipt-success">
+                PAYMENT SUCCESSFUL
+            </div>
+
+            <div class="receipt-footer">
+                ${store?.footer || receiptData.footer || ""}
+            </div>
+
+        </div>
+    `;
+
+    receiptModal.style.display = "flex";
+}
+
+
+
+const closeReceiptBtn =
+    document.getElementById("closeReceiptBtn");
+
+const printReceiptBtn =
+    document.getElementById("printReceiptBtn");
+
+const receiptModal =
+    document.getElementById("receiptModal");
+
+
+
+
+closeReceiptBtn.addEventListener("click", () => {
+
+    receiptModal.style.display = "none";
+
+});
+
+
+
+
+printReceiptBtn.addEventListener("click", () => {
+
+    window.print();
+
+});
+
+
+const viewReceiptBtn =
+    document.getElementById("viewReceiptBtn");
+
+viewReceiptBtn.addEventListener("click", () => {
+
+    if (!lastReceiptData) {
+
+        showToast(
+            "No receipt available",
+            false
+        );
+
+        return;
+    }
+
+    renderReceipt(lastReceiptData);
+
+});
+
+const mpesaBtn = document.getElementById("mpesaBtn");
+const mpesaModal = document.getElementById("mpesaModal");
+const cancelMpesa = document.getElementById("cancelMpesa");
+
+const sendMpesa = document.getElementById("sendMpesa");
+const mpesaPhone = document.getElementById("mpesaPhone");
+const checkMpesaStatusBtn = document.getElementById("checkMpesaStatusBtn");
+
+
+/* Open M-PESA popup */
+mpesaBtn.addEventListener("click", () => {
+
+    if (mpesaMethod.is_enabled !== 1) {
+
+        mpesaBtn.classList.add('disabled-payment');
+
+        showToast(
+            'M-PESA payment method is currently disabled.'
+        );
+
+        return;
+    }
+
+    mpesaModal.style.display = "flex";
+
+});
+
+
+/* Close M-PESA popup */
+cancelMpesa.addEventListener("click", () => {
+
+    mpesaModal.style.display = "none";
+
+});
+
+
+/* Send M-PESA request */
+sendMpesa.addEventListener("click", async () => {
+
+    const phone = mpesaPhone.value.trim();
+
+    if (phone === "") {
+        alert("Enter customer's phone number");
+        return;
+    }
+
+    if (!/^07\d{8}$/.test(phone)) {
+        alert("Enter a valid phone number, e.g. 0712345678");
+        return;
+    }
+
+
+    const { total } = getSaleTotals();
+
+
+    if (total <= 0) {
+        alert("There is no amount to pay");
+        return;
+    }
+
+
+    console.log("M-PESA PHONE:", phone);
+    console.log("M-PESA AMOUNT:", total);
+
+    // Disable the send button and show a loading message
+    sendMpesa.disabled = true;
+    cashBtn.disabled=true;
+    sendMpesa.textContent = "Sending STK Push...";
+
+    // Disable the phone number input
+    mpesaPhone.disabled = true;
+try {
+
+    const response = await fetch(
+        `${API_BASE}/mpesa/stkpush`,
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            credentials: "include",
+
+            body: JSON.stringify({
+                phone: phone,
+                amount: total,
+                user_id: Number(currentUser.id),
+    terminal_id: Number(currentUser.terminal_id),
+
+    subtotal: getSaleTotals().subtotal,
+    discount: getSaleTotals().discount,
+
+    items: cart.map(item => ({
+        product_id: item.id,
+        product_name: item.name,
+        quantity: item.qty,
+        unit_price: item.price
+    }))
+                
+            })
+        }
+    );
+
+
+    const data = await response.json();
+
+    console.log(
+        "STK PUSH RESPONSE:",
+        data
+    );
+if (!response.ok) {
+
+    alert(
+        data.error?.errorMessage ||
+        data.error ||
+        "M-PESA request failed"
+    );
+
+    // Allow cashier to try again
+    sendMpesa.disabled = false;
+    sendMpesa.textContent = "Send M-PESA";
+    cashBtn.disabled=false;
+
+    mpesaPhone.disabled = false;
+
+    return;
+}
+
+
+// STK Push has now been accepted
+sendMpesa.disabled = false;
+sendMpesa.textContent = "Send M-PESA";
+mpesaPhone.disabled = false;
+
+
+// Close the phone-number modal automatically
+    mpesaModal.style.display = "none";
+    mpesaPhone.value = "";
+    mpesaBtn.disabled = true;
+    cashBtn.disabled=true;
+
+
+// Tell cashier what is happening
+showToast(
+    "STK Push sent successfully.\nWaiting for customer payment...",
+    true
+);
+
+
+
+// Get the CheckoutRequestID returned by our backend
+const checkoutRequestID = data.checkoutRequestID;
+
+console.log(
+    "CHECKOUT REQUEST ID:",
+    checkoutRequestID
+);
+
+
+// Start checking the payment status
+const paymentResult =
+    await checkMpesaStatus(checkoutRequestID);
+
+
+console.log(
+    "FINAL M-PESA RESULT:",
+    paymentResult
+);
+
+
+// ==========================================
+// PAYMENT COMPLETED
+// ==========================================
+
+if (paymentResult.status === "Completed") {
+
+    const receipt =
+        paymentResult.transaction.mpesa_receipt_number;
+cancelMpesa.disabled = false;
+
+    showToast(
+        `M-PESA payment successful.\nReceipt: ${receipt}`,
+        true
+    );
+    
+
+    
+
+const saleId = paymentResult.transaction.sale_id;
+
+console.log(
+    "M-PESA SALE ID:",
+    saleId
+);
+
+
+if (!saleId) {
+
+    console.error(
+        "M-PESA payment completed but no sale_id was returned"
+    );
+
+    showToast(
+        "Payment completed but receipt could not be loaded",
+        false
+);
+
+} else {
+
+    const receiptResponse = await fetch(
+        `${API_BASE}/sales/${saleId}/receipt`,
+        {
+            credentials: "include"
+        }
+    );
+
+
+    const receiptData =
+        await receiptResponse.json();
+
+
+    if (!receiptResponse.ok) {
+
+        console.error(
+            "M-PESA RECEIPT ERROR:",
+            receiptData
+        );
+
+        showToast(
+            receiptData.error ||
+            "Payment completed but receipt could not be loaded",
+            false
+        );
+
+    } else {
+
+        console.log(
+            "M-PESA RECEIPT DATA:",
+            receiptData
+        );
+
+
+        // Save receipt for View Receipt button
+        lastReceiptData = receiptData;
+
+    }
+
+}
+    // Close M-PESA modal
+    mpesaModal.style.display = "none";
+
+    // Clear cart
+    cart.length = 0;
+
+    // Reset discount
+    document.getElementById("discountInput").value = 0;
+
+    // Refresh cart display
+    renderCart();
+    // Reset M-PESA controls
+sendMpesa.disabled = false;
+sendMpesa.textContent = "Send M-PESA";
+mpesaPhone.disabled = false;
+mpesaBtn.disabled = false;
+cashBtn.disabled=false;
+
+    return;
+}
+
+
+// ==========================================
+// PAYMENT FAILED / CANCELLED
+// ==========================================
+
+if (paymentResult.status === "Failed") {
+
+    const reason =
+        paymentResult.transaction.result_description ||
+        "Payment failed";
+
+    alert(
+        `M-PESA payment failed.\n${reason}`
+    );
+
+    // IMPORTANT:
+    // Do NOT clear the cart.
+    // Cashier can retry payment.
+    mpesaBtn.disabled = false;
+    cashBtn.disabled=false;
+
+    return;
+
+}
+
+
+// ==========================================
+// STATUS CHECK TIMED OUT
+// ==========================================
+
+if (paymentResult.status === "Timeout") {
+     // Remember the original transaction
+    pendingMpesaCheckoutID = checkoutRequestID;
+
+    // Show button for checking this payment again
+    checkMpesaStatusBtn.style.display = "block";
+    alert(
+        "M-PESA payment status is still pending.\n" +
+        "Do not clear the cart until payment is confirmed."
+    );
+    // Do NOT clear the cart.
+
+    // Reset M-PESA controls
+sendMpesa.disabled = false;
+sendMpesa.textContent = "Send M-PESA";
+mpesaPhone.disabled = false;
+mpesaBtn.disabled =false;
+cashBtn.disabled=false;
+
+    return;
+}
+   
+
+} catch (error) {
+
+    console.error(
+        "M-PESA ERROR:",
+        error
+    );
+
+    alert(
+        "Unable to connect to M-PESA"
+    );
+    // Reset M-PESA controls
+sendMpesa.disabled = false;
+sendMpesa.textContent = "Send M-PESA";
+mpesaPhone.disabled = false;
+mpesaBtn.disabled = false;
+cashBtn.disabled=false;
+
+    return;
+
+}
+
+async function checkMpesaStatus(checkoutRequestID) {
+
+    const maxAttempts = 30;
+    let attempts = 0;
+
+    return new Promise((resolve) => {
+
+        const interval = setInterval(async () => {
+
+            attempts++;
+
+            try {
+
+                const response = await fetch(
+                    `${API_BASE}/mpesa/status/${checkoutRequestID}`,
+                    {
+                        method: "GET",
+                        credentials: "include"
+                    }
+                );
+
+                const data = await response.json();
+
+                console.log(
+                    "M-PESA STATUS:",
+                    data
+                );
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Unable to check M-PESA status:",
+                        data
+                    );
+
+                    return;
+                }
+
+
+                const transaction =
+                    data.transaction;
+
+
+                // ==============================
+                // PAYMENT COMPLETED
+                // ==============================
+
+                if (transaction.status === "Completed") {
+
+                    clearInterval(interval);
+
+                    resolve({
+                        status: "Completed",
+                        transaction: transaction
+                    });
+
+                    return;
+                }
+
+
+                // ==============================
+                // PAYMENT FAILED / CANCELLED
+                // ==============================
+
+                if (transaction.status === "Failed") {
+
+                    clearInterval(interval);
+
+                    resolve({
+                        status: "Failed",
+                        transaction: transaction
+                    });
+
+                    return;
+                }
+
+
+                // ==============================
+                // STILL PENDING
+                // ==============================
+
+                console.log(
+                    "Payment still pending..."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "M-PESA status check error:",
+                    error
+                );
+
+            }
+
+
+            // ==============================
+            // STOP AFTER 30 ATTEMPTS
+            // ==============================
+
+            if (attempts >= maxAttempts) {
+
+                clearInterval(interval);
+
+                resolve({
+                    status: "Timeout"
+                });
+
+            }
+
+        }, 3000);
+
+    });
+
+}
+});
+checkMpesaStatusBtn.addEventListener("click", async () => {
+
+    if (!pendingMpesaCheckoutID) {
+
+        showToast(
+            "No pending M-PESA payment to check",
+            false
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "Checking pending M-PESA payment:",
+        pendingMpesaCheckoutID
+    );
+
+
+    try {
+
+        checkMpesaStatusBtn.disabled = true;
+        checkMpesaStatusBtn.textContent = "Checking...";
+
+
+        // ==========================================
+        // 1. CHECK OUR DATABASE FIRST
+        // ==========================================
+
+        const response = await fetch(
+            `${API_BASE}/mpesa/status/${pendingMpesaCheckoutID}`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "RECHECK M-PESA STATUS:",
+            data
+        );
+
+
+        if (!response.ok || !data.transaction) {
+
+            showToast(
+                data.error ||
+                "Unable to check M-PESA payment",
+                false
+            );
+
+            return;
+        }
+
+
+        const transaction =
+            data.transaction;
+
+
+        // ==========================================
+        // 2. DATABASE SAYS COMPLETED
+        // ==========================================
+
+        if (transaction.status === "Completed") {
+
+            const receipt =
+                transaction.mpesa_receipt_number;
+
+
+            showToast(
+                receipt
+                    ? `M-PESA payment confirmed. Receipt: ${receipt}`
+                    : "M-PESA payment confirmed",
+                true
+            );
+
+
+            pendingMpesaCheckoutID = null;
+
+            checkMpesaStatusBtn.style.display =
+                "none";
+
+
+            cart.length = 0;
+
+            discount = 0;
+
+            renderCart();
+
+
+            mpesaBtn.disabled = false;
+
+
+            return;
+        }
+
+
+        // ==========================================
+        // 3. DATABASE SAYS FAILED
+        // ==========================================
+
+        if (transaction.status === "Failed") {
+
+            const reason =
+                transaction.result_description ||
+                "Payment failed";
+
+
+            showToast(
+                `M-PESA payment failed: ${reason}`,
+                false
+            );
+
+
+            pendingMpesaCheckoutID = null;
+
+            checkMpesaStatusBtn.style.display =
+                "none";
+
+
+            // Keep cart
+            mpesaBtn.disabled = false;
+
+
+            return;
+        }
+
+
+        // ==========================================
+        // 4. DATABASE STILL SAYS PENDING
+        // ==========================================
+
+        if (transaction.status === "Pending") {
+
+            console.log(
+                "Database still Pending. Checking Safaricom..."
+            );
+
+
+            const queryResponse = await fetch(
+                `${API_BASE}/mpesa/query/${pendingMpesaCheckoutID}`,
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
+
+
+            const queryData =
+                await queryResponse.json();
+
+
+            console.log(
+                "SAFARICOM QUERY RESULT:",
+                queryData
+            );
+
+
+            // ======================================
+            // 5. QUERY RECOVERED THE SALE
+            // ======================================
+
+            if (
+                queryResponse.ok &&
+                queryData.status === "Completed"
+            ) {
+
+                showToast(
+                    "M-PESA payment confirmed",
+                    true
+                );
+
+
+                console.log(
+                    "M-PESA sale completed through Query:",
+                    queryData.sale
+                );
+
+
+                pendingMpesaCheckoutID = null;
+
+
+                checkMpesaStatusBtn.style.display =
+                    "none";
+
+
+                cart.length = 0;
+
+                discount = 0;
+
+                renderCart();
+
+
+                mpesaBtn.disabled = false;
+
+
+                return;
+            }
+
+
+            // ======================================
+            // 6. GET SAFARICOM RESULT
+            // ======================================
+
+            const safaricomResult =
+                queryData.data;
+
+
+            console.log(
+                "M-PESA still unresolved:",
+                safaricomResult
+            );
+
+
+            // ======================================
+            // 7. SAFARICOM STILL PROCESSING
+            // ======================================
+
+            if (
+                String(
+                    safaricomResult?.ResultCode
+                ) === "4999"
+            ) {
+
+                showToast(
+                    "M-PESA payment is still being processed. Check again shortly.",
+                    false
+                );
+
+
+                // Keep:
+                // cart
+                // pendingMpesaCheckoutID
+                // M-PESA button disabled
+                // Check Payment Status button
+
+
+                return;
+            }
+
+
+            // ======================================
+            // 8. OTHER QUERY ERROR / UNRESOLVED
+            // ======================================
+
+            showToast(
+                safaricomResult?.ResultDesc ||
+                safaricomResult?.fault?.faultstring ||
+                queryData.error ||
+                "M-PESA payment is still pending",
+                false
+            );
+
+
+            return;
+        }
+
+
+        // ==========================================
+        // UNKNOWN DATABASE STATUS
+        // ==========================================
+
+        showToast(
+            "Unknown M-PESA payment status",
+            false
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error checking M-PESA status:",
+            error
+        );
+
+
+        showToast(
+            "Unable to check M-PESA payment status",
+            false
+        );
+
+
+    } finally {
+
+        // ==========================================
+        // RESTORE CHECK BUTTON
+        // ==========================================
+
+        checkMpesaStatusBtn.disabled = false;
+
+        checkMpesaStatusBtn.textContent =
+            "Check Payment Status";
+    }
+
+});
+
+
+
+
+
+
+loadLoggedInUser();
+
+loadProducts();
+
+</script>
+<script>
+
+
+const holdBtn = document.getElementById("holdBtn");
+
+if (holdBtn) {
+
+    holdBtn.addEventListener("click", function () {
+
+        console.log("HOLD SALE BUTTON CLICKED");
+
+
+        
+
+        if (!cart || cart.length === 0) {
+
+            showToast(
+                "Cart is empty",
+                false
+            );
+
+            return;
+        }
+
+
+        
+
+        const heldSale = {
+
+            id:
+                "HOLD-" +
+                Date.now(),
+
+            items:
+                JSON.parse(
+                    JSON.stringify(cart)
+                ),
+
+            created_at:
+                new Date().toISOString()
+        };
+
+
+        
+
+        let heldSales =
+            JSON.parse(
+                localStorage.getItem(
+                    "held_sales"
+                )
+            ) || [];
+
+
+        
+
+        heldSales.push(
+            heldSale
+        );
+
+
+        localStorage.setItem(
+            "held_sales",
+            JSON.stringify(
+                heldSales
+            )
+        );
+
+
+        
+
+        cart.length = 0;
+
+
+        
+
+        renderCart();
+
+
+        
+
+        showToast(
+            "Sale held successfully",
+            true
+        );
+
+
+        console.log(
+            "HELD SALE:",
+            heldSale
+        );
+
+    });
+
+}
+
+
+
+
+const heldSalesBtn =
+    document.getElementById(
+        "heldSalesBtn"
+    );
+
+const heldSalesPanel =
+    document.getElementById(
+        "heldSalesPanel"
+    );
+
+const heldSalesList =
+    document.getElementById(
+        "heldSalesList"
+    );
+
+
+if (
+    heldSalesBtn &&
+    heldSalesPanel &&
+    heldSalesList
+) {
+
+    heldSalesBtn.addEventListener(
+        "click",
+        function () {
+
+            showHeldSales();
+
+        }
+    );
+
+}
+
+
+
+
+function showHeldSales() {
+
+    const heldSales =
+        JSON.parse(
+            localStorage.getItem(
+                "held_sales"
+            )
+        ) || [];
+
+
+    heldSalesList.innerHTML = "";
+
+
+    
+
+    if (
+        heldSales.length === 0
+    ) {
+
+        heldSalesList.innerHTML =
+            "<p>No held sales.</p>";
+
+        heldSalesPanel.style.display =
+            "block";
+
+        return;
+    }
+
+
+    
+
+    heldSales.forEach(
+        function (sale, index) {
+
+            const total =
+                sale.items.reduce(
+                    function (
+                        sum,
+                        item
+                    ) {
+
+                        return sum +
+                            (
+                                Number(
+                                    item.price
+                                ) *
+                                Number(
+                                    item.qty
+                                )
+                            );
+
+                    },
+                    0
+                );
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "held-sale";
+
+
+            div.innerHTML = `
+
+                <strong>
+                    ${sale.id}
+                </strong>
+
+                <div>
+                    ${sale.items.length}
+                    item(s)
+                </div>
+
+                <div>
+                    KSh ${total.toFixed(2)}
+                </div>
+
+                <div>
+                    ${new Date(
+                        sale.created_at
+                    ).toLocaleString()}
+                </div>
+
+                <button
+                    type="button"
+                    class="resume-held-sale"
+                    data-index="${index}">
+                    Resume
+                </button>
+
+                <button
+                    type="button"
+                    class="delete-held-sale"
+                    data-index="${index}">
+                    Delete
+                </button>
+
+                <hr>
+
+            `;
+
+
+            heldSalesList.appendChild(
+                div
+            );
+
+        }
+    );
+
+
+    heldSalesPanel.style.display =
+        "block";
+
+}
+
+
+
+
+if (heldSalesList) {
+
+    heldSalesList.addEventListener(
+        "click",
+        function (event) {
+
+            const button =
+                event.target;
+
+
+            const index =
+                Number(
+                    button.dataset.index
+                );
+
+
+            
+
+            if (
+                button.classList.contains(
+                    "resume-held-sale"
+                )
+            ) {
+
+                /* Don't overwrite another sale */
+
+                if (
+                    cart.length > 0
+                ) {
+
+                    showToast(
+                        "Clear the current cart first",
+                        false
+                    );
+
+                    return;
+                }
+
+
+                const heldSales =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "held_sales"
+                        )
+                    ) || [];
+
+
+                const sale =
+                    heldSales[index];
+
+
+                if (!sale) {
+
+                    showToast(
+                        "Held sale not found",
+                        false
+                    );
+
+                    return;
+                }
+
+
+                
+
+                sale.items.forEach(
+                    function (item) {
+
+                        cart.push({
+
+                            id:
+                                item.id,
+
+                            barcode:
+                                item.barcode,
+
+                            name:
+                                item.name,
+
+                            price:
+                                Number(
+                                    item.price
+                                ),
+
+                            qty:
+                                Number(
+                                    item.qty
+                                )
+
+                        });
+
+                    }
+                );
+
+
+                
+
+                heldSales.splice(
+                    index,
+                    1
+                );
+
+
+                localStorage.setItem(
+                    "held_sales",
+                    JSON.stringify(
+                        heldSales
+                    )
+                );
+
+
+                
+
+                renderCart();
+
+
+                
+
+                heldSalesPanel.style.display =
+                    "none";
+
+
+                showToast(
+                    "Held sale resumed",
+                    true
+                );
+
+
+                console.log(
+                    "RESUMED SALE:",
+                    sale
+                );
+
+                return;
+            }
+
+
+            
+
+            if (
+                button.classList.contains(
+                    "delete-held-sale"
+                )
+            ) {
+
+                const heldSales =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "held_sales"
+                        )
+                    ) || [];
+
+
+                heldSales.splice(
+                    index,
+                    1
+                );
+
+
+                localStorage.setItem(
+                    "held_sales",
+                    JSON.stringify(
+                        heldSales
+                    )
+                );
+
+
+                showHeldSales();
+
+
+                showToast(
+                    "Held sale deleted",
+                    true
+                );
+
+            }
+
+        }
+    );
+
+}
+</script>
+
+</body>
+</html>

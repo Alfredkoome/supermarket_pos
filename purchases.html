@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Purchases — Supermarket POS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="purchases.css">
+    <script src="js/api-config.js"></script>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.3 11.4a2 2 0 0 0 2 1.6h7.4a2 2 0 0 0 2-1.6L21 8H6"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></symbol>
+  <symbol id="i-sales" viewBox="0 0 24 24"><path d="M4 19h16M6 15l3-4 3 2 4-6 3 4"/></symbol>
+  <symbol id="i-stock" viewBox="0 0 24 24"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M3 9v7l9 5 9-5V9"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l2.5-4h13L21 7M9 12h6"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-reports" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 16v-4M12 16V8m4 8v-6"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-receive" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2"/><path d="M6 14h12v7H6z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 19h16"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand__mark">S</div>
+      <div class="brand__name">Supermarket<br> POS</div>
+    </div>
+
+    <nav class="nav">
+      <a href="dashboard.html"><svg class="icon"><use href="#i-dashboard"/></svg><span>Dashboard</span></a>
+      <a href="pos.html"><svg class="icon"><use href="#i-cart"/></svg><span>New Sale</span></a>
+      <a href="products.html"><svg class="icon"><use href="#i-box"/></svg><span>Products</span></a>
+      <a href="sales.html"><svg class="icon"><use href="#i-sales"/></svg><span>Sales</span></a>
+      <a href="stock.html"><svg class="icon"><use href="#i-stock"/></svg><span>Stock</span></a>
+      <a href="suppliers.html"><svg class="icon"><use href="#i-store"/></svg><span>Suppliers</span></a>
+      <a href="purchases.html" class="active" aria-current="page"><svg class="icon"><use href="#i-clipboard"/></svg><span>Purchases</span></a>
+ 
+      <!-- Purchase module navigation -->
+      <div class="subnav" role="group" aria-label="Purchase management">
+        <a href="#purchase-dashboard" title="Purchase Dashboard"><svg class="icon"><use href="#i-dashboard"/></svg><span>Purchase Dashboard</span></a>
+        <a href="#purchase-orders" title="Purchase Orders"><svg class="icon"><use href="#i-list"/></svg><span>Purchase Orders</span></a>
+        <a href="#create-purchase-order" title="Create Purchase Order"><svg class="icon"><use href="#i-plus"/></svg><span>Create Purchase Order</span></a>
+        <a href="#goods-receiving" title="Goods Receiving"><svg class="icon"><use href="#i-receive"/></svg><span>Goods Receiving</span></a>
+        <a href="#supplier-payments" title="Supplier Payments"><svg class="icon"><use href="#i-card"/></svg><span>Supplier Payments</span></a>
+        <a href="#purchase-history" title="Purchase History"><svg class="icon"><use href="#i-history"/></svg><span>Purchase History</span></a>
+        <a href="#purchase-reports" title="Purchase Reports"><svg class="icon"><use href="#i-reports"/></svg><span>Purchase Reports</span></a>
+      </div>
+
+      <a href="reports.html"><svg class="icon"><use href="#i-reports"/></svg><span>Reports</span></a>
+      <a href="settings.html"><svg class="icon"><use href="#i-settings"/></svg><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar__footer">v1.0 &middot; Offline-ready</div>
+  </aside>
+
+  <div class="main">
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="header">
+      <div>
+        <h1>Supermarket POS</h1>
+            
+
+        
+    <div class="sub">
+      <span id="terminalName">Loading terminal...</span>
+      &middot; Till open
+    </div>
+  </div>
+
+  <div class="cashier">
+    <div class="avatar" id="userAvatar">--</div>
+
+    <div class="who">
+      <b id="userName">Loading...</b>
+      <span id="userRole">Loading...</span>
+    </div>
+  </div>
+    </header>
+
+    <main class="page">
+
+      <!-- =====================================================
+           VIEW 1 — PURCHASE DASHBOARD
+           ===================================================== -->
+      <section class="view" id="purchase-dashboard" aria-labelledby="h-dashboard" data-endpoint="GET /purchase-reports/dashboard">
+        <div class="page-head">
+          <div>
+            <h2 id="h-dashboard">Purchase Dashboard</h2>
+            <p>Overview of purchasing, deliveries and supplier payments</p>
+          </div>
+          <div class="page-actions">
+            <a class="btn btn--primary" href="#create-purchase-order"><svg class="icon"><use href="#i-plus"/></svg>Create Purchase Order</a>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Total Purchases</div><div class="stat__icon"><svg class="icon"><use href="#i-clipboard"/></svg></div></div>
+            <div class="stat__value" data-bind="dashboard.totalPurchases">&mdash;</div>
+            <div class="stat__desc">Purchase orders recorded</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Purchases Today</div><div class="stat__icon"><svg class="icon"><use href="#i-calendar"/></svg></div></div>
+            <div class="stat__value" data-bind="dashboard.purchasesToday">&mdash;</div>
+            <div class="stat__desc">Orders created today</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Pending Orders</div><div class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-clock"/></svg></div></div>
+            <div class="stat__value" data-bind="dashboard.pendingOrders">&mdash;</div>
+            <div class="stat__desc">Awaiting approval</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Partially Received</div><div class="stat__icon stat__icon--green"><svg class="icon"><use href="#i-receive"/></svg></div></div>
+            <div class="stat__value" data-bind="dashboard.partiallyReceived">&mdash;</div>
+            <div class="stat__desc">Deliveries still outstanding</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Outstanding Supplier Payments</div><div class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-card"/></svg></div></div>
+            <div class="stat__value"><span class="currency">KSh</span><span data-bind="dashboard.outstandingPayments">&mdash;</span></div>
+            <div class="stat__desc">Owed to suppliers</div>
+          </article>
+        </div>
+
+        <div class="split">
+          <!-- Recent purchase activity -->
+          <section class="card card--flush" aria-labelledby="h-recent" data-endpoint="GET /purchases?limit=5">
+            <div class="card__head">
+              <div><h3 class="card__title" id="h-recent">Recent Purchase Orders</h3><p class="card__sub">Latest purchasing activity</p></div>
+              <a class="link" href="#purchase-orders">View all</a>
+            </div>
+            <div class="card__body">
+              <div class="table-wrap">
+                <table class="table table--md">
+                  <thead><tr><th>PO Number</th><th>Supplier</th><th>Order Date</th><th class="num">Total Amount</th><th>Status</th></tr></thead>
+                  <tbody data-list="dashboard.recentOrders">
+                    <tr class="state-row" data-state="empty"><td colspan="5"><div class="state__title">No purchase orders yet</div><div class="state__desc">Recent orders will appear here.</div></td></tr>
+                    <template data-template="dashboard.recentOrders">
+                      <tr>
+                        <td><a class="link-strong" href="#purchase-order-details" data-bind="po.number"></a></td>
+                        <td data-bind="po.supplierName"></td>
+                        <td data-bind="po.orderDate"></td>
+                        <td class="num"><span class="currency">KSh</span><span data-bind="po.total"></span></td>
+                        <td><span class="badge badge--draft" data-bind="po.status"></span></td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- Status overview -->
+          <section class="card" aria-labelledby="h-status" data-endpoint="GET /purchase-reports/dashboard">
+            <div class="card__head"><div><h3 class="card__title" id="h-status">Purchase Status Overview</h3><p class="card__sub">Orders by current status</p></div></div>
+            <div class="card__body">
+              <ul class="status-list">
+                <li><span class="badge badge--draft">Draft</span><span class="status-list__count" data-bind="dashboard.statusCounts.draft">&mdash;</span></li>
+                <li><span class="badge badge--pending-approval">Pending Approval</span><span class="status-list__count" data-bind="dashboard.statusCounts.pendingApproval">&mdash;</span></li>
+                <li><span class="badge badge--approved">Approved</span><span class="status-list__count" data-bind="dashboard.statusCounts.approved">&mdash;</span></li>
+                <li><span class="badge badge--partially-received">Partially Received</span><span class="status-list__count" data-bind="dashboard.statusCounts.partiallyReceived">&mdash;</span></li>
+                <li><span class="badge badge--received">Received</span><span class="status-list__count" data-bind="dashboard.statusCounts.received">&mdash;</span></li>
+                <li><span class="badge badge--cancelled">Cancelled</span><span class="status-list__count" data-bind="dashboard.statusCounts.cancelled">&mdash;</span></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 2 — PURCHASE ORDERS (listing)
+           ===================================================== -->
+      <section class="view" id="purchase-orders" aria-labelledby="h-orders" data-endpoint="GET /purchases">
+        <div class="page-head">
+          <div>
+            <h2 id="h-orders">Purchase Orders</h2>
+            <p>Create, track and manage purchase orders</p>
+          </div>
+          <div class="page-actions">
+            <a class="btn btn--primary" href="#create-purchase-order"><svg class="icon"><use href="#i-plus"/></svg>Create Purchase Order</a>
+          </div>
+        </div>
+
+        <div class="toolbar" role="search">
+          <label class="search"><svg class="icon"><use href="#i-search"/></svg><span class="sr-only">Search purchase orders</span><input type="search" placeholder="Search by PO number or supplier..." data-field="filters.orders.search"></label>
+          <div class="filter"><label for="ord-from">From</label><input class="input" type="date" id="ord-from" data-field="filters.orders.from"></div>
+          <div class="filter"><label for="ord-to">To</label><input class="input" type="date" id="ord-to" data-field="filters.orders.to"></div>
+          <div class="filter"><label for="ord-supplier">Supplier</label>
+            <select class="select" id="ord-supplier" data-field="filters.orders.supplierId" data-options="suppliers"><option value="">All suppliers</option></select></div>
+          <div class="filter"><label for="ord-status">Status</label>
+            <select class="select" id="ord-status" data-field="filters.orders.status">
+              <option value="">All statuses</option><option value="draft">Draft</option><option value="pending-approval">Pending Approval</option>
+              <option value="approved">Approved</option><option value="partially-received">Partially Received</option>
+              <option value="received">Received</option><option value="cancelled">Cancelled</option>
+            </select></div>
+        </div>
+
+        <section class="card">
+          <div class="table-wrap">
+            <table class="table table--lg">
+              <thead><tr>
+                <th>PO Number</th><th>Supplier</th><th>Order Date</th><th>Expected Delivery</th>
+                <th class="num">Total Amount</th><th class="num">Amount Paid</th><th class="num">Outstanding</th><th>Status</th><th>Actions</th>
+              </tr></thead>
+              <tbody data-list="purchaseOrders">
+                <tr class="state-row" data-state="empty"><td colspan="9"><div class="state__title">No purchase orders to show</div><div class="state__desc">Orders that match the filters will be listed here.</div></td></tr>
+                <template data-template="purchaseOrders">
+                  <tr data-id="">
+                    <td><a class="link-strong" href="#purchase-order-details" data-bind="po.number"></a></td>
+                    <td data-bind="po.supplierName"></td>
+                    <td data-bind="po.orderDate"></td>
+                    <td data-bind="po.expectedDelivery"></td>
+                    <td class="num"><span data-bind="po.total"></span></td>
+                    <td class="num"><span class="currency">KSh</span><span data-bind="po.amountPaid"></span></td>
+                    <td class="num"><span class="currency">KSh</span><span data-bind="po.outstanding"></span></td>
+                    <td><span class="badge badge--draft" data-bind="po.status"></span></td>
+                    <td>
+                      <div class="row-actions">
+                        <a class="icon-btn" href="#purchase-order-details" title="View details" aria-label="View details" data-action="view-po"><svg class="icon"><use href="#i-eye"/></svg></a>
+                        <a class="icon-btn" href="#create-purchase-order" title="Edit order" aria-label="Edit order" data-action="edit-po" data-show-for="draft"><svg class="icon"><use href="#i-edit"/></svg></a>
+                        <a class="icon-btn icon-btn--success" href="#goods-receiving" title="Receive goods" aria-label="Receive goods" data-action="receive-po" data-show-for="approved partially-received"><svg class="icon"><use href="#i-receive"/></svg></a>
+                        <a class="icon-btn" href="#supplier-payments" title="Record payment" aria-label="Record payment" data-action="open-supplier-payment"><svg class="icon"><use href="#i-card"/></svg></a>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+          <nav class="pagination" aria-label="Purchase orders pagination" data-pagination="purchaseOrders">
+            <div class="pagination__info">Showing <span data-bind="pagination.from">0</span>&ndash;<span data-bind="pagination.to">0</span> of <span data-bind="pagination.total">0</span></div>
+            <div class="pagination__controls">
+              <label class="pagination__size">Rows <select class="select select--sm" data-field="pagination.pageSize"><option>10</option><option>25</option><option>50</option></select></label>
+              <button type="button" class="btn btn--outline btn--sm" data-action="page-prev" disabled>Previous</button>
+              <span class="pagination__page">Page <span data-bind="pagination.page">1</span> of <span data-bind="pagination.pages">1</span></span>
+              <button type="button" class="btn btn--outline btn--sm" data-action="page-next" disabled>Next</button>
+            </div>
+          </nav>
+        </section>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 3 — CREATE PURCHASE ORDER
+           ===================================================== -->
+      <section class="view" id="create-purchase-order" aria-labelledby="h-create">
+        <div class="page-head">
+          <div>
+            <h2 id="h-create">Create Purchase Order</h2>
+            <p>Choose a supplier, add products and submit the order for approval</p>
+          </div>
+        </div>
+
+        <form class="po-layout" action="#" data-endpoint="POST /purchases" autocomplete="off">
+          <div class="stack">
+
+            <!-- A. Supplier information -->
+            <section class="card" aria-labelledby="h-supplier-info">
+              <div class="card__head"><div><h3 class="card__title" id="h-supplier-info">Supplier Information</h3><p class="card__sub">Select an existing supplier</p></div>
+                <a class="link" href="suppliers.html" data-action="open-supplier">View supplier details</a></div>
+              <div class="card__body">
+                <div class="form-grid">
+                  <div class="field field--full">
+                    <label for="po-supplier">Supplier <span class="req">*</span></label>
+                    <select class="select" id="po-supplier" required data-field="po.supplierId" data-options="activeSuppliers" data-endpoint="GET /suppliers">
+                      <option value="">Select a supplier...</option>
+                    </select>
+                  </div>
+                  <div class="field"><label for="po-sup-name">Supplier name</label><input class="input" id="po-sup-name" readonly data-field="po.supplier.name" placeholder="Filled from supplier"></div>
+                  <div class="field"><label for="po-sup-contact">Contact person</label><input class="input" id="po-sup-contact" readonly data-field="po.supplier.contactPerson" placeholder="Filled from supplier"></div>
+                  <div class="field"><label for="po-sup-phone">Phone number</label><input class="input" id="po-sup-phone" readonly data-field="po.supplier.phone" placeholder="Filled from supplier"></div>
+                  <div class="field"><label for="po-sup-email">Email</label><input class="input" id="po-sup-email" readonly data-field="po.supplier.email" placeholder="Filled from supplier"></div>
+                  <div class="field field--full"><label for="po-sup-address">Physical address</label><input class="input" id="po-sup-address" readonly data-field="po.supplier.address" placeholder="Filled from supplier"></div>
+                  <div class="field field--full"><label for="po-sup-balance">Outstanding balance with this supplier</label>
+                    <div class="input-group"><span class="input-group__addon">KSh</span><input class="input" id="po-sup-balance" readonly data-field="po.supplier.outstandingBalance" placeholder="Filled from supplier"></div></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- B. Order information -->
+            <section class="card" aria-labelledby="h-order-info">
+              <div class="card__head"><div><h3 class="card__title" id="h-order-info">Order Information</h3></div></div>
+              <div class="card__body">
+                <div class="form-grid">
+                  <div class="field"><label for="po-number">Purchase order number</label><input class="input" id="po-number" readonly data-field="po.number" placeholder="Generated automatically on save"></div>
+                  <div class="field"><label for="po-created-by">Created by</label><input class="input" id="po-created-by" readonly data-field="po.createdBy" placeholder="Signed-in user"></div>
+                  <div class="field"><label for="po-order-date">Order date <span class="req">*</span></label><input class="input" type="date" id="po-order-date" required data-field="po.orderDate"></div>
+                  <div class="field"><label for="po-expected-date">Expected delivery date</label><input class="input" type="date" id="po-expected-date" data-field="po.expectedDelivery"></div>
+                  <div class="field field--full"><label for="po-notes">Notes</label><textarea class="textarea" id="po-notes" data-field="po.notes" placeholder="Delivery instructions, payment terms, or anything the approver should know"></textarea></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- C. Product selection -->
+            <section class="card card--flush" aria-labelledby="h-items">
+              <div class="card__head"><div><h3 class="card__title" id="h-items">Products</h3><p class="card__sub">Add the products you want to order</p></div></div>
+              <div class="card__body">
+                <div class="card__pad">
+                  <div class="add-product-row">
+                    <label class="search" hidden>
+    <svg class="icon">
+        <use href="#i-search"/>
+    </svg>
+
+    <span class="sr-only">Search products</span>
+
+    <input
+        type="search"
+        placeholder="Search product by name or barcode..."
+        data-field="productPicker.query"
+    >
+</label>
+                    <button type="button" class="btn btn--primary" data-action="toggle-product-picker"><svg class="icon"><use href="#i-plus"/></svg>Add Product</button>
+                  </div>
+                  <table class="table table--compact table--md product-results-table" hidden>
+                    <thead>
+                      <tr>
+                        <th class="mono">Barcode</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th class="num">Last Cost</th>
+                        <th><span class="sr-only">Add</span></th>
+                      </tr>
+                    </thead>
+                    <tbody data-list="productPicker.results">
+                      <tr class="state-row" data-state="empty"><td colspan="5"><div class="state__title">Search for a product</div><div class="state__desc">Matching products will be listed here.</div></td></tr>
+                      <template data-template="productPicker.results">
+                        <tr data-product-id="">
+                          <td class="mono" data-bind="product.barcode"></td>
+                          <td class="cell-title" data-bind="product.name"></td>
+                          <td><span class="pill" data-bind="product.category"></span></td>
+                          <td class="num"><span class="currency">KSh</span><span data-bind="product.lastCost"></span></td>
+                          <td><button type="button" class="btn btn--outline btn--sm" data-action="pick-product"><svg class="icon"><use href="#i-plus"/></svg>Add</button></td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="table-wrap">
+                  <table class="table table--lg">
+                    <thead><tr>
+                      <th>Product</th><th>Barcode</th><th>Category</th><th class="num">Quantity</th>
+                      <th class="num">Unit Purchase Price</th><th class="num">Discount</th><th class="num">Subtotal</th><th><span class="sr-only">Remove</span></th>
+                    </tr></thead>
+                    <tbody data-list="po.items">
+                      <tr class="state-row" data-state="empty"><td colspan="8"><div class="state__title">No products added</div><div class="state__desc">Search for a product or use Add Product to start the order.</div></td></tr>
+                      <template data-template="po.items">
+                        <tr data-product-id="">
+                          <td><div class="cell-title" data-bind="item.name"></div></td>
+                          <td class="mono" data-bind="item.barcode"></td>
+                          <td><span class="pill" data-bind="item.category"></span></td>
+                          <td class="num"><input class="input input--num" type="number" min="1" step="1" inputmode="numeric" required aria-label="Quantity" data-field="item.quantity"></td>
+                          <td class="num"><input class="input input--num" type="number" min="0.01" step="0.01" inputmode="decimal" required aria-label="Unit purchase price (KSh)" data-field="item.unitPrice"></td>
+                          <td class="num"><input class="input input--num" type="number" min="0" step="0.01" inputmode="decimal" aria-label="Discount (KSh)" data-field="item.discount"></td>
+                          <td class="num"><output data-bind="item.subtotal"></output></td>
+                          <td><button type="button" class="icon-btn icon-btn--danger" title="Remove item" aria-label="Remove item" data-action="remove-item"><svg class="icon"><use href="#i-x"/></svg></button></td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- D. Order summary -->
+          <aside class="po-layout__side">
+            <section class="card" aria-labelledby="h-summary">
+              <div class="card__head"><div><h3 class="card__title" id="h-summary">Order Summary</h3></div></div>
+              <div class="card__body">
+                <div class="summary-row"><span>Subtotal</span><span class="summary-value"><span class="currency">KSh</span><output data-bind="po.subtotal">&mdash;</output></span></div>
+                <div class="summary-row"><span>Discounts</span><span class="summary-value"><span class="currency">KSh</span><output data-bind="po.discounts">&mdash;</output></span></div>
+                <div class="summary-row summary-row--input">
+                  <label for="po-additional">Additional costs</label>
+                  <div class="input-group"><span class="input-group__addon">KSh</span><input class="input" type="number" id="po-additional" min="0" step="0.01" inputmode="decimal" placeholder="0.00" data-field="po.additionalCosts"></div>
+                </div>
+                <div class="summary-total"><span class="summary-total__label">Grand Total</span><span class="summary-total__value" id="purchaseGrandTotal">KSh 0.00</span></div>
+                <p class="form-note">Grand total = subtotal &minus; discounts + additional costs.</p>
+
+                <div class="summary-actions">
+                  <button type="button" class="btn btn--primary btn--lg btn--block" data-action="submit-for-approval">Submit for Approval</button>
+                  <button type="button" class="btn btn--outline btn--block" data-action="save-draft">Save as Draft</button>
+                  <a class="btn btn--danger btn--block" href="#purchase-orders" data-action="cancel-create">Cancel</a>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </form>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 4 — PURCHASE ORDER DETAILS
+           Set data-status on .po-detail to show only the actions
+           that apply to the order's current status.
+           ===================================================== -->
+      <section class="view" id="purchase-order-details" aria-labelledby="h-detail">
+        <div class="po-detail" data-endpoint="GET /purchases/:id">
+          <a class="back-link" href="#purchase-orders"><svg class="icon"><use href="#i-arrow-left"/></svg>Back to purchase orders</a>
+
+          <div class="page-head">
+            <div>
+              <div class="po-title">
+                <h2 id="h-detail">Purchase Order <span data-bind="po.number">&mdash;</span></h2>
+                <span class="badge" data-bind="po.status">Status</span>
+              </div>
+              <p>Order details, approval record and activity</p>
+            </div>
+            <div class="page-actions">
+              <a class="btn btn--outline" href="#create-purchase-order" data-action="edit-po" data-show-for="draft"><svg class="icon"><use href="#i-edit"/></svg>Edit</a>
+              <button type="button" class="btn btn--success" popovertarget="modal-approve" data-action="approve-po" data-show-for="pending-approval"><svg class="icon"><use href="#i-check"/></svg>Approve</button>
+              <a class="btn btn--success" href="#goods-receiving" data-action="receive-po" data-show-for="approved partially-received"><svg class="icon"><use href="#i-receive"/></svg>Receive Goods</a>
+              <button type="button"
+                      class="btn btn--outline"
+                      data-action="open-supplier-payment">
+                  <svg class="icon"><use href="#i-card"/></svg>
+                  Record Payment
+              </button>
+              <button type="button" class="btn btn--outline" data-action="print-po" data-show-for="draft pending-approval approved partially-received received cancelled"><svg class="icon"><use href="#i-print"/></svg>Print Purchase Order</button>
+              <button type="button" class="btn btn--danger" popovertarget="modal-cancel-order" data-action="cancel-po" data-show-for="draft pending-approval approved"><svg class="icon"><use href="#i-x"/></svg>Cancel</button>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="stack">
+              <section class="card" aria-labelledby="h-po-info">
+                <div class="card__head"><h3 class="card__title" id="h-po-info">Purchase Order Information</h3></div>
+                <div class="card__body">
+                  <div class="info-grid">
+                    <div class="info-item"><span>PO number</span><b data-bind="po.number">&mdash;</b></div>
+                    <div class="info-item"><span>Payment status</span><b><span class="badge" data-bind="po.paymentStatus">&mdash;</span></b></div>
+                    <div class="info-item"><span>Order date</span><b data-bind="po.orderDate">&mdash;</b></div>
+                    <div class="info-item"><span>Expected delivery</span><b data-bind="po.expectedDelivery">&mdash;</b></div>
+                    <div class="info-item"><span>Created by</span><b data-bind="po.createdBy">&mdash;</b></div>
+                    <div class="info-item"><span>Order status</span><b data-bind="po.statusLabel">&mdash;</b></div>
+                    <div class="info-item info-item--full"><span>Notes</span><b data-bind="po.notes">&mdash;</b></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="card" aria-labelledby="h-po-supplier">
+                <div class="card__head"><h3 class="card__title" id="h-po-supplier">Supplier Details</h3><a class="link" href="suppliers.html" data-action="open-supplier">View supplier</a></div>
+                <div class="card__body">
+                  <div class="info-grid">
+                    <div class="info-item"><span>Supplier</span><b data-bind="po.supplier.name">&mdash;</b></div>
+                    <div class="info-item"><span>Contact person</span><b data-bind="po.supplier.contactPerson">&mdash;</b></div>
+                    <div class="info-item"><span>Phone number</span><b data-bind="po.supplier.phone">&mdash;</b></div>
+                    <div class="info-item"><span>Email</span><b data-bind="po.supplier.email">&mdash;</b></div>
+                    <div class="info-item info-item--full"><span>Physical address</span><b data-bind="po.supplier.address">&mdash;</b></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="card card--flush" aria-labelledby="h-po-items" data-endpoint="GET /purchases/:id/items">
+                <div class="card__head"><h3 class="card__title" id="h-po-items">Ordered Products</h3></div>
+                <div class="card__body">
+                  <div class="table-wrap">
+                    <table class="table table--lg">
+                      <thead><tr><th>Product</th><th>Barcode</th><th class="num">Qty Ordered</th><th class="num">Qty Received</th><th class="num">Unit Price</th><th class="num">Discount</th><th class="num">Subtotal</th></tr></thead>
+                      <tbody data-list="po.items">
+                        <tr class="state-row" data-state="empty"><td colspan="7"><div class="state__title">No products on this order</div></td></tr>
+                        <template data-template="po.detailItems">
+                          <tr>
+                            <td class="cell-title" data-bind="item.name"></td>
+                            <td class="mono" data-bind="item.barcode"></td>
+                            <td class="num" data-bind="item.quantityOrdered"></td>
+                            <td class="num" data-bind="item.quantityReceived"></td>
+                            <td class="num"><span class="currency">KSh</span><span data-bind="item.unitPrice"></span></td>
+                            <td class="num"><span class="currency">KSh</span><span data-bind="item.discount"></span></td>
+                            <td class="num"><span class="currency">KSh</span><span data-bind="item.subtotal"></span></td>
+                          </tr>
+                        </template>
+                      </tbody>
+                      <tfoot>
+                        <tr><td colspan="6" class="num muted">Subtotal</td><td class="num"><span class="currency">KSh</span><span data-bind="po.subtotal">&mdash;</span></td></tr>
+                        <tr><td colspan="6" class="num muted">Discounts</td><td class="num"><span class="currency">KSh</span><span data-bind="po.discounts">&mdash;</span></td></tr>
+                        <tr><td colspan="6" class="num muted">Additional costs</td><td class="num"><span class="currency">KSh</span><span data-bind="po.additionalCosts">&mdash;</span></td></tr>
+                        <tr class="total-row"><td colspan="6" class="num">Total amount</td><td class="num"><span class="currency">KSh</span><span data-bind="po.grandTotal">&mdash;</span></td></tr>
+                        <tr><td colspan="6" class="num muted">Amount paid</td><td class="num"><span class="currency">KSh</span><span data-bind="po.amountPaid">&mdash;</span></td></tr>
+                        <tr><td colspan="6" class="num muted">Outstanding balance</td><td class="num"><span class="currency">KSh</span><span data-bind="po.outstanding">&mdash;</span></td></tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="stack">
+              <section class="card" aria-labelledby="h-approval">
+                <div class="card__head"><h3 class="card__title" id="h-approval">Approval Information</h3></div>
+                <div class="card__body">
+                  <div class="info-grid">
+                    <div class="info-item"><span>Created by</span><b data-bind="po.createdBy">&mdash;</b></div>
+                    <div class="info-item"><span>Created on</span><b data-bind="po.createdAt">&mdash;</b></div>
+                    <div class="info-item"><span>Approved by</span><b data-bind="po.approvedBy">&mdash;</b></div>
+                    <div class="info-item"><span>Approval date</span><b data-bind="po.approvedAt">&mdash;</b></div>
+                    <div class="info-item info-item--full cancel-info"><span>Cancelled by / on</span><b data-bind="po.cancelledBy">&mdash;</b></div>
+                    <div class="info-item info-item--full cancel-info"><span>Cancellation reason</span><b data-bind="po.cancelReason">&mdash;</b></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="card" aria-labelledby="h-timeline" data-endpoint="GET /purchases/:id (audit trail)">
+                <div class="card__head"><h3 class="card__title" id="h-timeline">Order Timeline</h3></div>
+                <div class="card__body">
+                  <ol class="timeline" data-list="po.timeline">
+                    <li class="state-block" data-state="empty">No activity recorded yet.</li>
+                    <template data-template="po.timeline">
+                      <li class="timeline__item" data-event="">
+                        <div class="timeline__title" data-bind="event.title"></div>
+                        <div class="timeline__meta"><span data-bind="event.user"></span> &middot; <span data-bind="event.timestamp"></span></div>
+                        <div class="timeline__note" data-bind="event.note"></div>
+                      </li>
+                    </template>
+                  </ol>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 5 — GOODS RECEIVING
+           ===================================================== -->
+      <section class="view" id="goods-receiving" aria-labelledby="h-receiving">
+        <div class="page-head">
+          <div>
+            <h2 id="h-receiving">Goods Receiving</h2>
+            <p>Record goods delivered against an approved purchase order</p>
+          </div>
+        </div>
+
+        <form action="#" data-endpoint="POST /purchases/:id/receive" autocomplete="off">
+          <section class="card" aria-labelledby="h-delivery">
+            <div class="card__head"><div><h3 class="card__title" id="h-delivery">Delivery Details</h3><p class="card__sub">Only approved and partially received orders can be received</p></div></div>
+            <div class="card__body">
+              <div class="form-grid form-grid--3">
+                <div class="field field--full">
+                  <label for="rcv-po">Purchase order number <span class="req">*</span></label>
+                  <select class="select" id="rcv-po" required data-field="receiving.purchaseId" data-options="receivablePurchases"><option value="">Select a purchase order...</option></select>
+                </div>
+                <div class="field"><label for="rcv-supplier">Supplier</label><input class="input" id="rcv-supplier" readonly data-field="receiving.supplierName" placeholder="Filled from order"></div>
+                <div class="field"><label for="rcv-order-date">Order date</label><input class="input" id="rcv-order-date" readonly data-field="receiving.orderDate" placeholder="Filled from order"></div>
+                <div class="field"><label for="rcv-expected">Expected delivery date</label><input class="input" id="rcv-expected" readonly data-field="receiving.expectedDelivery" placeholder="Filled from order"></div>
+                <div class="field"><label for="rcv-date">Receiving date <span class="req">*</span></label><input class="input" type="date" id="rcv-date" required data-field="receiving.receivedAt"></div>
+                <div class="field"><label for="rcv-by">Received by</label><input class="input" id="rcv-by" readonly data-field="receiving.receivedBy" placeholder="Signed-in user"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card card--flush" aria-labelledby="h-rcv-items" data-endpoint="GET /purchases/:id/items">
+            <div class="card__head"><div><h3 class="card__title" id="h-rcv-items">Items to Receive</h3><p class="card__sub">Enter what was delivered and what you are accepting into stock</p></div></div>
+            <div class="card__body">
+              <div class="card__pad">
+                <div class="legend" aria-label="Line status legend">
+                  <span class="badge badge--line-received">Fully received</span>
+                  <span class="badge badge--line-partial">Partially received</span>
+                  <span class="badge badge--line-outstanding">Outstanding</span>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="table table--lg">
+                  <thead><tr>
+                    <th>Product</th><th class="num">Quantity Ordered</th><th class="num">Previously Received</th>
+                    <th class="num">Current Delivery Qty</th><th class="num">Outstanding Qty</th><th class="num">Receiving Qty</th><th>Line Status</th>
+                  </tr></thead>
+                  <tbody data-list="receiving.items">
+                    <tr class="state-row" data-state="empty"><td colspan="7"><div class="state__title">No purchase order selected</div><div class="state__desc">Choose an approved purchase order to list the products to receive.</div></td></tr>
+                    <!-- Add one of: line--received | line--partial | line--outstanding to the <tr> -->
+                    <template data-template="receiving.items">
+                      <tr class="line--outstanding" data-item-id="">
+                        <td><div class="cell-title" data-bind="item.name"></div><div class="cell-sub mono" data-bind="item.barcode"></div></td>
+                        <td class="num" data-bind="item.quantityOrdered"></td>
+                        <td class="num" data-bind="item.previouslyReceived"></td>
+                        <td class="num"><input class="input input--num" type="number" min="0" step="1" inputmode="numeric" aria-label="Current delivery quantity" data-field="item.deliveryQty"></td>
+                        <td class="num" data-bind="item.outstanding"></td>
+                        <td class="num"><input class="input input--num" type="number" min="0" step="1" inputmode="numeric" aria-label="Receiving quantity" data-field="item.receivingQty"></td>
+                        <td>
+                          <span class="badge badge--line-outstanding" data-bind="item.lineStatus"></span>
+                          <div class="progress" role="progressbar" aria-label="Received share of ordered quantity" style="--pct: 0%"><span></span></div>
+                        </td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card__pad">
+                <div class="form-actions">
+                  <button type="button" class="btn btn--success" data-action="receive-goods"><svg class="icon"><use href="#i-check"/></svg>Receive Goods</button>
+                  <button type="button" class="btn btn--outline" data-action="save-receiving-record">Save Receiving Record</button>
+                  <a class="btn btn--danger" href="#purchase-orders" data-action="cancel-receiving">Cancel</a>
+                </div>
+                <p class="form-note">Stock only increases when you confirm Receive Goods. Saving a record does not change stock.</p>
+              </div>
+            </div>
+          </section>
+        </form>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 6 — SUPPLIER PAYMENTS
+           ===================================================== -->
+      <section class="view" id="supplier-payments" aria-labelledby="h-payments">
+        <div class="page-head">
+          <div>
+            <h2 id="h-payments">Supplier Payments</h2>
+            <p>Record payments made to suppliers against purchase orders</p>
+          </div>
+        </div>
+
+        <form action="#" data-endpoint="POST /purchases/:id/payments" autocomplete="off">
+          <section class="card" aria-labelledby="h-record-payment">
+            <div class="card__head"><div><h3 class="card__title" id="h-record-payment">Record Payment</h3><p class="card__sub">Supplier payments are separate from customer sales payments</p></div></div>
+            <div class="card__body">
+              <div class="form-section">
+                <h4 class="form-section__title">Purchase order</h4>
+                <div class="form-grid form-grid--3">
+                  <div class="field">
+                    <label for="pay-po">Purchase order number <span class="req">*</span></label>
+                    <select class="select" id="pay-po" required data-field="payment.purchaseId" data-options="payablePurchases"><option value="">Select a purchase order...</option></select>
+                  </div>
+                  <div class="field"><label for="pay-supplier">Supplier</label><input class="input" id="pay-supplier" readonly data-field="payment.supplierName" placeholder="Filled from order"></div>
+                  <div class="field"><label for="pay-supplier-phone">Supplier phone</label><input class="input" id="pay-supplier-phone" readonly data-field="payment.supplierPhone" placeholder="Filled from order"></div>
+                </div>
+                <div class="payment-figures mt-md">
+                  <div class="figure"><span>Total Purchase Amount</span><b><span class="currency">KSh</span><span data-bind="payment.total">&mdash;</span></b></div>
+                  <div class="figure"><span>Amount Previously Paid</span><b><span class="currency">KSh</span><span data-bind="payment.previouslyPaid">&mdash;</span></b></div>
+                  <div class="figure figure--due"><span>Outstanding Balance</span><b><span class="currency">KSh</span><span data-bind="payment.outstanding">&mdash;</span></b></div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <h4 class="form-section__title">Payment details</h4>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="pay-amount">Payment amount <span class="req">*</span></label>
+                    <div class="input-group"><span class="input-group__addon">KSh</span><input class="input" type="number" id="pay-amount" min="0.01" step="0.01" inputmode="decimal" required placeholder="0.00" data-field="payment.amount"></div>
+                    <p class="hint">Cannot exceed the outstanding balance.</p>
+                  </div>
+                  <div class="field">
+                    <label for="pay-method">Payment method <span class="req">*</span></label>
+                    <select class="select" id="pay-method" required data-field="payment.methodId" data-options="supplierPaymentMethods">
+                      <option value="">Select a method...</option>
+                      <option value="cash">Cash</option>
+                      <option value="bank-transfer">Bank Transfer</option>
+                      <option value="mpesa">M-PESA</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="pay-reference">Transaction reference</label>
+                    <input class="input" id="pay-reference" data-field="payment.reference" placeholder="Bank or M-PESA reference">
+                    <p class="hint">Leave blank for cash payments.</p>
+                  </div>
+                  <div class="field"><label for="pay-date">Payment date <span class="req">*</span></label><input class="input" type="date" id="pay-date" required data-field="payment.paidAt"></div>
+                </div>
+                <div class="form-actions">
+                  <button type="button" class="btn btn--success btn--lg" data-action="record-payment"><svg class="icon"><use href="#i-check"/></svg>Record Payment</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <section class="card card--flush" aria-labelledby="h-pay-history" data-endpoint="GET /purchases/:id/payments">
+          <div class="card__head"><div><h3 class="card__title" id="h-pay-history">Payment History</h3><p class="card__sub">Payments recorded against the selected purchase order</p></div></div>
+          <div class="card__body">
+            <div class="table-wrap">
+              <table class="table table--md">
+                <thead><tr><th>Payment Date</th><th>Purchase Order</th><th class="num">Amount Paid</th><th>Payment Method</th><th>Recorded By</th></tr></thead>
+                <tbody data-list="payments">
+                  <tr class="state-row" data-state="empty"><td colspan="5"><div class="state__title">No payments recorded</div><div class="state__desc">Payments for the selected order will appear here.</div></td></tr>
+                  <template data-template="payments">
+                    <tr>
+                      <td data-bind="payment.paidAt"></td>
+                      <td><a class="link-strong" href="#purchase-order-details" data-bind="payment.poNumber"></a></td>
+                      <td class="num"><span class="currency">KSh</span><span data-bind="payment.amount"></span></td>
+                      <td data-bind="payment.method"></td>
+                      <td data-bind="payment.recordedBy"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+            <nav class="pagination" aria-label="Payment history pagination" data-pagination="payments">
+              <div class="pagination__info">Showing <span data-bind="pagination.from">0</span>&ndash;<span data-bind="pagination.to">0</span> of <span data-bind="pagination.total">0</span></div>
+              <div class="pagination__controls">
+                <button type="button" class="btn btn--outline btn--sm" data-action="page-prev" disabled>Previous</button>
+                <span class="pagination__page">Page <span data-bind="pagination.page">1</span> of <span data-bind="pagination.pages">1</span></span>
+                <button type="button" class="btn btn--outline btn--sm" data-action="page-next" disabled>Next</button>
+              </div>
+            </nav>
+          </div>
+        </section>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 7 — PURCHASE HISTORY
+           ===================================================== -->
+      <section class="view" id="purchase-history" aria-labelledby="h-history" data-endpoint="GET /purchases">
+        <div class="page-head">
+          <div>
+            <h2 id="h-history">Purchase History</h2>
+            <p>Browse every purchase order and its payment status</p>
+          </div>
+        </div>
+
+        <div class="toolbar" role="search">
+          <label class="search"><svg class="icon"><use href="#i-search"/></svg><span class="sr-only">Search purchase history</span><input type="search" placeholder="Search by PO number or supplier..." data-field="filters.history.search"></label>
+          <div class="filter"><label for="his-from">From</label><input class="input" type="date" id="his-from" data-field="filters.history.from"></div>
+          <div class="filter"><label for="his-to">To</label><input class="input" type="date" id="his-to" data-field="filters.history.to"></div>
+          <div class="filter"><label for="his-supplier">Supplier</label>
+            <select class="select" id="his-supplier" data-field="filters.history.supplierId" data-options="suppliers"><option value="">All suppliers</option></select></div>
+          <div class="filter"><label for="his-status">Purchase status</label>
+            <select class="select" id="his-status" data-field="filters.history.status">
+              <option value="">All statuses</option><option value="draft">Draft</option><option value="pending-approval">Pending Approval</option>
+              <option value="approved">Approved</option><option value="partially-received">Partially Received</option>
+              <option value="received">Received</option><option value="cancelled">Cancelled</option>
+            </select></div>
+          <div class="filter"><label for="his-payment">Payment status</label>
+            <select class="select" id="his-payment" data-field="filters.history.paymentStatus">
+              <option value="">All payment statuses</option><option value="unpaid">Unpaid</option>
+              <option value="partially-paid">Partially Paid</option><option value="paid">Fully Paid</option>
+            </select></div>
+        </div>
+
+        <section class="card">
+          <div class="table-wrap">
+            <table class="table table--lg">
+              <thead><tr><th>PO Number</th><th>Supplier</th><th>Order Date</th><th class="num">Total Amount</th><th>Payment Status</th><th>Purchase Status</th><th>Actions</th></tr></thead>
+              <tbody data-list="purchaseHistory">
+                <tr class="state-row" data-state="empty"><td colspan="7"><div class="state__title">No purchase history to show</div><div class="state__desc">Orders that match the filters will be listed here.</div></td></tr>
+                <template data-template="purchaseHistory">
+                  <tr data-id="">
+                    <td><a class="link-strong" href="#purchase-order-details" data-bind="po.number"></a></td>
+                    <td data-bind="po.supplierName"></td>
+                    <td data-bind="po.orderDate"></td>
+                    <td class="num"><span data-bind="po.total"></span></td>
+                    <td><span class="badge badge--unpaid" data-bind="po.paymentStatus"></span></td>
+                    <td><span class="badge badge--draft" data-bind="po.status"></span></td>
+                    <td><div class="row-actions"><a class="icon-btn" href="#purchase-order-details" title="View details" aria-label="View details" data-action="view-po"><svg class="icon"><use href="#i-eye"/></svg></a></div></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+          <nav class="pagination" aria-label="Purchase history pagination" data-pagination="purchaseHistory">
+            <div class="pagination__info">Showing <span data-bind="pagination.from">0</span>&ndash;<span data-bind="pagination.to">0</span> of <span data-bind="pagination.total">0</span></div>
+            <div class="pagination__controls">
+              <label class="pagination__size">Rows <select class="select select--sm" data-field="pagination.pageSize"><option>10</option><option>25</option><option>50</option></select></label>
+              <button type="button" class="btn btn--outline btn--sm" data-action="page-prev" disabled>Previous</button>
+              <span class="pagination__page">Page <span data-bind="pagination.page">1</span> of <span data-bind="pagination.pages">1</span></span>
+              <button type="button" class="btn btn--outline btn--sm" data-action="page-next" disabled>Next</button>
+            </div>
+          </nav>
+        </section>
+      </section>
+
+
+      <!-- =====================================================
+           VIEW 8 — PURCHASE REPORTS
+           ===================================================== -->
+      <section class="view" id="purchase-reports" aria-labelledby="h-reports">
+        <div class="page-head">
+          <div>
+            <h2 id="h-reports">Purchase Reports</h2>
+            <p>Analyze purchasing, payments and supplier balances</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="btn btn--outline" data-action="export-csv"><svg class="icon"><use href="#i-download"/></svg>Export CSV</button>
+            <button type="button" class="btn btn--outline" data-action="export-pdf"><svg class="icon"><use href="#i-print"/></svg>Export PDF</button>
+          </div>
+        </div>
+
+        <div class="toolbar" role="group" aria-label="Report date range">
+          <div class="filter"><label>Quick range</label>
+            <div class="segmented">
+              <button type="button" aria-pressed="false" data-action="range" data-range="today">Today</button>
+              <button type="button" aria-pressed="false" data-action="range" data-range="week">This Week</button>
+              <button type="button" aria-pressed="true" data-action="range" data-range="month">This Month</button>
+            </div></div>
+          <div class="filter"><label for="rep-from">From</label><input class="input" type="date" id="rep-from" data-field="filters.reports.from"></div>
+          <div class="filter"><label for="rep-to">To</label><input class="input" type="date" id="rep-to" data-field="filters.reports.to"></div>
+          <div class="filter"><label>&nbsp;</label><button type="button" class="btn btn--primary btn--filter" data-action="apply-range">Apply</button></div>
+        </div>
+
+        <div class="stat-grid" data-endpoint="GET /purchase-reports/summary">
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Total Purchase Value</div><div class="stat__icon"><svg class="icon"><use href="#i-box"/></svg></div></div>
+            <div class="stat__value"><span class="currency">KSh</span><span data-bind="reports.totalValue">&mdash;</span></div>
+            <div class="stat__desc">Across the selected dates</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Total Amount Paid</div><div class="stat__icon stat__icon--green"><svg class="icon"><use href="#i-check"/></svg></div></div>
+            <div class="stat__value"><span class="currency">KSh</span><span data-bind="reports.totalPaid">&mdash;</span></div>
+            <div class="stat__desc">Paid to suppliers</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Outstanding Balances</div><div class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-card"/></svg></div></div>
+            <div class="stat__value"><span class="currency">KSh</span><span data-bind="reports.outstanding">&mdash;</span></div>
+            <div class="stat__desc">Still owed to suppliers</div>
+          </article>
+          <article class="card stat">
+            <div class="stat__top"><div class="stat__label">Number of Purchase Orders</div><div class="stat__icon"><svg class="icon"><use href="#i-clipboard"/></svg></div></div>
+            <div class="stat__value" data-bind="reports.orderCount">&mdash;</div>
+            <div class="stat__desc">Orders in range</div>
+          </article>
+        </div>
+
+        <div class="split split--even">
+          <section class="card" aria-labelledby="h-rep-date" data-endpoint="GET /purchase-reports/summary?groupBy=date">
+            <div class="card__head"><div><h3 class="card__title" id="h-rep-date">Purchases by Date</h3><p class="card__sub">Purchase value per day</p></div></div>
+            <div class="card__body">
+              <div class="chart-frame" data-bind="reports.byDate.chart">Chart will render here</div>
+              <div class="table-wrap mt-md">
+                <table class="table table--compact table--sm">
+                  <thead><tr><th>Date</th><th class="num">Orders</th><th class="num">Total Value</th></tr></thead>
+                  <tbody data-list="reports.byDate">
+                    <tr class="state-row" data-state="empty"><td colspan="3"><div class="state__title">No data for this range</div></td></tr>
+                    <template data-template="reports.byDate"><tr><td data-bind="row.date"></td><td class="num" data-bind="row.orders"></td><td class="num"><span class="currency">KSh</span><span data-bind="row.total"></span></td></tr></template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="h-rep-supplier" data-endpoint="GET /purchase-reports/suppliers">
+            <div class="card__head"><div><h3 class="card__title" id="h-rep-supplier">Purchases by Supplier</h3><p class="card__sub">Value, payments and balance per supplier</p></div></div>
+            <div class="card__body">
+              <div class="table-wrap">
+                <table class="table table--compact table--sm">
+                  <thead><tr><th>Supplier</th><th class="num">Orders</th><th class="num">Total Value</th><th class="num">Paid</th><th class="num">Outstanding</th></tr></thead>
+                  <tbody data-list="reports.bySupplier">
+                    <tr class="state-row" data-state="empty"><td colspan="5"><div class="state__title">No data for this range</div></td></tr>
+                    <template data-template="reports.bySupplier"><tr><td class="cell-title" data-bind="row.supplier"></td><td class="num" data-bind="row.orders"></td><td class="num"><span class="currency">KSh</span><span data-bind="row.total"></span></td><td class="num"><span class="currency">KSh</span><span data-bind="row.paid"></span></td><td class="num"><span class="currency">KSh</span><span data-bind="row.outstanding"></span></td></tr></template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="split split--even">
+          <section class="card" aria-labelledby="h-rep-products" data-endpoint="GET /purchase-reports/products">
+            <div class="card__head"><div><h3 class="card__title" id="h-rep-products">Most Purchased Products</h3><p class="card__sub">Ranked by quantity purchased</p></div></div>
+            <div class="card__body">
+              <div class="table-wrap">
+                <table class="table table--compact table--sm">
+                  <thead><tr><th>Product</th><th>Category</th><th class="num">Qty Purchased</th><th class="num">Total Cost</th></tr></thead>
+                  <tbody data-list="reports.topProducts">
+                    <tr class="state-row" data-state="empty"><td colspan="4"><div class="state__title">No data for this range</div></td></tr>
+                    <template data-template="reports.topProducts"><tr><td class="cell-title" data-bind="row.product"></td><td><span class="pill" data-bind="row.category"></span></td><td class="num" data-bind="row.quantity"></td><td class="num"><span class="currency">KSh</span><span data-bind="row.cost"></span></td></tr></template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="h-rep-balances" data-endpoint="GET /purchase-reports/suppliers?outstanding=true">
+            <div class="card__head"><div><h3 class="card__title" id="h-rep-balances">Supplier Outstanding Balances</h3><p class="card__sub">What is currently owed to each supplier</p></div></div>
+            <div class="card__body">
+              <div class="table-wrap">
+                <table class="table table--compact table--sm">
+                  <thead><tr><th>Supplier</th><th class="num">Open Orders</th><th class="num">Outstanding Balance</th></tr></thead>
+                  <tbody data-list="reports.balances">
+                    <tr class="state-row" data-state="empty"><td colspan="3"><div class="state__title">No outstanding balances</div></td></tr>
+                    <template data-template="reports.balances"><tr><td class="cell-title" data-bind="row.supplier"></td><td class="num" data-bind="row.openOrders"></td><td class="num"><span class="currency">KSh</span><span data-bind="row.balance"></span></td></tr></template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+
+<!-- =========================================================
+     MODALS — HTML popover (open with popovertarget, Esc closes)
+     ========================================================= -->
+
+<!-- Add product picker -->
+<div class="modal modal--wide" id="modal-add-product" popover aria-labelledby="h-m-product">
+  <div class="modal__head">
+    <div><h3 id="h-m-product">Add Product</h3><p>Search the catalogue and add a product to this order</p></div>
+    <button type="button" class="modal__close" popovertarget="modal-add-product" popovertargetaction="hide" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="modal__body" data-endpoint="GET /products?search=">
+    <label class="search"><svg class="icon"><use href="#i-search"/></svg><span class="sr-only">Search products</span><input type="search" placeholder="Search by name, barcode or category..." data-field="productPicker.query"></label>
+    <div class="table-wrap">
+      <table class="table table--compact table--md">
+        <thead><tr><th>Barcode</th><th>Product</th><th>Category</th><th class="num">Last Cost</th><th><span class="sr-only">Add</span></th></tr></thead>
+        <tbody data-list="productPicker.results">
+          <tr class="state-row" data-state="empty"><td colspan="5"><div class="state__title">Search for a product</div><div class="state__desc">Matching products will be listed here.</div></td></tr>
+          <template data-template="productPicker.results">
+            <tr data-product-id="">
+              <td class="mono" data-bind="product.barcode"></td>
+              <td class="cell-title" data-bind="product.name"></td>
+              <td><span class="pill" data-bind="product.category"></span></td>
+              <td class="num"><span class="currency">KSh</span><span data-bind="product.lastCost"></span></td>
+              <td><button type="button" class="btn btn--outline btn--sm" data-action="pick-product"><svg class="icon"><use href="#i-plus"/></svg>Add</button></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal__foot">
+    <button type="button" class="btn btn--outline" popovertarget="modal-add-product" popovertargetaction="hide">Close</button>
+  </div>
+</div>
+
+<!-- Approve purchase order -->
+<div class="modal" id="modal-approve" popover aria-labelledby="h-m-approve" data-endpoint="PATCH /purchases/:id/status">
+  <div class="modal__head">
+    <div><h3 id="h-m-approve">Approve purchase order</h3><p>Approval is recorded in the audit trail</p></div>
+    <button type="button" class="modal__close" popovertarget="modal-approve" popovertargetaction="hide" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="modal__body">
+    <div class="info-grid">
+      <div class="info-item"><span>PO number</span><b data-bind="po.number">&mdash;</b></div>
+      <div class="info-item"><span>Supplier</span><b data-bind="po.supplier.name">&mdash;</b></div>
+      <div class="info-item info-item--full"><span>Order total</span><b><span class="currency">KSh</span><span data-bind="po.grandTotal">&mdash;</span></b></div>
+    </div>
+    <p class="form-note">Once approved, the order can no longer be freely edited. Stock is only updated when goods are received.</p>
+  </div>
+  <div class="modal__foot">
+    <button type="button" class="btn btn--outline" popovertarget="modal-approve" popovertargetaction="hide">Not now</button>
+    <button type="button" class="btn btn--success" data-action="confirm-approve"><svg class="icon"><use href="#i-check"/></svg>Approve order</button>
+  </div>
+</div>
+
+<!-- Cancel purchase order -->
+<div class="modal" id="modal-cancel-order" popover aria-labelledby="h-m-cancel" data-endpoint="PATCH /purchases/:id/status">
+  <div class="modal__head">
+    <div><h3 id="h-m-cancel">Cancel purchase order</h3><p>The reason is recorded in the audit trail</p></div>
+    <button type="button" class="modal__close" popovertarget="modal-cancel-order" popovertargetaction="hide" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="modal__body">
+    <div class="field">
+      <label for="cancel-reason">Reason for cancelling <span class="req">*</span></label>
+      <textarea class="textarea" id="cancel-reason" required data-field="cancel.reason" placeholder="Why is this order being cancelled?"></textarea>
+    </div>
+  </div>
+  <div class="modal__foot">
+    <button type="button" class="btn btn--outline" popovertarget="modal-cancel-order" popovertargetaction="hide">Keep order</button>
+    <button type="button" class="btn btn--danger-solid" data-action="confirm-cancel"><svg class="icon"><use href="#i-x"/></svg>Cancel order</button>
+  </div>
+</div>
+
+<!-- Confirm goods receipt -->
+<div class="modal" id="modal-receive-goods" popover aria-labelledby="h-m-receive" data-endpoint="POST /purchases/:id/receive">
+  <div class="modal__head">
+    <div><h3 id="h-m-receive">Confirm goods received</h3><p>This updates your stock levels</p></div>
+    <button type="button" class="modal__close" popovertarget="modal-receive-goods" popovertargetaction="hide" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="modal__body">
+    <div class="info-grid">
+      <div class="info-item"><span>PO number</span><b data-bind="receiving.poNumber">&mdash;</b></div>
+      <div class="info-item"><span>Supplier</span><b data-bind="receiving.supplierName">&mdash;</b></div>
+      <div class="info-item"><span>Products being received</span><b data-bind="receiving.lineCount">&mdash;</b></div>
+      <div class="info-item"><span>Total units</span><b data-bind="receiving.unitCount">&mdash;</b></div>
+    </div>
+    <p class="form-note">Stock increases by the receiving quantities entered. Any outstanding quantity stays open for a later delivery.</p>
+  </div>
+  <div class="modal__foot">
+    <button type="button" class="btn btn--outline" popovertarget="modal-receive-goods" popovertargetaction="hide">Review again</button>
+    <button type="button" class="btn btn--success" data-action="confirm-receive"><svg class="icon"><use href="#i-check"/></svg>Confirm receipt</button>
+  </div>
+</div>
+<script src="js/purchases/purchase-config.js" defer></script>
+<script src="js/purchases/purchase-api.js" defer></script>
+<script src="js/purchases/purchase-suppliers.js" defer></script>
+<script src="js/purchases/purchase-products.js" defer></script>
+<script src="js/purchases/purchase-orders.js?v=3" defer></script>
+<script src="js/purchases/purchase-receiving.js" defer></script>
+<script src="js/purchases/purchase-payments.js" defer></script>
+<script src="js/purchases/purchase-reports.js?v=2" defer></script>
+<script src="js/purchases/purchase-navigation.js" defer></script>
+<script src="js/purchases/purchase-main.js" defer></script>
+</body>
+</html>               

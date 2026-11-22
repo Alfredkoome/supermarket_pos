@@ -1,0 +1,21 @@
+.env
+.env.*
+!.env.example
+node_modules/
+
+# Editor and operating system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Local code snapshots
+*.bak
+
+# Database backups and backup metadata
+backend/pos_backup/
+*.sql
+backup-history.json
