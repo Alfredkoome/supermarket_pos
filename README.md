@@ -116,8 +116,6 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ### calculator transaction calculation
 ![calculator transaction calculation](pos_screenshots/new%20sale/calculator%20transaction%20calculation.jpeg)
 
-### newsale view
-![newsale view](pos_screenshots/new%20sale/newsa%20view.jpeg)
 
 ### receipt
 ![receipt](pos_screenshots/new%20sale/receipt.jpeg)
