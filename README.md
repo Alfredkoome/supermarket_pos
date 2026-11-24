@@ -161,8 +161,6 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ### settings
 ![settings](pos_screenshots/settings/settings.jpeg)
 
-### terminals management
-![terminals management](pos_screenshots/settings/terminals management.jpeg)
 
 
 ### related technologies
