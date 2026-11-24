@@ -29,7 +29,7 @@ async function loadPurchaseView() {
 
         } else if (hash === "create-purchase-order") {
 
-        
+            await loadSuppliers();
 
             await searchPurchaseProducts();
 
