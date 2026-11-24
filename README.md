@@ -1,4 +1,100 @@
-records.
+# Supermarket POS System
+
+A desktop-based Supermarket Point of Sale (POS) system designed to simplify retail operations through sales management, inventory control, purchase management, supplier management, reporting and payment processing.
+
+The system is built to operate locally on a supermarket's network, allowing multiple terminals to interact with a centralized MySQL database.
+
+## Overview
+
+The Supermarket POS is designed to help supermarkets manage daily business operations efficiently. It provides an integrated platform for cashiers, storekeepers and administrators to perform their respective tasks.
+
+The system prioritizes data consistency, inventory accuracy, user access control and offline operation.
+
+## Key Features
+
+### 1. Dashboard
+
+- Overview of supermarket operations.
+- Sales performance summaries.
+- Transaction statistics.
+- Business activity monitoring.
+
+### 2. Sales Management
+
+- Process customer transactions.
+- Support cash and M-PESA payments.
+- Automatically update product stock after successful sales.
+- Generate transaction receipts.
+- Maintain sales history.
+- Support sale cancellation.
+
+### 3. Product Management
+
+- Register new products.
+- Manage product categories.
+- Set product prices.
+- Manage product barcodes.
+- Monitor product availability.
+- Configure minimum stock levels.
+
+### 4. Inventory Management
+
+- Monitor current stock levels.
+- Track stock movements.
+- Record stock adjustments.
+- Identify low-stock products.
+- Maintain inventory records.
+
+### 5. Purchase Management
+
+- Create purchase orders.
+- Manage suppliers.
+- Add products and quantities to purchase orders.
+- Record goods received.
+- Manage supplier payments.
+- Track purchase history.
+- Support purchase order cancellation.
+
+### 6. Supplier Management
+
+- Register suppliers.
+- Maintain supplier contact information.
+- Manage supplier records.
+- Associate suppliers with purchase operations.
+
+### 7. Reports
+
+- Daily sales reports.
+- Weekly sales reports.
+- Monthly sales reports.
+- Custom date-range reports.
+- Transaction summaries.
+- Business performance information.
+
+### 8. User Management and Security
+
+The system supports role-based access control.
+
+Available roles:
+
+- **Administrator:** Manages system operations and configurations.
+- **Storekeeper:** Handles products, inventory and purchasing operations.
+- **Cashier:** Processes customer sales.
+
+Additional security features:
+
+- Password hashing using bcrypt.
+- Session-based authentication.
+- Protected API endpoints.
+- Role-based route authorization.
+
+### 9. M-PESA Integration
+
+- M-PESA STK Push integration.
+- Payment request initiation.
+- Transaction callback handling.
+- M-PESA transaction records.
+- Payment status tracking.
 - Payment status tracking.
 
 ### 10. Backup Management
