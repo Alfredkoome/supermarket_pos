@@ -120,7 +120,7 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ![newsale view](pos_screenshots/new%20sale/newsa%20view.jpeg),
 
 ### receipt
-![receipt](pos_screenshots/new sale/receipt.jpeg)
+![receipt](pos_screenshots/new%20sale/receipt.jpeg)
 
 ### products
 
