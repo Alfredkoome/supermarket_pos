@@ -126,7 +126,7 @@ The following screenshots demonstrate the major interfaces and functionalities o
 
 
 ### add product
-![add product](pos_screenshots/products/add product.jpeg)
+![add product](pos_screenshots/products/add%20product.jpeg)
 
 ### products screenshot
 ![products screenshot](pos_screenshots/products/products%20screenshot.jpeg)
@@ -158,7 +158,7 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ### settings
 
 ### employees management
-![employees management](pos_screenshots/settings/employees management.jpeg)
+![employees management](pos_screenshots/settings/employees%20management.jpeg)
 
 ### settings
 ![settings](pos_screenshots/settings/settings.jpeg)
