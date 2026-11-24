@@ -109,15 +109,15 @@ Additional security features:
 The following screenshots demonstrate the major interfaces and functionalities of the Supermarket POS system.
 
 ### Dashboard
-![dashboard](pos_screenshots/dashboard/dashboard screenshot.jpeg)
+![dashboard](pos_screenshots/dashboard/dashboard%20screenshot.jpeg)
 
 ### new sale
 
 ### calculator transaction calculation
-![calculator transaction calculation](pos_screenshots/new sale/calculator transaction calculation.jpeg)
+![calculator transaction calculation](pos_screenshots/new%20sale/calculator%20transaction%20calculation.jpeg)
 
 ### newsale view
-![newsale view](pos_screenshots/new sale/newsale view.jpeg),
+![newsale view](pos_screenshots/new%20sale/newsa%20view.jpeg),
 
 ### receipt
 ![receipt](pos_screenshots/new sale/receipt.jpeg)
@@ -129,7 +129,7 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ![add product](pos_screenshots/products/add product.jpeg)
 
 ### products screenshot
-![products screenshot](pos_screenshots/products/products screenshot.jpeg)
+![products screenshot](pos_screenshots/products/products%20screenshot.jpeg)
 
 ### sales
 ![sales](pos_screenshots/sales.jpeg)
@@ -138,19 +138,19 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ### purchases
 
 ### purchase dashboard
-![purchase dashboard](pos_screenshots/purchases/purchase dashboard.jpeg)
+![purchase dashboard](pos_screenshots/purchases/purchase%20dashboard.jpeg)
 
 ### purchase history
-![purchase history](pos_screenshots/purchases/purchase history.jpeg)
+![purchase history](pos_screenshots/purchases/purchase%20history.jpeg)
 
 ### purchase order
-![purchase order](pos_screenshots/purchases/purchase order.jpeg)
+![purchase order](pos_screenshots/purchases/purchase%20order.jpeg)
 
 ### purchase reports
-![purchase reports](pos_screenshots/purchases/purchase reports.jpeg)
+![purchase reports](pos_screenshots/purchases/purchase%20reports.jpeg)
 
 ### supplier payment
-![supplier payment](pos_screenshots/purchases/supplier payment.jpeg)
+![supplier payment](pos_screenshots/purchases/supplier%20payment.jpeg)
 
 ### supplier
 ![supplier](pos_screenshots/purchases/supplier.jpeg)
@@ -170,13 +170,13 @@ The following screenshots demonstrate the major interfaces and functionalities o
 ### related technologies
 
 ### idle timeout
-![idle timeout](pos_screenshots/related technologies/idle timeout.jpeg)
+![idle timeout](pos_screenshots/related%20technologies/idle%20timeout.jpeg)
 
 ### login page
-![login page](pos_screenshots/related technologies/login page.jpeg)
+![login page](pos_screenshots/related%20technologies/login%20page.jpeg)
 
 ### RBAC
-![RBAC](pos_screenshots/related technologies/RBAC.jpeg)
+![RBAC](pos_screenshots/related%20technologies/RBAC.jpeg)
 
 
 ## Technology Stack
